@@ -206,26 +206,32 @@ tables
 
 (program
   (table
-    (symbol)
-    (double_quote_string
-      (string_content))
-    (symbol)
-    (double_quote_string
-      (string_content))
-    (number)
-    (double_quote_string
-      (string_content))
-    (fn
-      (parameters
-        (binding
-          (symbol)))
-      (list
-        (symbol)
-        (symbol)
-        (number))))
+    (table_pair
+      (binding
+        (symbol)))
+    (table_pair
+      key: (double_quote_string
+             (string_content))
+      value: (symbol))
+    (table_pair
+      key: (double_quote_string
+             (string_content))
+      value: (number))
+    (table_pair
+      key: (double_quote_string
+             (string_content))
+      value: (fn
+               (parameters
+                 (binding
+                   (symbol)))
+               (list
+                 (symbol)
+                 (symbol)
+                 (number)))))
   (table
-    (symbol)
-    (symbol)))
+    (table_pair
+      key: (symbol)
+      value: (symbol))))
 
 ===
 sequential tables

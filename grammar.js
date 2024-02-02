@@ -434,23 +434,15 @@ module.exports = grammar({
 			']',
 		),
 
-		table: $ => seq(
-			'{',
-			repeat(choice(
-				seq(
-					':',
-					choice(
-						$.symbol,
-						$.multi_symbol,
-					),
-				),
-				seq(
-					$._sexp,
-					$._sexp,
-				),
-			)),
-			'}',
-		),
+		table_pair: $ => prec.left(1, choice(
+			seq(':', $.binding),
+			seq(
+				field('key', $._sexp),
+				field('value', $._sexp)
+			),
+		)),
+
+		table: $ => seq('{', repeat($.table_pair), '}'),
 
 		_literal: $ => choice(
 			$._string,

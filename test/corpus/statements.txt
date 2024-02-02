@@ -413,12 +413,14 @@ each loop
       iterator: (list
                   (symbol)
                   (table
-                    (double_quote_string
-                      (string_content))
-                    (number)
-                    (double_quote_string
-                      (string_content))
-                    (number))))
+                    (table_pair
+                      key: (double_quote_string
+                             (string_content))
+                      value: (number))
+                    (table_pair
+                      key: (double_quote_string
+                             (string_content))
+                      value: (number)))))
     (list
       (symbol)
       (symbol)
