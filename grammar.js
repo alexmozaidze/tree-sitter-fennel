@@ -244,7 +244,7 @@ module.exports = grammar({
 			))),
 			$.parameters,
 			optional(seq(
-				optional(field('docstring', $.string)),
+				optional(field('docstring', $._string)),
 				repeat1($._sexp),
 			)),
 		)),
@@ -453,7 +453,7 @@ module.exports = grammar({
 		),
 
 		_literal: $ => choice(
-			$.string,
+			$._string,
 			$.number,
 			$.boolean,
 			$.vararg,
@@ -466,16 +466,23 @@ module.exports = grammar({
 		vararg: $ => '...',
 		boolean: $ => choice('true', 'false'),
 
-		string: $ => choice(
-			/:[^(){}\[\]"'~;,@`\s]+/,
-			seq(
-				'"',
-				repeat(choice(
-					token.immediate(prec(1, /[^"\\]+/)),
-					$.escape_sequence,
-				)),
-				'"',
-			),
+		colon_string: $ => seq(
+			':',
+			alias(token.immediate(/[^(){}\[\]"'~;,@`\s]+/), $.string_content),
+		),
+
+		double_quote_string: $ => seq(
+			'"',
+			alias(repeat(choice(
+				token.immediate(prec(1, /[^"\\]+/)),
+				$.escape_sequence,
+			)), $.string_content),
+			'"',
+		),
+
+		_string: $ => choice(
+			$.colon_string,
+			$.double_quote_string,
 		),
 
 		escape_sequence: $ => token.immediate(seq(
