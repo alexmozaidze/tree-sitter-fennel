@@ -52,20 +52,20 @@ strings
 ---
 
 (program
-  (double_quote_string
+  (string
     (string_content))
-  (double_quote_string
+  (string
     (string_content
       (escape_sequence)))
-  (double_quote_string
+  (string
     (string_content
       (escape_sequence)))
-  (double_quote_string
+  (string
     (string_content
       (escape_sequence)
       (escape_sequence)
       (escape_sequence)))
-  (double_quote_string
+  (string
     (string_content
       (escape_sequence)
       (escape_sequence))))
@@ -91,19 +91,19 @@ colon strings
 ---
 
 (program
-  (colon_string (string_content))
-  (colon_string (string_content))
-  (colon_string (string_content))
-  (colon_string (string_content))
-  (colon_string (string_content))
-  (colon_string (string_content))
-  (colon_string (string_content))
-  (colon_string (string_content))
-  (colon_string (string_content))
-  (colon_string (string_content))
-  (colon_string (string_content))
-  (colon_string (string_content))
-  (colon_string (string_content)))
+  (string (string_content))
+  (string (string_content))
+  (string (string_content))
+  (string (string_content))
+  (string (string_content))
+  (string (string_content))
+  (string (string_content))
+  (string (string_content))
+  (string (string_content))
+  (string (string_content))
+  (string (string_content))
+  (string (string_content))
+  (string (string_content)))
 
 ===
 quote
@@ -132,7 +132,7 @@ quote
         (symbol))))
   (quote
     (quoted_list
-      (double_quote_string)))
+      (string)))
   (quote
     (quoted_list
       (symbol)))
@@ -210,15 +210,15 @@ tables
       (binding
         (symbol)))
     (table_pair
-      key: (double_quote_string
+      key: (string
              (string_content))
       value: (symbol))
     (table_pair
-      key: (double_quote_string
+      key: (string
              (string_content))
       value: (number))
     (table_pair
-      key: (double_quote_string
+      key: (string
              (string_content))
       value: (fn
                (parameters
@@ -243,11 +243,11 @@ sequential tables
 
 (program
   (sequential_table
-    (double_quote_string
+    (string
       (string_content))
-    (double_quote_string
+    (string
       (string_content))
-    (double_quote_string
+    (string
       (string_content))))
 
 ===
@@ -294,7 +294,7 @@ multi-syms
     (multi_symbol
       (symbol)
       (symbol))
-    (double_quote_string
+    (string
       (string_content))
     (number)))
 
@@ -330,5 +330,5 @@ Nil Safe
   (list
     (nil_safe)
     (symbol)
-    (colon_string
+    (string
       (string_content))))

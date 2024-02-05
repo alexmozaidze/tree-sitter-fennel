@@ -33,15 +33,15 @@ method call
         (symbol)
         (symbol))
       (symbol))
-    (colon_string
+    (string
       (string_content)))
   (list
     (multi_symbol
       (symbol)
       (symbol))
-    (colon_string
+    (string
       (string_content))
-    (colon_string
+    (string
       (string_content))))
 
 
@@ -80,7 +80,7 @@ function definition
     (parameters
       (binding
         (symbol)))
-    docstring: (colon_string
+    docstring: (string
                  (string_content))
     (symbol))
   (fn
@@ -88,7 +88,7 @@ function definition
     (parameters
       (binding
         (symbol)))
-    (colon_string
+    (string
       (string_content))))
 
 ===
@@ -152,9 +152,9 @@ hash function
     (symbol))
   (hashfn
     (sequential_table
-      (colon_string
+      (string
         (string_content))
-      (colon_string
+      (string
         (string_content)))))
 
 ===
@@ -211,7 +211,7 @@ let definition
         (multi_symbol
           (symbol)
           (symbol))
-        (double_quote_string
+        (string
           (string_content))))
     (symbol))
   (let
@@ -260,15 +260,15 @@ local definition
     (list
       (symbol)
       (sequential_table
-        (colon_string
+        (string
           (string_content))
-        (colon_string
+        (string
           (string_content))
-        (colon_string
+        (string
           (string_content))
-        (colon_string
+        (string
           (string_content))
-        (colon_string
+        (string
           (string_content))))))
 
 ===
@@ -369,7 +369,7 @@ set statement
   (set
     (assignment
       (symbol))
-    (colon_string
+    (string
       (string_content))))
 
 ===
@@ -390,7 +390,7 @@ tset statement
   (list
     (symbol)
     (symbol)
-    (double_quote_string
+    (string
       (string_content))
     (symbol)))
 
@@ -414,11 +414,11 @@ each loop
                   (symbol)
                   (table
                     (table_pair
-                      key: (double_quote_string
+                      key: (string
                              (string_content))
                       value: (number))
                     (table_pair
-                      key: (double_quote_string
+                      key: (string
                              (string_content))
                       value: (number)))))
     (list
@@ -506,7 +506,7 @@ if statement
           (symbol)
           (symbol)
           (number)))
-      (double_quote_string
+      (string
         (string_content))
       (list
         (symbol)
@@ -515,9 +515,9 @@ if statement
           (symbol)
           (symbol)
           (number)))
-      (double_quote_string
+      (string
         (string_content))
-      (double_quote_string
+      (string
         (string_content)))))
 
 ===
@@ -537,7 +537,7 @@ when statement
       (symbol))
     (list
       (symbol)
-      (double_quote_string
+      (string
         (string_content)))
     (list
       (symbol))))
@@ -557,7 +557,7 @@ do statement
     (symbol)
     (list
       (symbol)
-      (double_quote_string
+      (string
         (string_content)))
     (list
       (symbol))))
@@ -582,30 +582,30 @@ match statement
   (match
     (symbol)
     (number)
-    (colon_string
+    (string
       (string_content))
     (sequential_table_pattern
       (number)
       (number))
-    (colon_string
+    (string
       (string_content))
     (symbol)
-    (colon_string
+    (string
       (string_content))
     (sequential_table_pattern
       (number)
       (symbol))
-    (colon_string
+    (string
       (string_content))
     (table_pattern
-      (colon_string
+      (string
         (string_content))
       (symbol)
       (symbol)
-      (colon_string
+      (string
         (string_content))
       (number))
-    (colon_string
+    (string
       (string_content))
     (guard_pattern
       (symbol)
@@ -613,7 +613,7 @@ match statement
                (symbol)
                (symbol)
                (number)))
-    (colon_string
+    (string
       (string_content))
     (where_pattern
       (multi_value_pattern
@@ -628,7 +628,7 @@ match statement
                (symbol)
                (symbol)
                (number)))
-    (colon_string
+    (string
       (string_content))))
 
 ===
@@ -643,11 +643,11 @@ require statement
 (program
   (list
     (symbol)
-    (colon_string
+    (string
       (string_content)))
   (list
     (symbol)
-    (double_quote_string
+    (string
       (string_content))))
 
 ===
