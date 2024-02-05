@@ -837,7 +837,7 @@
                         "name": "docstring",
                         "content": {
                           "type": "SYMBOL",
-                          "name": "_string"
+                          "name": "string"
                         }
                       },
                       {
@@ -1558,7 +1558,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_string"
+          "name": "string"
         },
         {
           "type": "SYMBOL",
@@ -1607,7 +1607,7 @@
         }
       ]
     },
-    "colon_string": {
+    "_colon_string": {
       "type": "SEQ",
       "members": [
         {
@@ -1628,7 +1628,7 @@
         }
       ]
     },
-    "double_quote_string": {
+    "_double_quote_string": {
       "type": "SEQ",
       "members": [
         {
@@ -1669,16 +1669,16 @@
         }
       ]
     },
-    "_string": {
+    "string": {
       "type": "CHOICE",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "colon_string"
+          "name": "_colon_string"
         },
         {
           "type": "SYMBOL",
-          "name": "double_quote_string"
+          "name": "_double_quote_string"
         }
       ]
     },
