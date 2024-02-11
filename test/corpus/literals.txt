@@ -40,7 +40,7 @@ numbers
   (number))
 
 ===
-strings
+double quote strings
 ===
 
 "string"
@@ -89,10 +89,16 @@ colon strings
 :^
 :.
 ::
+:true
+:false
+:nil
 
 ---
 
 (program
+  (string (string_content))
+  (string (string_content))
+  (string (string_content))
   (string (string_content))
   (string (string_content))
   (string (string_content))

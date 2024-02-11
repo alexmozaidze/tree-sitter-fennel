@@ -132,11 +132,18 @@ module.exports = grammar({
 		_colon_string: $ => prec(2, seq(
 			field('open', ':'),
 			alias(choice(
-				// HACK(alexmozaidze): This makes expressions such as `:?.` and `:#` parse correctly
-				// instead of being 2 separate `(symbol)` tokens. It would make sense to have an
-				// external scanner do this work, but I don't know how to write one yet.
-				// Besides, not using an external scanner means there will be less bugs.
+				// HACK(alexmozaidze): Fixes expressions such as:
+				// `:?.`
+				// `:true`
+				// `:nil`
+				// `:$...`
+				//
+				// and so on, being parsed as 2 separate tokens.
+				// Dynamic precedence could eliminate this HACK, but
+				// I would prefer to stray away from it.
 				...[...SPECIAL_OVERRIDE_SYMBOLS].map(get_literal),
+				$.boolean,
+				$.nil,
 				/[^(){}\[\]"'~;,@`\s]+/,
 			), $.string_content),
 		)),
