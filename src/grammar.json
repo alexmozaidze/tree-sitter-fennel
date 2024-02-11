@@ -451,6 +451,14 @@
                   "value": "."
                 },
                 {
+                  "type": "SYMBOL",
+                  "name": "boolean"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "nil"
+                },
+                {
                   "type": "PATTERN",
                   "value": "[^(){}\\[\\]\"'~;,@`\\s]+"
                 }
