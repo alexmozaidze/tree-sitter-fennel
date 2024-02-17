@@ -5,16 +5,16 @@
 #pragma GCC diagnostic ignored "-Wmissing-field-initializers"
 #endif
 
-#define LANGUAGE_VERSION 14
+#define LANGUAGE_VERSION 13
 #define STATE_COUNT 93
 #define LARGE_STATE_COUNT 27
 #define SYMBOL_COUNT 49
 #define ALIAS_COUNT 1
 #define TOKEN_COUNT 28
 #define EXTERNAL_TOKEN_COUNT 0
-#define FIELD_COUNT 8
+#define FIELD_COUNT 9
 #define MAX_ALIAS_SEQUENCE_LENGTH 3
-#define PRODUCTION_ID_COUNT 14
+#define PRODUCTION_ID_COUNT 15
 
 enum {
   sym_shebang = 1,
@@ -383,9 +383,10 @@ enum {
   field_expression = 3,
   field_key = 4,
   field_macro = 5,
-  field_method = 6,
-  field_open = 7,
-  field_value = 8,
+  field_member = 6,
+  field_method = 7,
+  field_open = 8,
+  field_value = 9,
 };
 
 static const char * const ts_field_names[] = {
@@ -395,6 +396,7 @@ static const char * const ts_field_names[] = {
   [field_expression] = "expression",
   [field_key] = "key",
   [field_macro] = "macro",
+  [field_member] = "member",
   [field_method] = "method",
   [field_open] = "open",
   [field_value] = "value",
@@ -405,12 +407,15 @@ static const TSFieldMapSlice ts_field_map_slices[PRODUCTION_ID_COUNT] = {
   [3] = {.index = 1, .length = 2},
   [4] = {.index = 3, .length = 1},
   [5] = {.index = 4, .length = 2},
-  [7] = {.index = 6, .length = 2},
-  [8] = {.index = 8, .length = 2},
-  [9] = {.index = 8, .length = 2},
-  [11] = {.index = 10, .length = 2},
-  [12] = {.index = 10, .length = 2},
-  [13] = {.index = 12, .length = 2},
+  [6] = {.index = 6, .length = 2},
+  [7] = {.index = 8, .length = 2},
+  [8] = {.index = 10, .length = 2},
+  [9] = {.index = 10, .length = 2},
+  [10] = {.index = 12, .length = 1},
+  [11] = {.index = 13, .length = 2},
+  [12] = {.index = 15, .length = 2},
+  [13] = {.index = 15, .length = 2},
+  [14] = {.index = 17, .length = 2},
 };
 
 static const TSFieldMapEntry ts_field_map_entries[] = {
@@ -425,15 +430,23 @@ static const TSFieldMapEntry ts_field_map_entries[] = {
     {field_close, 1},
     {field_open, 0},
   [6] =
+    {field_base, 0},
+    {field_member, 1, .inherited = true},
+  [8] =
     {field_expression, 1},
     {field_macro, 0},
-  [8] =
+  [10] =
     {field_close, 2},
     {field_open, 0},
-  [10] =
+  [12] =
+    {field_member, 1},
+  [13] =
+    {field_member, 0, .inherited = true},
+    {field_member, 1, .inherited = true},
+  [15] =
     {field_base, 0},
     {field_method, 2},
-  [12] =
+  [17] =
     {field_key, 0},
     {field_value, 2},
 };
@@ -455,11 +468,11 @@ static const TSSymbol ts_alias_sequences[PRODUCTION_ID_COUNT][MAX_ALIAS_SEQUENCE
   [10] = {
     [1] = alias_sym_symbol_fragment,
   },
-  [11] = {
+  [12] = {
     [0] = alias_sym_symbol_fragment,
     [2] = alias_sym_symbol_fragment,
   },
-  [12] = {
+  [13] = {
     [2] = alias_sym_symbol_fragment,
   },
 };
@@ -469,102 +482,6 @@ static const uint16_t ts_non_terminal_alias_map[] = {
     aux_sym__double_quote_string_repeat1,
     aux_sym__colon_string_token1,
   0,
-};
-
-static const TSStateId ts_primary_state_ids[STATE_COUNT] = {
-  [0] = 0,
-  [1] = 1,
-  [2] = 2,
-  [3] = 3,
-  [4] = 4,
-  [5] = 3,
-  [6] = 6,
-  [7] = 7,
-  [8] = 7,
-  [9] = 6,
-  [10] = 10,
-  [11] = 11,
-  [12] = 12,
-  [13] = 13,
-  [14] = 14,
-  [15] = 4,
-  [16] = 16,
-  [17] = 17,
-  [18] = 10,
-  [19] = 19,
-  [20] = 12,
-  [21] = 21,
-  [22] = 22,
-  [23] = 23,
-  [24] = 23,
-  [25] = 25,
-  [26] = 23,
-  [27] = 27,
-  [28] = 28,
-  [29] = 29,
-  [30] = 30,
-  [31] = 31,
-  [32] = 32,
-  [33] = 33,
-  [34] = 34,
-  [35] = 35,
-  [36] = 36,
-  [37] = 37,
-  [38] = 38,
-  [39] = 39,
-  [40] = 40,
-  [41] = 41,
-  [42] = 42,
-  [43] = 43,
-  [44] = 44,
-  [45] = 45,
-  [46] = 46,
-  [47] = 28,
-  [48] = 29,
-  [49] = 49,
-  [50] = 30,
-  [51] = 27,
-  [52] = 52,
-  [53] = 35,
-  [54] = 54,
-  [55] = 37,
-  [56] = 46,
-  [57] = 57,
-  [58] = 45,
-  [59] = 44,
-  [60] = 31,
-  [61] = 42,
-  [62] = 43,
-  [63] = 41,
-  [64] = 40,
-  [65] = 32,
-  [66] = 39,
-  [67] = 38,
-  [68] = 36,
-  [69] = 69,
-  [70] = 33,
-  [71] = 34,
-  [72] = 29,
-  [73] = 30,
-  [74] = 74,
-  [75] = 27,
-  [76] = 28,
-  [77] = 77,
-  [78] = 77,
-  [79] = 79,
-  [80] = 74,
-  [81] = 81,
-  [82] = 82,
-  [83] = 37,
-  [84] = 84,
-  [85] = 85,
-  [86] = 86,
-  [87] = 87,
-  [88] = 88,
-  [89] = 85,
-  [90] = 90,
-  [91] = 86,
-  [92] = 86,
 };
 
 static inline bool sym_shebang_character_set_1(int32_t c) {
@@ -4183,9 +4100,9 @@ static const TSParseActionEntry ts_parse_actions[] = {
   [277] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym__special_override_symbols, 1, .production_id = 1),
   [279] = {.entry = {.count = 1, .reusable = false}}, SHIFT(38),
   [281] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym__special_override_symbols, 1, .production_id = 1),
-  [283] = {.entry = {.count = 1, .reusable = true}}, REDUCE(aux_sym_multi_symbol_repeat1, 2),
-  [285] = {.entry = {.count = 1, .reusable = false}}, REDUCE(aux_sym_multi_symbol_repeat1, 2),
-  [287] = {.entry = {.count = 2, .reusable = false}}, REDUCE(aux_sym_multi_symbol_repeat1, 2), SHIFT_REPEAT(91),
+  [283] = {.entry = {.count = 1, .reusable = true}}, REDUCE(aux_sym_multi_symbol_repeat1, 2, .production_id = 11),
+  [285] = {.entry = {.count = 1, .reusable = false}}, REDUCE(aux_sym_multi_symbol_repeat1, 2, .production_id = 11),
+  [287] = {.entry = {.count = 2, .reusable = false}}, REDUCE(aux_sym_multi_symbol_repeat1, 2, .production_id = 11), SHIFT_REPEAT(91),
   [290] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_table, 3, .production_id = 8),
   [292] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym_table, 3, .production_id = 8),
   [294] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_reader_macro, 2, .production_id = 7),
@@ -4219,16 +4136,16 @@ static const TSParseActionEntry ts_parse_actions[] = {
   [350] = {.entry = {.count = 1, .reusable = false}}, SHIFT(86),
   [352] = {.entry = {.count = 1, .reusable = false}}, SHIFT(67),
   [354] = {.entry = {.count = 1, .reusable = true}}, SHIFT(87),
-  [356] = {.entry = {.count = 2, .reusable = false}}, REDUCE(aux_sym_multi_symbol_repeat1, 2), SHIFT_REPEAT(86),
+  [356] = {.entry = {.count = 2, .reusable = false}}, REDUCE(aux_sym_multi_symbol_repeat1, 2, .production_id = 11), SHIFT_REPEAT(86),
   [359] = {.entry = {.count = 2, .reusable = false}}, REDUCE(sym__sexp, 1), SHIFT(86),
   [362] = {.entry = {.count = 1, .reusable = true}}, SHIFT(90),
-  [364] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_table_pair, 3, .production_id = 13),
-  [366] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym_table_pair, 3, .production_id = 13),
-  [368] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_multi_symbol_method, 3, .production_id = 11),
-  [370] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym_multi_symbol_method, 3, .production_id = 11),
-  [372] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_multi_symbol_method, 3, .production_id = 12),
-  [374] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym_multi_symbol_method, 3, .production_id = 12),
-  [376] = {.entry = {.count = 2, .reusable = true}}, REDUCE(aux_sym_multi_symbol_repeat1, 2), SHIFT_REPEAT(92),
+  [364] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_table_pair, 3, .production_id = 14),
+  [366] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym_table_pair, 3, .production_id = 14),
+  [368] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_multi_symbol_method, 3, .production_id = 12),
+  [370] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym_multi_symbol_method, 3, .production_id = 12),
+  [372] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_multi_symbol_method, 3, .production_id = 13),
+  [374] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym_multi_symbol_method, 3, .production_id = 13),
+  [376] = {.entry = {.count = 2, .reusable = true}}, REDUCE(aux_sym_multi_symbol_repeat1, 2, .production_id = 11), SHIFT_REPEAT(92),
   [379] = {.entry = {.count = 1, .reusable = true}}, SHIFT(56),
   [381] = {.entry = {.count = 1, .reusable = true}}, SHIFT(82),
   [383] = {.entry = {.count = 1, .reusable = true}}, SHIFT(81),
@@ -4284,7 +4201,6 @@ extern const TSLanguage *tree_sitter_fennel(void) {
     .alias_sequences = &ts_alias_sequences[0][0],
     .lex_modes = ts_lex_modes,
     .lex_fn = ts_lex,
-    .primary_state_ids = ts_primary_state_ids,
   };
   return &language;
 }

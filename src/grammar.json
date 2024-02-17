@@ -841,13 +841,17 @@
           "type": "SEQ",
           "members": [
             {
-              "type": "ALIAS",
+              "type": "FIELD",
+              "name": "base",
               "content": {
-                "type": "SYMBOL",
-                "name": "symbol"
-              },
-              "named": true,
-              "value": "symbol_fragment"
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "symbol"
+                },
+                "named": true,
+                "value": "symbol_fragment"
+              }
             },
             {
               "type": "REPEAT1",
@@ -859,13 +863,17 @@
                     "value": "."
                   },
                   {
-                    "type": "ALIAS",
+                    "type": "FIELD",
+                    "name": "member",
                     "content": {
-                      "type": "SYMBOL",
-                      "name": "symbol"
-                    },
-                    "named": true,
-                    "value": "symbol_fragment"
+                      "type": "ALIAS",
+                      "content": {
+                        "type": "SYMBOL",
+                        "name": "symbol"
+                      },
+                      "named": true,
+                      "value": "symbol_fragment"
+                    }
                   }
                 ]
               }
