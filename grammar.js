@@ -215,13 +215,13 @@ module.exports = grammar({
 		))),
 
 		multi_symbol_method: $ => prec(3, seq(
-		field('base', choice(
-			alias($.symbol, $.symbol_fragment),
-			$.multi_symbol,
+			field('base', choice(
+				alias($.symbol, $.symbol_fragment),
+				$.multi_symbol,
+			)),
+			':',
+			field('method', alias($.symbol, $.symbol_fragment)),
 		)),
-		':',
-		field('method', alias($.symbol, $.symbol_fragment)),
-	)),
 
 		symbol: $ => /[^#(){}\[\]"'~;,@`.:\s][^(){}\[\]"'~;,@`.:\s]*/,
 	},
