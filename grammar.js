@@ -207,10 +207,10 @@ module.exports = grammar({
 
 		// NOTE: Due to special override symbol `.` we need dynamic precedence here
 		multi_symbol: $ => prec.dynamic(2, prec.right(seq(
-			alias($.symbol, $.symbol_fragment),
+			field('base', alias($.symbol, $.symbol_fragment)),
 			repeat1(seq(
 				'.',
-				alias($.symbol, $.symbol_fragment),
+				field('member', alias($.symbol, $.symbol_fragment) ),
 			)),
 		))),
 

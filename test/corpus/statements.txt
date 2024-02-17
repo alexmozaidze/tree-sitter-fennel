@@ -30,16 +30,16 @@ method call
   (list
     (multi_symbol_method
       base: (multi_symbol
-              (symbol_fragment)
-              (symbol_fragment)
-              (symbol_fragment))
+              base: (symbol_fragment)
+              member: (symbol_fragment)
+              member: (symbol_fragment))
       method: (symbol_fragment))
     (string (string_content)))
   (list
     (multi_symbol
-      (symbol_fragment)
-      (symbol_fragment)
-      (symbol_fragment))
+      base: (symbol_fragment)
+      member: (symbol_fragment)
+      member: (symbol_fragment))
     (string (string_content))
     (string (string_content))))
 
@@ -90,8 +90,8 @@ function/lambda definition
   (list
     (symbol)
     (multi_symbol
-      (symbol_fragment)
-      (symbol_fragment))
+      base: (symbol_fragment)
+      member: (symbol_fragment))
     (sequence
       (symbol)
       (symbol)

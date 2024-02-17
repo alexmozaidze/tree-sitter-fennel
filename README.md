@@ -80,8 +80,8 @@ This list contains explicit queries that describe where a syntax item may be use
 - `(multi_symbol)` :: a comma separated mush of symbols `a.b.c.d`
 ```racket
 (multi_symbol
-  (symbol_fragment)
-  (symbol_fragment)+)
+  base: (symbol_fragment)
+  member: (symbol_fragment)+)
 ```
 - `(multi_symbol_method)` :: method call `a.b.c:deeznuts`, note that it's only allowed to appear as the first item of `(list)`
 ```racket
@@ -89,8 +89,8 @@ This list contains explicit queries that describe where a syntax item may be use
   .
   (multi_symbol_method
     base: (multi_symbol
-            (symbol_fragment)
-            (symbol_fragment)+)
+            base: (symbol_fragment)
+            member: (symbol_fragment)+)
     method: (symbol_fragment))
   (_)*)
 ```
