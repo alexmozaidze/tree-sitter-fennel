@@ -10,7 +10,7 @@
 
 Very few forms are baked into the grammar, but even then they appear as `(symbol)` for ease of querying and less confusion.
 
-For a full list of special symbols, see [`SPECIAL_OVERRIDE_SYMBOLS`](/grammar.js#L15-L24) at the top of the grammar file.
+For a full list of special symbols, see [`SPECIAL_OVERRIDE_SYMBOLS`](/grammar.js#L16-L25) at the top of the grammar file.
 
 ## Syntax items
 
@@ -104,7 +104,7 @@ Every reader macro is to be queried like so:
   expression: (_))
 ```
 
-For a full list of valid reader macros see [`READER_MACRO_CHARS`](/grammar.js#L26-L31) in the grammar file.
+For a full list of valid reader macros see [`READER_MACRO_CHARS`](/grammar.js#L27-L32) in the grammar file.
 
 ### Misc
 
