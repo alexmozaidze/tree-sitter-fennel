@@ -1,0 +1,12 @@
+===
+Unfinished tables
+===
+
+{&as}
+
+---
+
+(program
+  (table
+	(table_pair
+	  key: (symbol))))

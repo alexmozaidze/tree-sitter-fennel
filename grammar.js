@@ -104,11 +104,15 @@ module.exports = grammar({
 			field('close', ']'),
 		),
 
-		table_pair: $ => seq(
+		table_pair: $ => prec.right(seq(
 			field('key', $._sexp),
-			$._gap,
-			field('value', $._sexp),
-		),
+			// NOTE: The `optional` here kind of "normalizes" the tree if the table pair is not complete,
+			// as if it's in the process of typing.
+			optional(seq(
+				$._gap,
+				field('value', $._sexp),
+			)),
+		)),
 
 		table: $ => seq(
 			field('open', '{'),
