@@ -16,6 +16,7 @@ function get_literal(node) {
 const SPECIAL_OVERRIDE_SYMBOLS = [
 	'#',
 	'?.',
+	'~=',
 	':',
 	'$...',
 	'...',

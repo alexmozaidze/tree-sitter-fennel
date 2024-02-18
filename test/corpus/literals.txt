@@ -175,10 +175,12 @@ test#test#test
 &
 :
 #
+~=
 
 ---
 
 (program
+  (symbol)
   (symbol)
   (symbol)
   (symbol)
