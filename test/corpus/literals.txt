@@ -262,9 +262,9 @@ tables
       value: (symbol))
     (table_pair
       key: (list
-             (symbol)
-             (number)
-             (number))
+             item: (symbol)
+             item: (number)
+             item: (number))
       value: (reader_macro
                expression: (nil)))
     (table_pair
@@ -279,13 +279,13 @@ tables
     (table_pair
       key: (symbol)
       value: (list
-               (symbol)
-               (sequence
-                 (symbol))
-               (list
-                 (symbol)
-                 (symbol)
-                 (number)))))
+               item: (symbol)
+               item: (sequence
+                       item: (symbol))
+               item: (list
+                       item: (symbol)
+                       item: (symbol)
+                       item: (number)))))
   (table
     (table_pair
       key: (symbol)
@@ -353,16 +353,16 @@ reader macros
 (program
   (reader_macro
     expression: (list
-                  (symbol)
-                  (symbol)
-                  (symbol)))
+                  item: (symbol)
+                  item: (symbol)
+                  item: (symbol)))
   (reader_macro
     expression: (symbol))
   (reader_macro
     expression: (sequence
-                  (symbol)
-                  (symbol)
-                  (symbol)))
+                  item: (symbol)
+                  item: (symbol)
+                  item: (symbol)))
   (reader_macro
     expression: (symbol))
   (reader_macro

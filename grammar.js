@@ -92,14 +92,14 @@ module.exports = grammar({
 
 		list: $ => seq(
 			field('open', '('),
-			optional($._list_content),
+			optional(field('item', $._list_content)),
 			field('close', ')'),
 		),
 
 		sequence: $ => seq(
 			field('open', '['),
 			repeat(choice(
-				$._sexp,
+				field('item', $._sexp),
 				$._gap,
 			)),
 			field('close', ']'),

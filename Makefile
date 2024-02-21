@@ -5,6 +5,8 @@ INCS = -Isrc/
 TSCFLAGS = $(CPPFLAGS) $(CFLAGS) -fPIC
 TSLDFLAGS = $(LDFLAGS) --shared
 
+default: generate
+
 fennel.so: $(OBJ)
 	$(CC) $(TSLDFLAGS) -o $@ $(OBJ)
 

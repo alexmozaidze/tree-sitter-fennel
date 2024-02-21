@@ -28,20 +28,20 @@ method call
 
 (program
   (list
-    (multi_symbol_method
-      base: (multi_symbol
-              base: (symbol_fragment)
-              member: (symbol_fragment)
-              member: (symbol_fragment))
-      method: (symbol_fragment))
-    (string (string_content)))
+    item: (multi_symbol_method
+            base: (multi_symbol
+                    base: (symbol_fragment)
+                    member: (symbol_fragment)
+                    member: (symbol_fragment))
+            method: (symbol_fragment))
+    item: (string (string_content)))
   (list
-    (multi_symbol
-      base: (symbol_fragment)
-      member: (symbol_fragment)
-      member: (symbol_fragment))
-    (string (string_content))
-    (string (string_content))))
+    item: (multi_symbol
+            base: (symbol_fragment)
+            member: (symbol_fragment)
+            member: (symbol_fragment))
+    item: (string (string_content))
+    item: (string (string_content))))
 
 ===
 function/lambda definition
@@ -62,58 +62,58 @@ function/lambda definition
 
 (program
   (list
-    (symbol)
-    (symbol)
-    (sequence
-      (symbol)
-      (symbol)
-      (symbol))
-    (table
-      (table_pair
-        key: (symbol)
-        value: (symbol))
-      (table_pair
-        key: (symbol)
-        value: (symbol))
-      (table_pair
-        key: (symbol)
-        value: (symbol))))
+    item: (symbol)
+    item: (symbol)
+    item: (sequence
+            item: (symbol)
+            item: (symbol)
+            item: (symbol))
+    item: (table
+            (table_pair
+              key: (symbol)
+              value: (symbol))
+            (table_pair
+              key: (symbol)
+              value: (symbol))
+            (table_pair
+              key: (symbol)
+              value: (symbol))))
   (list
-    (symbol)
-    (symbol)
-    (sequence
-      (symbol)
-      (symbol)
-      (symbol))
-    (sequence
-      (symbol)))
+    item: (symbol)
+    item: (symbol)
+    item: (sequence
+            item: (symbol)
+            item: (symbol)
+            item: (symbol))
+    item: (sequence
+            item: (symbol)))
   (list
-    (symbol)
-    (multi_symbol
-      base: (symbol_fragment)
-      member: (symbol_fragment))
-    (sequence
-      (symbol)
-      (symbol)
-      (symbol)
-      (symbol))
-    (list
-      (symbol)
-      (symbol))
-    (list
-      (symbol)
-      (symbol))
-    (list
-      (symbol)
-      (symbol)))
+    item: (symbol)
+    item: (multi_symbol
+            base: (symbol_fragment)
+            member: (symbol_fragment))
+    item: (sequence
+            item: (symbol)
+            item: (symbol)
+            item: (symbol)
+            item: (symbol))
+    item: (list
+            item: (symbol)
+            item: (symbol))
+    item: (list
+            item: (symbol)
+            item: (symbol))
+    item: (list
+            item: (symbol)
+            item: (symbol)))
   (list
-    (symbol)
-    (symbol)
-    (sequence)
-    (string (string_content))
-    (symbol))
+    item: (symbol)
+    item: (symbol)
+    item: (sequence)
+    item: (string (string_content))
+    item: (symbol))
   (list
-    (symbol)
-    (symbol)
-    (sequence)
-    (string (string_content))))
+    item: (symbol)
+    item: (symbol)
+    item: (sequence)
+    item: (string (string_content))))
