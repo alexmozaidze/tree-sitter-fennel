@@ -364,6 +364,16 @@
           }
         ]
       },
+      "content": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "string_content",
+            "named": true
+          }
+        ]
+      },
       "open": {
         "multiple": false,
         "required": true,
@@ -378,16 +388,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "string_content",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -419,6 +419,16 @@
           }
         ]
       },
+      "item": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "table_pair",
+            "named": true
+          }
+        ]
+      },
       "open": {
         "multiple": false,
         "required": true,
@@ -436,10 +446,6 @@
       "types": [
         {
           "type": "comment",
-          "named": true
-        },
-        {
-          "type": "table_pair",
           "named": true
         }
       ]

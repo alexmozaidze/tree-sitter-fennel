@@ -371,8 +371,12 @@
             "type": "CHOICE",
             "members": [
               {
-                "type": "SYMBOL",
-                "name": "table_pair"
+                "type": "FIELD",
+                "name": "item",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "table_pair"
+                }
               },
               {
                 "type": "SYMBOL",
@@ -447,58 +451,62 @@
             }
           },
           {
-            "type": "ALIAS",
+            "type": "FIELD",
+            "name": "content",
             "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "#"
-                },
-                {
-                  "type": "STRING",
-                  "value": "?."
-                },
-                {
-                  "type": "STRING",
-                  "value": "~="
-                },
-                {
-                  "type": "STRING",
-                  "value": ":"
-                },
-                {
-                  "type": "STRING",
-                  "value": "$..."
-                },
-                {
-                  "type": "STRING",
-                  "value": "..."
-                },
-                {
-                  "type": "STRING",
-                  "value": ".."
-                },
-                {
-                  "type": "STRING",
-                  "value": "."
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "boolean"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "nil"
-                },
-                {
-                  "type": "PATTERN",
-                  "value": "[^(){}\\[\\]\"'~;,@`\\s]+"
-                }
-              ]
-            },
-            "named": true,
-            "value": "string_content"
+              "type": "ALIAS",
+              "content": {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "#"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "?."
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "~="
+                  },
+                  {
+                    "type": "STRING",
+                    "value": ":"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "$..."
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "..."
+                  },
+                  {
+                    "type": "STRING",
+                    "value": ".."
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "."
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "boolean"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "nil"
+                  },
+                  {
+                    "type": "PATTERN",
+                    "value": "[^(){}\\[\\]\"'~;,@`\\s]+"
+                  }
+                ]
+              },
+              "named": true,
+              "value": "string_content"
+            }
           }
         ]
       }
@@ -515,29 +523,33 @@
           }
         },
         {
-          "type": "ALIAS",
+          "type": "FIELD",
+          "name": "content",
           "content": {
-            "type": "REPEAT",
+            "type": "ALIAS",
             "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "PREC",
-                  "value": 1,
-                  "content": {
-                    "type": "PATTERN",
-                    "value": "[^\"\\\\]+"
+              "type": "REPEAT",
+              "content": {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "PREC",
+                    "value": 1,
+                    "content": {
+                      "type": "PATTERN",
+                      "value": "[^\"\\\\]+"
+                    }
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "escape_sequence"
                   }
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "escape_sequence"
-                }
-              ]
-            }
-          },
-          "named": true,
-          "value": "string_content"
+                ]
+              }
+            },
+            "named": true,
+            "value": "string_content"
+          }
         },
         {
           "type": "FIELD",
