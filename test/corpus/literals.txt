@@ -262,7 +262,7 @@ tables
             value: (symbol))
     item: (table_pair
             key: (list
-                   item: (symbol)
+                   call: (symbol)
                    item: (number)
                    item: (number))
             value: (reader_macro
@@ -282,11 +282,11 @@ tables
     item: (table_pair
             key: (symbol)
             value: (list
-                     item: (symbol)
+                     call: (symbol)
                      item: (sequence
                              item: (symbol))
                      item: (list
-                             item: (symbol)
+                             call: (symbol)
                              item: (symbol)
                              item: (number)))))
   (table
@@ -358,7 +358,7 @@ reader macros
 (program
   (reader_macro
     expression: (list
-                  item: (symbol)
+                  call: (symbol)
                   item: (symbol)
                   item: (symbol)))
   (reader_macro

@@ -28,7 +28,7 @@ method call
 
 (program
   (list
-    item: (multi_symbol_method
+    call: (multi_symbol_method
             base: (multi_symbol
                     base: (symbol_fragment)
                     member: (symbol_fragment)
@@ -37,7 +37,7 @@ method call
     item: (string
             content: (string_content)))
   (list
-    item: (multi_symbol
+    call: (multi_symbol
             base: (symbol_fragment)
             member: (symbol_fragment)
             member: (symbol_fragment))
@@ -65,7 +65,7 @@ function/lambda definition
 
 (program
   (list
-    item: (symbol)
+    call: (symbol)
     item: (symbol)
     item: (sequence
             item: (symbol)
@@ -82,7 +82,7 @@ function/lambda definition
                     key: (symbol)
                     value: (symbol))))
   (list
-    item: (symbol)
+    call: (symbol)
     item: (symbol)
     item: (sequence
             item: (symbol)
@@ -91,7 +91,7 @@ function/lambda definition
     item: (sequence
             item: (symbol)))
   (list
-    item: (symbol)
+    call: (symbol)
     item: (multi_symbol
             base: (symbol_fragment)
             member: (symbol_fragment))
@@ -101,23 +101,23 @@ function/lambda definition
             item: (symbol)
             item: (symbol))
     item: (list
-            item: (symbol)
+            call: (symbol)
             item: (symbol))
     item: (list
-            item: (symbol)
+            call: (symbol)
             item: (symbol))
     item: (list
-            item: (symbol)
+            call: (symbol)
             item: (symbol)))
   (list
-    item: (symbol)
+    call: (symbol)
     item: (symbol)
     item: (sequence)
     item: (string
             content: (string_content))
     item: (symbol))
   (list
-    item: (symbol)
+    call: (symbol)
     item: (symbol)
     item: (sequence)
     item: (string

@@ -80,19 +80,19 @@ module.exports = grammar({
 
 		_list_content: $ => seq(
 			repeat($._gap),
-			choice(
+			field('call', choice(
 				$.multi_symbol_method,
 				$._sexp,
-			),
+			)),
 			repeat(choice(
-				$._sexp,
+				field('item', $._sexp),
 				$._gap,
 			)),
 		),
 
 		list: $ => seq(
 			field('open', '('),
-			optional(field('item', $._list_content)),
+			optional($._list_content),
 			field('close', ')'),
 		),
 
