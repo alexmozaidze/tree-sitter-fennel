@@ -319,7 +319,8 @@ comments
 ;; ayo, another comment!
 ;;;;;;;;;;;;;; WOOOOOOOOOOOOOOOOOOOOOOO!
 
-(fn ;
+(;
+ fn ;
  foo ;
  [ ;
  x ;
@@ -334,6 +335,7 @@ comments
   (comment)
   (comment)
   (list
+    (comment)
     (symbol) (comment)
     (symbol) (comment)
     (sequence (comment)

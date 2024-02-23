@@ -79,7 +79,7 @@ module.exports = grammar({
 		),
 
 		_list_content: $ => seq(
-			optional($._gap),
+			repeat($._gap),
 			choice(
 				$.multi_symbol_method,
 				$._sexp,
