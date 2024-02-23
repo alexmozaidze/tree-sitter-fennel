@@ -34,14 +34,17 @@ method call
                     member: (symbol_fragment)
                     member: (symbol_fragment))
             method: (symbol_fragment))
-    item: (string (string_content)))
+    item: (string
+            content: (string_content)))
   (list
     item: (multi_symbol
             base: (symbol_fragment)
             member: (symbol_fragment)
             member: (symbol_fragment))
-    item: (string (string_content))
-    item: (string (string_content))))
+    item: (string
+            content: (string_content))
+    item: (string
+            content: (string_content))))
 
 ===
 function/lambda definition
@@ -69,15 +72,15 @@ function/lambda definition
             item: (symbol)
             item: (symbol))
     item: (table
-            (table_pair
-              key: (symbol)
-              value: (symbol))
-            (table_pair
-              key: (symbol)
-              value: (symbol))
-            (table_pair
-              key: (symbol)
-              value: (symbol))))
+            item: (table_pair
+                    key: (symbol)
+                    value: (symbol))
+            item: (table_pair
+                    key: (symbol)
+                    value: (symbol))
+            item: (table_pair
+                    key: (symbol)
+                    value: (symbol))))
   (list
     item: (symbol)
     item: (symbol)
@@ -110,10 +113,12 @@ function/lambda definition
     item: (symbol)
     item: (symbol)
     item: (sequence)
-    item: (string (string_content))
+    item: (string
+            content: (string_content))
     item: (symbol))
   (list
     item: (symbol)
     item: (symbol)
     item: (sequence)
-    item: (string (string_content))))
+    item: (string
+            content: (string_content))))

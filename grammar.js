@@ -118,7 +118,7 @@ module.exports = grammar({
 		table: $ => seq(
 			field('open', '{'),
 			repeat(choice(
-				$.table_pair,
+				field('item', $.table_pair),
 				$._gap,
 			)),
 			field('close', '}'),
@@ -136,7 +136,7 @@ module.exports = grammar({
 
 		_colon_string: $ => prec(2, seq(
 			field('open', ':'),
-			alias(choice(
+			field('content', alias(choice(
 				// HACK(alexmozaidze): Fixes expressions such as:
 				// `:?.`
 				// `:true`
@@ -150,15 +150,15 @@ module.exports = grammar({
 				$.boolean,
 				$.nil,
 				/[^(){}\[\]"'~;,@`\s]+/,
-			), $.string_content),
+			), $.string_content)),
 		)),
 
 		_double_quote_string: $ => seq(
 			field('open', '"'),
-			alias(repeat(choice(
+			field('content', alias(repeat(choice(
 				prec(1, /[^"\\]+/),
 				$.escape_sequence,
-			)), $.string_content),
+			)), $.string_content)),
 			field('close', '"'),
 		),
 
