@@ -124,7 +124,6 @@ quote
 `(+ ,a ,b)
 `("")
 '(fn)
-'(let [x (each [y] z)])
 
 ---
 (program
@@ -142,17 +141,7 @@ quote
       (string)))
   (reader_macro
     (list
-      (symbol)))
-  (reader_macro
-    (list
-      (symbol)
-      (sequence
-        (symbol)
-        (list
-          (symbol)
-          (sequence
-            (symbol))
-          (symbol))))))
+      (symbol))))
 
 ===
 symbols
@@ -257,42 +246,35 @@ tables
 
 (program
   (table
-    item: (table_pair
-            key: (symbol)
-            value: (symbol))
-    item: (table_pair
-            key: (list
-                   call: (symbol)
-                   item: (number)
-                   item: (number))
-            value: (reader_macro
-                     expression: (nil)))
-    item: (table_pair
-            key: (string
-                   content: (string_content))
-            value: (symbol))
-    item: (table_pair
-            key: (string
-                   content: (string_content))
-            value: (string
-                     content: (string_content)))
-    item: (table_pair
-            key: (number)
-            value: (number))
-    item: (table_pair
-            key: (symbol)
-            value: (list
+    key: (symbol)
+    value: (symbol)
+    key: (list
+           call: (symbol)
+           item: (number)
+           item: (number))
+    value: (reader_macro
+             expression: (nil))
+    key: (string
+           content: (string_content))
+    value: (symbol)
+    key: (string
+           content: (string_content))
+    value: (string
+             content: (string_content))
+    key: (number)
+    value: (number)
+    key: (symbol)
+    value: (list
+             call: (symbol)
+             item: (sequence
+                     item: (symbol))
+             item: (list
                      call: (symbol)
-                     item: (sequence
-                             item: (symbol))
-                     item: (list
-                             call: (symbol)
-                             item: (symbol)
-                             item: (number)))))
+                     item: (symbol)
+                     item: (number))))
   (table
-    item: (table_pair
-            key: (symbol)
-            value: (symbol))))
+    key: (symbol)
+    value: (symbol)))
 
 ===
 sequences / sequential tables
@@ -374,9 +356,7 @@ reader macros
     expression: (symbol))
   (reader_macro
     expression: (table
-                  item: (table_pair
-                          key: (symbol)
-                          value: (symbol))
-                  item: (table_pair
-                          key: (symbol)
-                          value: (symbol)))))
+                  key: (symbol)
+                  value: (symbol)
+                  key: (symbol)
+                  value: (symbol))))

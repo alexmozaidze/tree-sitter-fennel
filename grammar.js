@@ -1,16 +1,18 @@
-/**
- * Get literal out of a syntax node
- *
- * Example: get_literal(prec(1, '#')) == '#'
- *
- * @param {Object} node
- * @returns {string} Literal extracted from node
- */
-function get_literal(node) {
-	if (typeof node === 'string' || node instanceof RegExp) return node;
-	else if (node.type === 'PATTERN' || node.type === 'STRING') return node.value;
-	else return get_literal(node.content);
-}
+const { pair, get_literal } = require('./utils.js');
+
+const forms = {
+	...require('./forms/fennel.js').rules,
+};
+
+const PREC = {
+	OVERRIDE_SYMBOL: 1,
+	READER_MACRO: 10,
+	STRING: 2,
+	MULTI_SYMBOL: 3,
+	MULTI_SYMBOL_METHOD: 4,
+	DOT_OVERRIDE_SYMBOL: -1,
+	COMPOUND: -1,
+};
 
 // Symbols that should take priority over the default symbol definition
 const SPECIAL_OVERRIDE_SYMBOLS = [
@@ -21,15 +23,15 @@ const SPECIAL_OVERRIDE_SYMBOLS = [
 	'$...',
 	'...',
 	'..',
-	prec.dynamic(-1, '.'),
-];
+	prec.dynamic(PREC.DOT_OVERRIDE_SYMBOL, '.'),
+].map(symbol => typeof symbol === 'string' ? prec(PREC.OVERRIDE_SYMBOL, symbol) : symbol);
 
 const READER_MACRO_CHARS = [
-	prec(1, '#'),
+	'#',
 	'\'',
 	'`',
 	',',
-];
+].map(ch => typeof ch === 'string' ? prec(PREC.READER_MACRO, ch) : ch);
 
 module.exports = grammar({
 	name: 'fennel',
@@ -38,7 +40,14 @@ module.exports = grammar({
 
 	conflicts: $ => [
 		[$.multi_symbol, $._sexp],
+		// Form conflicts
+		[$._let_vars_body, $.sequence],
+		[$.let_form],
+		[$._let_vars_body_pair, $._list_content],
+		[$._let_vars_body_pair, $.sequence],
 	],
+
+	word: $ => $.symbol,
 
 	rules: {
 		program: $ => seq(
@@ -63,6 +72,7 @@ module.exports = grammar({
 			$.reader_macro,
 			$.symbol,
 			$.multi_symbol,
+			$._form,
 			$.list,
 			$.sequence,
 			$.table,
@@ -90,39 +100,46 @@ module.exports = grammar({
 			)),
 		),
 
-		list: $ => seq(
+		list: $ => prec.right(PREC.COMPOUND, seq(
 			field('open', '('),
 			optional($._list_content),
 			field('close', ')'),
+		)),
+
+		...forms,
+
+		_form_content: $ => choice(
+			...[...Object.keys(forms)].map(form => $[form])
 		),
 
-		sequence: $ => seq(
+		_form: $ => prec.dynamic(10, seq(
+			field('open', '('),
+			repeat($._gap),
+			$._form_content,
+			repeat($._gap),
+			field('close', ')'),
+		)),
+
+		sequence: $ => prec.dynamic(PREC.COMPOUND, seq(
 			field('open', '['),
 			repeat(choice(
 				field('item', $._sexp),
 				$._gap,
 			)),
 			field('close', ']'),
-		),
-
-		table_pair: $ => prec.right(seq(
-			field('key', $._sexp),
-			// NOTE: The `optional` here kind of "normalizes" the tree if the table pair is not complete,
-			// as if it's in the process of typing.
-			optional(seq(
-				$._gap,
-				field('value', $._sexp),
-			)),
 		)),
 
-		table: $ => seq(
+		// TODO: Make it public
+		_table_pair: $ => pair($, { field: 'key' }, { field: 'value' }),
+
+		table: $ => prec(PREC.COMPOUND, seq(
 			field('open', '{'),
 			repeat(choice(
-				field('item', $.table_pair),
+				$._table_pair,
 				$._gap,
 			)),
 			field('close', '}'),
-		),
+		)),
 
 		_literal: $ => choice(
 			$.string,
@@ -134,7 +151,7 @@ module.exports = grammar({
 		nil: $ => 'nil',
 		boolean: $ => token(choice('true', 'false')),
 
-		_colon_string: $ => prec(2, seq(
+		_colon_string: $ => prec(PREC.STRING, seq(
 			field('open', ':'),
 			field('content', alias(choice(
 				// HACK(alexmozaidze): Fixes expressions such as:
@@ -156,7 +173,7 @@ module.exports = grammar({
 		_double_quote_string: $ => seq(
 			field('open', '"'),
 			field('content', alias(repeat(choice(
-				prec(1, /[^"\\]+/),
+				prec(PREC.STRING, /[^"\\]+/),
 				$.escape_sequence,
 			)), $.string_content)),
 			field('close', '"'),
@@ -211,7 +228,7 @@ module.exports = grammar({
 		},
 
 		// NOTE: Due to special override symbol `.` we need dynamic precedence here
-		multi_symbol: $ => prec.dynamic(2, prec.right(seq(
+		multi_symbol: $ => prec.dynamic(PREC.MULTI_SYMBOL, prec.right(seq(
 			field('base', alias($.symbol, $.symbol_fragment)),
 			repeat1(seq(
 				'.',
@@ -219,7 +236,7 @@ module.exports = grammar({
 			)),
 		))),
 
-		multi_symbol_method: $ => prec(3, seq(
+		multi_symbol_method: $ => prec(PREC.MULTI_SYMBOL_METHOD, seq(
 			field('base', choice(
 				alias($.symbol, $.symbol_fragment),
 				$.multi_symbol,

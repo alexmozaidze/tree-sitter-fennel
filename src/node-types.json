@@ -4,11 +4,23 @@
     "named": true,
     "fields": {
       "call": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
+          },
+          {
             "type": "boolean",
+            "named": true
+          },
+          {
+            "type": "comment",
             "named": true
           },
           {
@@ -54,7 +66,7 @@
         ]
       },
       "close": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
@@ -68,7 +80,19 @@
         "required": false,
         "types": [
           {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
+          },
+          {
             "type": "boolean",
+            "named": true
+          },
+          {
+            "type": "comment",
             "named": true
           },
           {
@@ -110,7 +134,7 @@
         ]
       },
       "open": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
@@ -190,7 +214,28 @@
   {
     "type": "program",
     "named": true,
-    "fields": {},
+    "fields": {
+      "close": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": ")",
+            "named": false
+          }
+        ]
+      },
+      "open": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
@@ -250,12 +295,34 @@
     "type": "reader_macro",
     "named": true,
     "fields": {
-      "expression": {
+      "close": {
         "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": ")",
+            "named": false
+          }
+        ]
+      },
+      "expression": {
+        "multiple": true,
         "required": true,
         "types": [
           {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
+          },
+          {
             "type": "boolean",
+            "named": true
+          },
+          {
+            "type": "comment",
             "named": true
           },
           {
@@ -317,6 +384,16 @@
             "named": false
           }
         ]
+      },
+      "open": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          }
+        ]
       }
     }
   },
@@ -325,9 +402,13 @@
     "named": true,
     "fields": {
       "close": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
+          {
+            "type": ")",
+            "named": false
+          },
           {
             "type": "]",
             "named": false
@@ -339,7 +420,19 @@
         "required": false,
         "types": [
           {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
+          },
+          {
             "type": "boolean",
+            "named": true
+          },
+          {
+            "type": "comment",
             "named": true
           },
           {
@@ -381,9 +474,13 @@
         ]
       },
       "open": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
+          {
+            "type": "(",
+            "named": false
+          },
           {
             "type": "[",
             "named": false
@@ -462,146 +559,152 @@
     "named": true,
     "fields": {
       "close": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
+          {
+            "type": ")",
+            "named": false
+          },
           {
             "type": "}",
             "named": false
           }
         ]
       },
-      "item": {
+      "key": {
         "multiple": true,
         "required": false,
         "types": [
           {
-            "type": "table_pair",
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
+          },
+          {
+            "type": "boolean",
+            "named": true
+          },
+          {
+            "type": "comment",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "multi_symbol",
+            "named": true
+          },
+          {
+            "type": "nil",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "reader_macro",
+            "named": true
+          },
+          {
+            "type": "sequence",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "symbol",
+            "named": true
+          },
+          {
+            "type": "table",
             "named": true
           }
         ]
       },
       "open": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
+            "type": "(",
+            "named": false
+          },
+          {
             "type": "{",
             "named": false
+          }
+        ]
+      },
+      "value": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
+          },
+          {
+            "type": "boolean",
+            "named": true
+          },
+          {
+            "type": "comment",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "multi_symbol",
+            "named": true
+          },
+          {
+            "type": "nil",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "reader_macro",
+            "named": true
+          },
+          {
+            "type": "sequence",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "symbol",
+            "named": true
+          },
+          {
+            "type": "table",
+            "named": true
           }
         ]
       }
     },
     "children": {
       "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "comment",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "table_pair",
-    "named": true,
-    "fields": {
-      "key": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "boolean",
-            "named": true
-          },
-          {
-            "type": "list",
-            "named": true
-          },
-          {
-            "type": "multi_symbol",
-            "named": true
-          },
-          {
-            "type": "nil",
-            "named": true
-          },
-          {
-            "type": "number",
-            "named": true
-          },
-          {
-            "type": "reader_macro",
-            "named": true
-          },
-          {
-            "type": "sequence",
-            "named": true
-          },
-          {
-            "type": "string",
-            "named": true
-          },
-          {
-            "type": "symbol",
-            "named": true
-          },
-          {
-            "type": "table",
-            "named": true
-          }
-        ]
-      },
-      "value": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "boolean",
-            "named": true
-          },
-          {
-            "type": "list",
-            "named": true
-          },
-          {
-            "type": "multi_symbol",
-            "named": true
-          },
-          {
-            "type": "nil",
-            "named": true
-          },
-          {
-            "type": "number",
-            "named": true
-          },
-          {
-            "type": "reader_macro",
-            "named": true
-          },
-          {
-            "type": "sequence",
-            "named": true
-          },
-          {
-            "type": "string",
-            "named": true
-          },
-          {
-            "type": "symbol",
-            "named": true
-          },
-          {
-            "type": "table",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": false,
       "required": false,
       "types": [
         {

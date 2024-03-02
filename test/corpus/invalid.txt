@@ -8,5 +8,4 @@ Unfinished tables
 
 (program
   (table
-    item: (table_pair
-            key: (symbol))))
+    key: (symbol)))

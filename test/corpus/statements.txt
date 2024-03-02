@@ -1,4 +1,44 @@
 ===
+variable forms
+===
+
+(local answer 42)
+(var answer 42)
+(set answer 42)
+(global answer 42)
+(let [answer 42
+      lol "lol"]
+  (print :lol))
+
+---
+
+(program
+  (local_form
+    lhs: (symbol)
+    rhs: (number))
+  (var_form
+    lhs: (symbol)
+    rhs: (number))
+  (set_form
+    lhs: (symbol)
+    rhs: (number))
+  (global_form
+    lhs: (symbol)
+    rhs: (number))
+  (let_form
+    call: (symbol)
+    vars: (sequence
+            lhs: (symbol)
+            rhs: (number)
+            lhs: (symbol)
+            rhs: (string
+                   content: (string_content)))
+    item: (list
+            call: (symbol)
+            item: (string
+                    content: (string_content)))))
+
+===
 function call
 ===
 
@@ -72,15 +112,12 @@ function/lambda definition
             item: (symbol)
             item: (symbol))
     item: (table
-            item: (table_pair
-                    key: (symbol)
-                    value: (symbol))
-            item: (table_pair
-                    key: (symbol)
-                    value: (symbol))
-            item: (table_pair
-                    key: (symbol)
-                    value: (symbol))))
+            key: (symbol)
+            value: (symbol)
+            key: (symbol)
+            value: (symbol)
+            key: (symbol)
+            value: (symbol)))
   (list
     call: (symbol)
     item: (symbol)
