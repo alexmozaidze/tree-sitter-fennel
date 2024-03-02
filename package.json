@@ -4,12 +4,14 @@
   "description": "tree-sitter grammar for Fennel",
   "main": "bindings/node",
   "author": "",
+  "type": "commonjs",
   "repository": "https://github.com/TravonteD/tree-sitter-fennel",
   "license": "ISC",
   "dependencies": {
+    "lodash": "^4.17.21",
     "nan": "^2.14.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.20.6"
+    "tree-sitter-cli": "^0.21.0"
   }
 }

@@ -1,142 +1,145 @@
-/**
- * Get literal out of a syntax node
- *
- * Example: get_literal(prec(1, '#')) == '#'
- *
- * @param {Object} node
- * @returns {string} Literal extracted from node
- */
-function get_literal(node) {
-	if (typeof node === 'string' || node instanceof RegExp) return node;
-	else if (node.type === 'PATTERN' || node.type === 'STRING') return node.value;
-	else return get_literal(node.content);
-}
+const fs = require('fs');
+const _ = require('lodash');
+const {
+	kv_pair,
+	item,
+	call,
+	SPECIAL_STANDALONE_SYMBOLS,
+	colon_string,
+	double_quote_string,
+	list,
+	sequence,
+	table,
+	PREC_LAST_RESORT,
+} = require('./utils.js');
 
-// Symbols that should take priority over the default symbol definition
-const SPECIAL_OVERRIDE_SYMBOLS = [
-	'#',
-	'?.',
-	'~=',
-	':',
-	'$...',
-	'...',
-	'..',
-	prec.dynamic(-1, '.'),
-];
-
-const READER_MACRO_CHARS = [
-	prec(1, '#'),
-	'\'',
-	'`',
-	',',
-];
+const extension_files = _.filter(
+	fs.readdirSync('./extensions/'),
+	filename => !filename.startsWith('_') && !fs.lstatSync(`./extensions/${filename}`).isDirectory(),
+);
+const extensions = _.reduce(
+	extension_files,
+	(extensions, filename) => _.mergeWith(
+		extensions,
+		require(`./extensions/${filename}`),
+		(base, extension) => Array.isArray(base) ? [...base, extension] : undefined,
+	),
+	{ rules: {}, forms: {}, inline: [], conflicts: [] },
+);
 
 module.exports = grammar({
 	name: 'fennel',
 
-	extras: $ => [],
+	extras: $ => [
+		/\s/,
+		$.comment,
+	],
+
+	externals: $ => [
+		$._hashfn_reader_macro_char,
+		$._quote_reader_macro_char,
+		$._quasi_quote_reader_macro_char,
+		$._unquote_reader_macro_char,
+		$.__reader_macro_count,
+
+		$.__colon_string_start_mark,
+		$.__colon_string_end_mark,
+
+		$.shebang,
+	],
+
+	inline: $ => [
+		..._.flatMap(extensions.inline, inline => inline($)),
+	],
 
 	conflicts: $ => [
-		[$.multi_symbol, $._sexp],
+		..._.flatMap(extensions.conflicts, conflicts => conflicts($)),
 	],
+
+	word: $ => $.symbol,
 
 	rules: {
 		program: $ => seq(
 			optional($.shebang),
-			repeat(choice(
-				$._sexp,
-				$._gap,
-			))
+			repeat($._sexp),
 		),
 
-		shebang: $ => /#!.*/,
-
-		_whitespace: $ => /\s+/,
+		// TODO: Separate comment semicolon and body.
+		// NOTE: Should I separate comment semicolon from body?
 		comment: $ => /;.*\n?/,
-		_gap: $ => choice(
-			$._whitespace,
-			$.comment,
-		),
 
 		_sexp: $ => choice(
-			$._special_override_symbols,
-			$.reader_macro,
+			$._reader_macro,
+			$._special_override_symbol,
+			$.symbol_option,
 			$.symbol,
 			$.multi_symbol,
+			$.multi_symbol_method,
+			$._form,
 			$.list,
 			$.sequence,
 			$.table,
 			$._literal,
 		),
 
-		_special_override_symbols: $ => alias(choice(...SPECIAL_OVERRIDE_SYMBOLS), $.symbol),
-
-		_reader_macro_char: $ => choice(...READER_MACRO_CHARS),
-
-		reader_macro: $ => seq(
-			field('macro', $._reader_macro_char),
+		// FIXME: Refactor this mess
+		hashfn_reader_macro: $ => seq(
+			field('macro', alias($._hashfn_reader_macro_char, '#')),
+			field('expression', $._sexp),
+		),
+		quote_reader_macro: $ => seq(
+			field('macro', alias($._quote_reader_macro_char, '\'')),
+			field('expression', $._sexp),
+		),
+		quasi_quote_reader_macro: $ => seq(
+			field('macro', alias($._quasi_quote_reader_macro_char, '`')),
+			field('expression', $._sexp),
+		),
+		unquote_reader_macro: $ => seq(
+			field('macro', alias($._unquote_reader_macro_char, ',')),
 			field('expression', $._sexp),
 		),
 
+		_reader_macro: $ => choice(
+			$.hashfn_reader_macro,
+			$.quote_reader_macro,
+			$.quasi_quote_reader_macro,
+			$.unquote_reader_macro,
+		),
+
 		_list_content: $ => seq(
-			repeat($._gap),
-			field('call', choice(
-				$.multi_symbol_method,
-				$._sexp,
-			)),
-			repeat(choice(
-				field('item', $._sexp),
-				$._gap,
-			)),
+			call($._sexp),
+			repeat(item($._sexp)),
 		),
 
-		list: $ => seq(
-			field('open', '('),
-			optional($._list_content),
-			field('close', ')'),
-		),
+		list: $ => list(optional($._list_content)),
 
-		sequence: $ => seq(
-			field('open', '['),
-			repeat(choice(
-				field('item', $._sexp),
-				$._gap,
-			)),
-			field('close', ']'),
-		),
+		...extensions.rules,
+		...extensions.forms,
 
-		table_pair: $ => prec.right(seq(
-			field('key', $._sexp),
-			// NOTE: The `optional` here kind of "normalizes" the tree if the table pair is not complete,
-			// as if it's in the process of typing.
-			optional(seq(
-				$._gap,
-				field('value', $._sexp),
-			)),
-		)),
+		_form: $ => choice(...[...Object.keys(extensions.forms)].map(form => $[form])),
 
-		table: $ => seq(
-			field('open', '{'),
-			repeat(choice(
-				field('item', $.table_pair),
-				$._gap,
-			)),
-			field('close', '}'),
-		),
+		sequence: $ => sequence(repeat(item($._sexp))),
 
-		_literal: $ => choice(
+		_table_pair: $ => kv_pair($),
+
+		table: $ => table(repeat($._table_pair)),
+
+		// NOTE: Last resort precedence here is nice to have for when forms define
+		// literal-specific syntax (mostly strings), like with metadata `:fnl/docstring`
+		// in a function form.
+		_literal: $ => prec(PREC_LAST_RESORT, choice(
 			$.string,
 			$.number,
 			$.boolean,
 			$.nil,
-		),
+		)),
 
 		nil: $ => 'nil',
-		boolean: $ => token(choice('true', 'false')),
+		boolean: $ => choice('true', 'false'),
 
-		_colon_string: $ => prec(2, seq(
-			field('open', ':'),
-			field('content', alias(choice(
+		_colon_string: $ => colon_string($, choice(
+			...[
 				// HACK(alexmozaidze): Fixes expressions such as:
 				// `:?.`
 				// `:true`
@@ -146,20 +149,21 @@ module.exports = grammar({
 				// and so on, being parsed as 2 separate tokens.
 				// Dynamic precedence could eliminate this HACK, but
 				// I would prefer to stray away from it.
-				...[...SPECIAL_OVERRIDE_SYMBOLS].map(get_literal),
-				$.boolean,
-				$.nil,
+				//
+				// TODO: Find a way to get rid of this HACK.
+				'nil',
+				'true',
+				'false',
+				...SPECIAL_STANDALONE_SYMBOLS,
 				/[^(){}\[\]"'~;,@`\s]+/,
-			), $.string_content)),
+			].map(tk => token.immediate(tk))
 		)),
 
-		_double_quote_string: $ => seq(
-			field('open', '"'),
-			field('content', alias(repeat(choice(
-				prec(1, /[^"\\]+/),
+		_double_quote_string: $ => double_quote_string($,
+			repeat(choice(
+				/[^"\\]+/,
 				$.escape_sequence,
-			)), $.string_content)),
-			field('close', '"'),
+			))
 		),
 
 		string: $ => choice(
@@ -177,6 +181,7 @@ module.exports = grammar({
 			),
 		)),
 
+		// TODO: Separate floats from integers.
 		number: $ => {
 			const sign = choice('-', '+');
 			const digits = /\d[_\d]*/;
@@ -210,24 +215,33 @@ module.exports = grammar({
 			));
 		},
 
-		// NOTE: Due to special override symbol `.` we need dynamic precedence here
-		multi_symbol: $ => prec.dynamic(2, prec.right(seq(
+		multi_symbol: $ => seq(
 			field('base', alias($.symbol, $.symbol_fragment)),
 			repeat1(seq(
-				'.',
-				field('member', alias($.symbol, $.symbol_fragment) ),
+				token.immediate('.'),
+				field('member', $._multi_symbol_fragment),
 			)),
-		))),
+		),
 
-		multi_symbol_method: $ => prec(3, seq(
+		multi_symbol_method: $ => seq(
 			field('base', choice(
 				alias($.symbol, $.symbol_fragment),
 				$.multi_symbol,
 			)),
-			':',
-			field('method', alias($.symbol, $.symbol_fragment)),
-		)),
+			token.immediate(':'),
+			field('method', $._multi_symbol_fragment),
+		),
 
+		symbol_option: $ => /&[^(){}\[\]"'~;,@`.:\s]*/,
 		symbol: $ => /[^#(){}\[\]"'~;,@`.:\s][^(){}\[\]"'~;,@`.:\s]*/,
+
+		// NOTE: multi-symbol fragments starting from second position onwards have fewer restrictions on what
+		// symbols they may contain, which is why its regex is just a stripped down version of $.symbol.
+		_multi_symbol_fragment: $ => alias(token.immediate(/[^(){}\[\]"'~;,@`.:\s]+/), $.symbol_fragment),
+
+		_special_override_symbol: $ => alias(
+			prec(PREC_LAST_RESORT, choice(...SPECIAL_STANDALONE_SYMBOLS)),
+			$.symbol
+		),
 	},
 });

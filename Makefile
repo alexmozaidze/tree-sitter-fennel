@@ -13,10 +13,16 @@ fennel.so: $(OBJ)
 .c.o:
 	$(CC) -c $(TSCFLAGS) -o $@ $<
 
-src/parser.c: grammar.js
+src/parser.c: extensions/*.js *.js src/scanner.c
 	npx tree-sitter generate
 
 generate: src/parser.c
+
+tree-sitter-fennel.wasm: generate
+	npx tree-sitter build-wasm
+
+playground: tree-sitter-fennel.wasm
+	npx tree-sitter playground
 
 test: generate
 	npx tree-sitter test

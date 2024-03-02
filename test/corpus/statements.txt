@@ -1,4 +1,20 @@
 ===
+shebang
+===
+
+#!/usr/bin/env fennel
+(print "Yummy!")
+
+---
+
+(program
+  (shebang)
+  (list
+    call: (symbol)
+    item: (string
+            content: (string_content))))
+
+===
 function call
 ===
 
@@ -43,82 +59,5 @@ method call
             member: (symbol_fragment))
     item: (string
             content: (string_content))
-    item: (string
-            content: (string_content))))
-
-===
-function/lambda definition
-===
-
-(fn abcs [a b c] {: a : b : c})
-(fn abcs-but-with-varargs [a b ...] [...])
-
-(lambda ab.cs [a b & cs]
-  (print a)
-  (print b)
-  (print cs))
-
-(λ ooo-docstring [] :docstring a)
-(λ booo-no-docstring [] :not-docstring)
-
----
-
-(program
-  (list
-    call: (symbol)
-    item: (symbol)
-    item: (sequence
-            item: (symbol)
-            item: (symbol)
-            item: (symbol))
-    item: (table
-            item: (table_pair
-                    key: (symbol)
-                    value: (symbol))
-            item: (table_pair
-                    key: (symbol)
-                    value: (symbol))
-            item: (table_pair
-                    key: (symbol)
-                    value: (symbol))))
-  (list
-    call: (symbol)
-    item: (symbol)
-    item: (sequence
-            item: (symbol)
-            item: (symbol)
-            item: (symbol))
-    item: (sequence
-            item: (symbol)))
-  (list
-    call: (symbol)
-    item: (multi_symbol
-            base: (symbol_fragment)
-            member: (symbol_fragment))
-    item: (sequence
-            item: (symbol)
-            item: (symbol)
-            item: (symbol)
-            item: (symbol))
-    item: (list
-            call: (symbol)
-            item: (symbol))
-    item: (list
-            call: (symbol)
-            item: (symbol))
-    item: (list
-            call: (symbol)
-            item: (symbol)))
-  (list
-    call: (symbol)
-    item: (symbol)
-    item: (sequence)
-    item: (string
-            content: (string_content))
-    item: (symbol))
-  (list
-    call: (symbol)
-    item: (symbol)
-    item: (sequence)
     item: (string
             content: (string_content))))

@@ -77,6 +77,7 @@ colon strings
 :test
 :*
 :#
+:#lol
 :?
 :-
 :+
@@ -113,46 +114,8 @@ colon strings
   (string (string_content))
   (string (string_content))
   (string (string_content))
+  (string (string_content))
   (string (string_content)))
-
-===
-quote
-===
-
-'[]
-`123
-`(+ ,a ,b)
-`("")
-'(fn)
-'(let [x (each [y] z)])
-
----
-(program
-  (reader_macro
-    (sequence))
-  (reader_macro
-    (number))
-  (reader_macro
-    (list
-      (symbol)
-      (reader_macro (symbol))
-      (reader_macro (symbol))))
-  (reader_macro
-    (list
-      (string)))
-  (reader_macro
-    (list
-      (symbol)))
-  (reader_macro
-    (list
-      (symbol)
-      (sequence
-        (symbol)
-        (list
-          (symbol)
-          (sequence
-            (symbol))
-          (symbol))))))
 
 ===
 symbols
@@ -172,7 +135,6 @@ test#test#test
 ..
 ...
 ?.
-&
 :
 #
 ~=
@@ -196,8 +158,22 @@ test#test#test
   (symbol)
   (symbol)
   (symbol)
-  (symbol)
   (symbol))
+
+===
+symbol options
+===
+
+&
+&asdaskldjh
+&#hoi
+
+---
+
+(program
+  (symbol_option)
+  (symbol_option)
+  (symbol_option))
 
 ===
 multi symbols
@@ -205,7 +181,8 @@ multi symbols
 
 string.format
 a.b.c.d.e.f.g
-&bl>/?.asd
+ha.#haha
+$bl>/?.asd
 
 ---
 
@@ -219,6 +196,9 @@ a.b.c.d.e.f.g
     (symbol_fragment)
     (symbol_fragment)
     (symbol_fragment)
+    (symbol_fragment)
+    (symbol_fragment))
+  (multi_symbol
     (symbol_fragment)
     (symbol_fragment))
   (multi_symbol
@@ -249,7 +229,7 @@ tables
  "key" value
  :#$le_key :mamamia
  69 24
- ?. (fn [x] (+ x 2))}
+ ?. nestro}
 
 {key value}
 
@@ -257,48 +237,35 @@ tables
 
 (program
   (table
-    item: (table_pair
-            key: (symbol)
-            value: (symbol))
-    item: (table_pair
-            key: (list
-                   call: (symbol)
-                   item: (number)
-                   item: (number))
-            value: (reader_macro
-                     expression: (nil)))
-    item: (table_pair
-            key: (string
-                   content: (string_content))
-            value: (symbol))
-    item: (table_pair
-            key: (string
-                   content: (string_content))
-            value: (string
-                     content: (string_content)))
-    item: (table_pair
-            key: (number)
-            value: (number))
-    item: (table_pair
-            key: (symbol)
-            value: (list
-                     call: (symbol)
-                     item: (sequence
-                             item: (symbol))
-                     item: (list
-                             call: (symbol)
-                             item: (symbol)
-                             item: (number)))))
+    key: (symbol)
+    value: (symbol)
+    key: (list
+           call: (symbol)
+           item: (number)
+           item: (number))
+    value: (hashfn_reader_macro
+             expression: (nil))
+    key: (string
+           content: (string_content))
+    value: (symbol)
+    key: (string
+           content: (string_content))
+    value: (string
+             content: (string_content))
+    key: (number)
+    value: (number)
+    key: (symbol)
+    value: (symbol))
   (table
-    item: (table_pair
-            key: (symbol)
-            value: (symbol))))
+    key: (symbol)
+    value: (symbol)))
 
 ===
 sequences / sequential tables
 ===
 
 ["abd" :lol ?. : #true]
+[a b & cs]
 
 ---
 
@@ -308,8 +275,13 @@ sequences / sequential tables
     (string (string_content))
     (symbol)
     (symbol)
-    (reader_macro
-      (boolean))))
+    (hashfn_reader_macro
+      (boolean)))
+  (sequence
+    (symbol)
+    (symbol)
+    (symbol_option)
+    (symbol)))
 
 ===
 comments
@@ -320,7 +292,7 @@ comments
 ;;;;;;;;;;;;;; WOOOOOOOOOOOOOOOOOOOOOOO!
 
 (;
- fn ;
+ print ;
  foo ;
  [ ;
  x ;
@@ -336,16 +308,21 @@ comments
   (comment)
   (list
     (comment)
-    (symbol) (comment)
-    (symbol) (comment)
-    (sequence (comment)
-      (symbol) (comment)) (comment)
-    (symbol) (comment)) (comment))
+    call: (symbol) (comment)
+    item: (symbol) (comment)
+    item: (sequence (comment)
+            item: (symbol) (comment)) (comment)
+    item: (symbol) (comment)) (comment))
 
 ===
 reader macros
 ===
 
+'[]
+`123
+`(+ ,a ,b)
+`("")
+'(bleh)
 #(+ $1 $2)
 #$3
 #[$1 $2 $3]
@@ -356,27 +333,42 @@ reader macros
 ---
 
 (program
-  (reader_macro
+  (quote_reader_macro
+    expression: (sequence))
+  (quasi_quote_reader_macro
+    expression: (number))
+  (quasi_quote_reader_macro
+    expression: (list
+                  call: (symbol)
+                  item: (unquote_reader_macro
+                          expression: (symbol))
+                  item: (unquote_reader_macro
+                          expression: (symbol))))
+  (quasi_quote_reader_macro
+    expression: (list
+                  call: (string)))
+  (quote_reader_macro
+    expression: (list
+                  call: (symbol)))
+  (hashfn_reader_macro
     expression: (list
                   call: (symbol)
                   item: (symbol)
                   item: (symbol)))
-  (reader_macro
+  (hashfn_reader_macro
     expression: (symbol))
-  (reader_macro
+  (hashfn_reader_macro
     expression: (sequence
                   item: (symbol)
                   item: (symbol)
                   item: (symbol)))
-  (reader_macro
+  (hashfn_reader_macro
     expression: (symbol))
-  (reader_macro
+  (hashfn_reader_macro
     expression: (symbol))
-  (reader_macro
+  (hashfn_reader_macro
     expression: (table
-                  item: (table_pair
-                          key: (symbol)
-                          value: (symbol))
-                  item: (table_pair
-                          key: (symbol)
-                          value: (symbol)))))
+                  key: (symbol)
+                  value: (symbol)
+                  key: (symbol)
+                  value: (symbol))))
