@@ -41,10 +41,10 @@ module.exports = grammar({
 	conflicts: $ => [
 		[$.multi_symbol, $._sexp],
 		// Form conflicts
-		[$._let_vars_body, $.sequence],
-		[$.let_form],
-		[$._let_vars_body_pair, $._list_content],
-		[$._let_vars_body_pair, $.sequence],
+		// [$._let_vars_body, $.sequence],
+		// [$.let_form],
+		// [$._let_vars_body_pair, $._list_content],
+		// [$._let_vars_body_pair, $.sequence],
 	],
 
 	word: $ => $.symbol,
