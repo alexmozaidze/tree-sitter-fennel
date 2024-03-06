@@ -4,23 +4,11 @@
     "named": true,
     "fields": {
       "call": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
           {
-            "type": "(",
-            "named": false
-          },
-          {
-            "type": ")",
-            "named": false
-          },
-          {
             "type": "boolean",
-            "named": true
-          },
-          {
-            "type": "comment",
             "named": true
           },
           {
@@ -66,7 +54,7 @@
         ]
       },
       "close": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
@@ -80,19 +68,7 @@
         "required": false,
         "types": [
           {
-            "type": "(",
-            "named": false
-          },
-          {
-            "type": ")",
-            "named": false
-          },
-          {
             "type": "boolean",
-            "named": true
-          },
-          {
-            "type": "comment",
             "named": true
           },
           {
@@ -134,7 +110,7 @@
         ]
       },
       "open": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
@@ -143,16 +119,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "comment",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -214,38 +180,13 @@
   {
     "type": "program",
     "named": true,
-    "fields": {
-      "close": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": ")",
-            "named": false
-          }
-        ]
-      },
-      "open": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "(",
-            "named": false
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": false,
       "types": [
         {
           "type": "boolean",
-          "named": true
-        },
-        {
-          "type": "comment",
           "named": true
         },
         {
@@ -295,34 +236,12 @@
     "type": "reader_macro",
     "named": true,
     "fields": {
-      "close": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": ")",
-            "named": false
-          }
-        ]
-      },
       "expression": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "(",
-            "named": false
-          },
-          {
-            "type": ")",
-            "named": false
-          },
-          {
             "type": "boolean",
-            "named": true
-          },
-          {
-            "type": "comment",
             "named": true
           },
           {
@@ -384,16 +303,6 @@
             "named": false
           }
         ]
-      },
-      "open": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "(",
-            "named": false
-          }
-        ]
       }
     }
   },
@@ -402,13 +311,9 @@
     "named": true,
     "fields": {
       "close": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": ")",
-            "named": false
-          },
           {
             "type": "]",
             "named": false
@@ -420,19 +325,7 @@
         "required": false,
         "types": [
           {
-            "type": "(",
-            "named": false
-          },
-          {
-            "type": ")",
-            "named": false
-          },
-          {
             "type": "boolean",
-            "named": true
-          },
-          {
-            "type": "comment",
             "named": true
           },
           {
@@ -474,29 +367,15 @@
         ]
       },
       "open": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": "(",
-            "named": false
-          },
           {
             "type": "[",
             "named": false
           }
         ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "comment",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -559,13 +438,9 @@
     "named": true,
     "fields": {
       "close": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": ")",
-            "named": false
-          },
           {
             "type": "}",
             "named": false
@@ -577,19 +452,7 @@
         "required": false,
         "types": [
           {
-            "type": "(",
-            "named": false
-          },
-          {
-            "type": ")",
-            "named": false
-          },
-          {
             "type": "boolean",
-            "named": true
-          },
-          {
-            "type": "comment",
             "named": true
           },
           {
@@ -631,13 +494,9 @@
         ]
       },
       "open": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": "(",
-            "named": false
-          },
           {
             "type": "{",
             "named": false
@@ -649,19 +508,7 @@
         "required": false,
         "types": [
           {
-            "type": "(",
-            "named": false
-          },
-          {
-            "type": ")",
-            "named": false
-          },
-          {
             "type": "boolean",
-            "named": true
-          },
-          {
-            "type": "comment",
             "named": true
           },
           {
@@ -702,16 +549,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "comment",
-          "named": true
-        }
-      ]
     }
   },
   {

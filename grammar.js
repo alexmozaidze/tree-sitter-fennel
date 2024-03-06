@@ -1,13 +1,14 @@
-const { pair, get_literal } = require('./utils.js');
+const { cloneDeep } = require('lodash');
+const { pair, get_literal, apply_literal_recur } = require('./utils.js');
 
-const forms = {
-	...require('./forms/fennel.js').rules,
-};
+// const forms = {
+// 	...require('./forms/fennel.js').rules,
+// };
 
 const PREC = {
-	OVERRIDE_SYMBOL: 1,
+	OVERRIDE_SYMBOL: 2,
 	READER_MACRO: 10,
-	STRING: 2,
+	STRING: 1,
 	MULTI_SYMBOL: 3,
 	MULTI_SYMBOL_METHOD: 4,
 	DOT_OVERRIDE_SYMBOL: -1,
@@ -24,19 +25,22 @@ const SPECIAL_OVERRIDE_SYMBOLS = [
 	'...',
 	'..',
 	prec.dynamic(PREC.DOT_OVERRIDE_SYMBOL, '.'),
-].map(symbol => typeof symbol === 'string' ? prec(PREC.OVERRIDE_SYMBOL, symbol) : symbol);
-
-const READER_MACRO_CHARS = [
-	'#',
-	'\'',
-	'`',
-	',',
-].map(ch => typeof ch === 'string' ? prec(PREC.READER_MACRO, ch) : ch);
+].map(symbol => typeof symbol === 'string' ? prec.dynamic(PREC.OVERRIDE_SYMBOL, symbol) : symbol);
 
 module.exports = grammar({
 	name: 'fennel',
 
-	extras: $ => [],
+	extras: $ => [
+		$._whitespace,
+		$.comment,
+	],
+
+	externals: $ => [
+		'#',
+		'\'',
+		'`',
+		',',
+	],
 
 	conflicts: $ => [
 		[$.multi_symbol, $._sexp],
@@ -52,27 +56,20 @@ module.exports = grammar({
 	rules: {
 		program: $ => seq(
 			optional($.shebang),
-			repeat(choice(
-				$._sexp,
-				$._gap,
-			))
+			repeat($._sexp),
 		),
 
 		shebang: $ => /#!.*/,
 
 		_whitespace: $ => /\s+/,
 		comment: $ => /;.*\n?/,
-		_gap: $ => choice(
-			$._whitespace,
-			$.comment,
-		),
 
 		_sexp: $ => choice(
 			$._special_override_symbols,
 			$.reader_macro,
 			$.symbol,
 			$.multi_symbol,
-			$._form,
+			// $._form,
 			$.list,
 			$.sequence,
 			$.table,
@@ -81,23 +78,24 @@ module.exports = grammar({
 
 		_special_override_symbols: $ => alias(choice(...SPECIAL_OVERRIDE_SYMBOLS), $.symbol),
 
-		_reader_macro_char: $ => choice(...READER_MACRO_CHARS),
+		_reader_macro_char: $ => prec(PREC.READER_MACRO, choice(
+			'#',
+			'\'',
+			'`',
+			',',
+		)),
 
-		reader_macro: $ => seq(
+		reader_macro: $ => prec(PREC.READER_MACRO, seq(
 			field('macro', $._reader_macro_char),
 			field('expression', $._sexp),
-		),
+		)),
 
 		_list_content: $ => seq(
-			repeat($._gap),
 			field('call', choice(
 				$.multi_symbol_method,
 				$._sexp,
 			)),
-			repeat(choice(
-				field('item', $._sexp),
-				$._gap,
-			)),
+			repeat(field('item', $._sexp)),
 		),
 
 		list: $ => prec.right(PREC.COMPOUND, seq(
@@ -106,38 +104,35 @@ module.exports = grammar({
 			field('close', ')'),
 		)),
 
-		...forms,
-
-		_form_content: $ => choice(
-			...[...Object.keys(forms)].map(form => $[form])
-		),
-
-		_form: $ => prec.dynamic(10, seq(
-			field('open', '('),
-			repeat($._gap),
-			$._form_content,
-			repeat($._gap),
-			field('close', ')'),
-		)),
+		// ...forms,
+		//
+		// _form_content: $ => choice(
+		// 	...[...Object.keys(forms)].map(form => $[form])
+		// ),
+		//
+		// _form: $ => prec.dynamic(10, seq(
+		// 	field('open', '('),
+		// 	$._form_content,
+		// 	field('close', ')'),
+		// )),
 
 		sequence: $ => prec.dynamic(PREC.COMPOUND, seq(
 			field('open', '['),
-			repeat(choice(
-				field('item', $._sexp),
-				$._gap,
-			)),
+			repeat(field('item', $._sexp)),
 			field('close', ']'),
 		)),
 
 		// TODO: Make it public
-		_table_pair: $ => pair($, { field: 'key' }, { field: 'value' }),
+		_table_pair: $ => prec.right(seq(
+			field('key', $._sexp),
+			// NOTE: The `optional` here kind of "normalizes" the tree if the pair is not complete,
+			// as if it's in the process of typing.
+			optional(field('value', $._sexp))
+		)),
 
 		table: $ => prec(PREC.COMPOUND, seq(
 			field('open', '{'),
-			repeat(choice(
-				$._table_pair,
-				$._gap,
-			)),
+			repeat($._table_pair),
 			field('close', '}'),
 		)),
 
@@ -151,23 +146,9 @@ module.exports = grammar({
 		nil: $ => 'nil',
 		boolean: $ => token(choice('true', 'false')),
 
-		_colon_string: $ => prec(PREC.STRING, seq(
+		_colon_string: $ => prec.dynamic(PREC.STRING, seq(
 			field('open', ':'),
-			field('content', alias(choice(
-				// HACK(alexmozaidze): Fixes expressions such as:
-				// `:?.`
-				// `:true`
-				// `:nil`
-				// `:$...`
-				//
-				// and so on, being parsed as 2 separate tokens.
-				// Dynamic precedence could eliminate this HACK, but
-				// I would prefer to stray away from it.
-				...[...SPECIAL_OVERRIDE_SYMBOLS].map(get_literal),
-				$.boolean,
-				$.nil,
-				/[^(){}\[\]"'~;,@`\s]+/,
-			), $.string_content)),
+			field('content', alias(token.immediate(/[^(){}\[\]"'~;,@`\s]+/), $.string_content)),
 		)),
 
 		_double_quote_string: $ => seq(

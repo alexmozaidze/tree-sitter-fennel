@@ -116,34 +116,6 @@ colon strings
   (string (string_content)))
 
 ===
-quote
-===
-
-'[]
-`123
-`(+ ,a ,b)
-`("")
-'(fn)
-
----
-(program
-  (reader_macro
-    (sequence))
-  (reader_macro
-    (number))
-  (reader_macro
-    (list
-      (symbol)
-      (reader_macro (symbol))
-      (reader_macro (symbol))))
-  (reader_macro
-    (list
-      (string)))
-  (reader_macro
-    (list
-      (symbol))))
-
-===
 symbols
 ===
 
@@ -328,6 +300,11 @@ comments
 reader macros
 ===
 
+'[]
+`123
+`(+ ,a ,b)
+`("")
+'(fn)
 #(+ $1 $2)
 #$3
 #[$1 $2 $3]
@@ -338,6 +315,21 @@ reader macros
 ---
 
 (program
+  (reader_macro
+    expression: (sequence))
+  (reader_macro
+    expression: (number))
+  (reader_macro
+    expression: (list
+                  call: (symbol)
+                  item: (reader_macro (symbol))
+                  item: (reader_macro (symbol))))
+  (reader_macro
+    expression: (list
+                  call: (string)))
+  (reader_macro
+    expression: (list
+                  call: (symbol)))
   (reader_macro
     expression: (list
                   call: (symbol)

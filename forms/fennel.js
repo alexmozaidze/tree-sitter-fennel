@@ -1,15 +1,8 @@
-// const { gseq, pair } = require('../utils.js');
-//
-// const conflicts = {};
-// const forms = {};
-//
-// function sseq($, ...nodes) {
-// 	return gseq($,
-// 		'[',
-// 		']',
-// 	)
-// }
-//
+const { gseq, pair } = require('../utils.js');
+
+const conflicts = {};
+const forms = {};
+
 // [
 // 	'local',
 // 	'var',
