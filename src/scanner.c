@@ -5,44 +5,17 @@ enum TokenType {
 	// Reader Macros
 	TK_HASHFN,
 	TK_QUOTE,
-	TK_QUASI_QUOTEt,
+	TK_QUASI_QUOTE,
 	TK_UNQUOTE,
-	// Colon String
-	// TK_COLON_STRING,
 };
 
 static const uint32_t READER_MACRO_CHARS[] = {
 	[TK_HASHFN] = '#',
 	[TK_QUOTE] = '\'',
-	[TK_QUASI_QUOTEt] = '`',
+	[TK_QUASI_QUOTE] = '`',
 	[TK_UNQUOTE] = ',',
 };
 static const int READER_MACRO_CHARS_LENGTH = sizeof(READER_MACRO_CHARS) / sizeof(uint32_t);
-
-// static bool is_valid_colon_string_char(uint32_t ch) {
-// 	if (iswspace(ch)) {
-// 		return false;
-// 	}
-//
-// 	switch (ch) {
-// 		case '(':
-// 		case ')':
-// 		case '{':
-// 		case '}':
-// 		case '[':
-// 		case ']':
-// 		case '"':
-// 		case '\'':
-// 		case '~':
-// 		case ';':
-// 		case ',':
-// 		case '@':
-// 		case '`':
-// 			return false;
-// 	}
-//
-// 	return true;
-// }
 
 void* tree_sitter_fennel_external_scanner_create(
 	void
