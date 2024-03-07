@@ -156,20 +156,20 @@
         "type": "CHOICE",
         "members": [
           {
-            "type": "STRING",
-            "value": "#"
+            "type": "SYMBOL",
+            "name": "_hashfn"
           },
           {
-            "type": "STRING",
-            "value": "'"
+            "type": "SYMBOL",
+            "name": "_quote"
           },
           {
-            "type": "STRING",
-            "value": "`"
+            "type": "SYMBOL",
+            "name": "_quasiquote"
           },
           {
-            "type": "STRING",
-            "value": ","
+            "type": "SYMBOL",
+            "name": "_unquote"
           }
         ]
       }
@@ -932,20 +932,20 @@
   "precedences": [],
   "externals": [
     {
-      "type": "STRING",
-      "value": "#"
+      "type": "SYMBOL",
+      "name": "_hashfn"
     },
     {
-      "type": "STRING",
-      "value": "'"
+      "type": "SYMBOL",
+      "name": "_quote"
     },
     {
-      "type": "STRING",
-      "value": "`"
+      "type": "SYMBOL",
+      "name": "_quasiquote"
     },
     {
-      "type": "STRING",
-      "value": ","
+      "type": "SYMBOL",
+      "name": "_unquote"
     }
   ],
   "inline": [],
