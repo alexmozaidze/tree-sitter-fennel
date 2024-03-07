@@ -6,9 +6,9 @@ const { pair, get_literal, apply_literal_recur } = require('./utils.js');
 // };
 
 const PREC = {
-	OVERRIDE_SYMBOL: 2,
+	OVERRIDE_SYMBOL: 1,
 	READER_MACRO: 10,
-	STRING: 1,
+	STRING: 2,
 	MULTI_SYMBOL: 3,
 	MULTI_SYMBOL_METHOD: 4,
 	DOT_OVERRIDE_SYMBOL: -1,
@@ -40,6 +40,10 @@ module.exports = grammar({
 		'\'',
 		'`',
 		',',
+		$.__reader_macro_count,
+
+		$._colon_string_colon,
+		$._colon_string_content,
 	],
 
 	conflicts: $ => [
@@ -66,7 +70,7 @@ module.exports = grammar({
 
 		_sexp: $ => choice(
 			$._special_override_symbols,
-			$.reader_macro,
+			$._reader_macro,
 			$.symbol,
 			$.multi_symbol,
 			// $._form,
@@ -78,17 +82,14 @@ module.exports = grammar({
 
 		_special_override_symbols: $ => alias(choice(...SPECIAL_OVERRIDE_SYMBOLS), $.symbol),
 
-		_reader_macro_char: $ => prec(PREC.READER_MACRO, choice(
-			'#',
-			'\'',
-			'`',
-			',',
-		)),
-
-		reader_macro: $ => prec(PREC.READER_MACRO, seq(
-			field('macro', $._reader_macro_char),
+		hashfn_reader_macro: $ => prec(PREC.READER_MACRO, seq(
+			field('macro', '#'),
 			field('expression', $._sexp),
 		)),
+
+		_reader_macro: $ => choice(
+			$.hashfn_reader_macro,
+		),
 
 		_list_content: $ => seq(
 			field('call', choice(
@@ -144,12 +145,12 @@ module.exports = grammar({
 		),
 
 		nil: $ => 'nil',
-		boolean: $ => token(choice('true', 'false')),
+		boolean: $ => choice('true', 'false'),
 
-		_colon_string: $ => prec.dynamic(PREC.STRING, seq(
-			field('open', ':'),
-			field('content', alias(/[^(){}\[\]"'~;,@`\s]+/, $.string_content)),
-		)),
+		_colon_string: $ =>  seq(
+			field('open', alias($._colon_string_colon, ':')),
+			field('content', alias($._colon_string_content, $.string_content)),
+		),
 
 		_double_quote_string: $ => seq(
 			field('open', '"'),

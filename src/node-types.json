@@ -1,5 +1,72 @@
 [
   {
+    "type": "boolean",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "hashfn_reader_macro",
+    "named": true,
+    "fields": {
+      "expression": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "boolean",
+            "named": true
+          },
+          {
+            "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "multi_symbol",
+            "named": true
+          },
+          {
+            "type": "nil",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "sequence",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "symbol",
+            "named": true
+          },
+          {
+            "type": "table",
+            "named": true
+          }
+        ]
+      },
+      "macro": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "#",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "list",
     "named": true,
     "fields": {
@@ -9,6 +76,10 @@
         "types": [
           {
             "type": "boolean",
+            "named": true
+          },
+          {
+            "type": "hashfn_reader_macro",
             "named": true
           },
           {
@@ -29,10 +100,6 @@
           },
           {
             "type": "number",
-            "named": true
-          },
-          {
-            "type": "reader_macro",
             "named": true
           },
           {
@@ -72,6 +139,10 @@
             "named": true
           },
           {
+            "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
             "type": "list",
             "named": true
           },
@@ -85,10 +156,6 @@
           },
           {
             "type": "number",
-            "named": true
-          },
-          {
-            "type": "reader_macro",
             "named": true
           },
           {
@@ -190,6 +257,10 @@
           "named": true
         },
         {
+          "type": "hashfn_reader_macro",
+          "named": true
+        },
+        {
           "type": "list",
           "named": true
         },
@@ -203,10 +274,6 @@
         },
         {
           "type": "number",
-          "named": true
-        },
-        {
-          "type": "reader_macro",
           "named": true
         },
         {
@@ -233,80 +300,6 @@
     }
   },
   {
-    "type": "reader_macro",
-    "named": true,
-    "fields": {
-      "expression": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "boolean",
-            "named": true
-          },
-          {
-            "type": "list",
-            "named": true
-          },
-          {
-            "type": "multi_symbol",
-            "named": true
-          },
-          {
-            "type": "nil",
-            "named": true
-          },
-          {
-            "type": "number",
-            "named": true
-          },
-          {
-            "type": "reader_macro",
-            "named": true
-          },
-          {
-            "type": "sequence",
-            "named": true
-          },
-          {
-            "type": "string",
-            "named": true
-          },
-          {
-            "type": "symbol",
-            "named": true
-          },
-          {
-            "type": "table",
-            "named": true
-          }
-        ]
-      },
-      "macro": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "#",
-            "named": false
-          },
-          {
-            "type": "'",
-            "named": false
-          },
-          {
-            "type": ",",
-            "named": false
-          },
-          {
-            "type": "`",
-            "named": false
-          }
-        ]
-      }
-    }
-  },
-  {
     "type": "sequence",
     "named": true,
     "fields": {
@@ -329,6 +322,10 @@
             "named": true
           },
           {
+            "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
             "type": "list",
             "named": true
           },
@@ -342,10 +339,6 @@
           },
           {
             "type": "number",
-            "named": true
-          },
-          {
-            "type": "reader_macro",
             "named": true
           },
           {
@@ -456,6 +449,10 @@
             "named": true
           },
           {
+            "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
             "type": "list",
             "named": true
           },
@@ -469,10 +466,6 @@
           },
           {
             "type": "number",
-            "named": true
-          },
-          {
-            "type": "reader_macro",
             "named": true
           },
           {
@@ -512,6 +505,10 @@
             "named": true
           },
           {
+            "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
             "type": "list",
             "named": true
           },
@@ -525,10 +522,6 @@
           },
           {
             "type": "number",
-            "named": true
-          },
-          {
-            "type": "reader_macro",
             "named": true
           },
           {
@@ -560,19 +553,11 @@
     "named": false
   },
   {
-    "type": "'",
-    "named": false
-  },
-  {
     "type": "(",
     "named": false
   },
   {
     "type": ")",
-    "named": false
-  },
-  {
-    "type": ",",
     "named": false
   },
   {
@@ -592,20 +577,16 @@
     "named": false
   },
   {
-    "type": "`",
-    "named": false
-  },
-  {
-    "type": "boolean",
-    "named": true
-  },
-  {
     "type": "comment",
     "named": true
   },
   {
     "type": "escape_sequence",
     "named": true
+  },
+  {
+    "type": "false",
+    "named": false
   },
   {
     "type": "nil",
@@ -626,6 +607,10 @@
   {
     "type": "symbol_fragment",
     "named": true
+  },
+  {
+    "type": "true",
+    "named": false
   },
   {
     "type": "{",

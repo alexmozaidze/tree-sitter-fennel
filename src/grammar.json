@@ -47,7 +47,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "reader_macro"
+          "name": "_reader_macro"
         },
         {
           "type": "SYMBOL",
@@ -82,7 +82,7 @@
         "members": [
           {
             "type": "PREC_DYNAMIC",
-            "value": 2,
+            "value": 1,
             "content": {
               "type": "STRING",
               "value": "#"
@@ -90,7 +90,7 @@
           },
           {
             "type": "PREC_DYNAMIC",
-            "value": 2,
+            "value": 1,
             "content": {
               "type": "STRING",
               "value": "?."
@@ -98,7 +98,7 @@
           },
           {
             "type": "PREC_DYNAMIC",
-            "value": 2,
+            "value": 1,
             "content": {
               "type": "STRING",
               "value": "~="
@@ -106,7 +106,7 @@
           },
           {
             "type": "PREC_DYNAMIC",
-            "value": 2,
+            "value": 1,
             "content": {
               "type": "STRING",
               "value": ":"
@@ -114,7 +114,7 @@
           },
           {
             "type": "PREC_DYNAMIC",
-            "value": 2,
+            "value": 1,
             "content": {
               "type": "STRING",
               "value": "$..."
@@ -122,7 +122,7 @@
           },
           {
             "type": "PREC_DYNAMIC",
-            "value": 2,
+            "value": 1,
             "content": {
               "type": "STRING",
               "value": "..."
@@ -130,7 +130,7 @@
           },
           {
             "type": "PREC_DYNAMIC",
-            "value": 2,
+            "value": 1,
             "content": {
               "type": "STRING",
               "value": ".."
@@ -149,32 +149,7 @@
       "named": true,
       "value": "symbol"
     },
-    "_reader_macro_char": {
-      "type": "PREC",
-      "value": 10,
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "#"
-          },
-          {
-            "type": "STRING",
-            "value": "'"
-          },
-          {
-            "type": "STRING",
-            "value": "`"
-          },
-          {
-            "type": "STRING",
-            "value": ","
-          }
-        ]
-      }
-    },
-    "reader_macro": {
+    "hashfn_reader_macro": {
       "type": "PREC",
       "value": 10,
       "content": {
@@ -184,8 +159,8 @@
             "type": "FIELD",
             "name": "macro",
             "content": {
-              "type": "SYMBOL",
-              "name": "_reader_macro_char"
+              "type": "STRING",
+              "value": "#"
             }
           },
           {
@@ -198,6 +173,15 @@
           }
         ]
       }
+    },
+    "_reader_macro": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "hashfn_reader_macro"
+        }
+      ]
     },
     "_list_content": {
       "type": "SEQ",
@@ -396,50 +380,48 @@
       "value": "nil"
     },
     "boolean": {
-      "type": "TOKEN",
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "true"
-          },
-          {
-            "type": "STRING",
-            "value": "false"
-          }
-        ]
-      }
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "true"
+        },
+        {
+          "type": "STRING",
+          "value": "false"
+        }
+      ]
     },
     "_colon_string": {
-      "type": "PREC_DYNAMIC",
-      "value": 1,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "FIELD",
-            "name": "open",
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "open",
+          "content": {
+            "type": "ALIAS",
             "content": {
-              "type": "STRING",
-              "value": ":"
-            }
-          },
-          {
-            "type": "FIELD",
-            "name": "content",
-            "content": {
-              "type": "ALIAS",
-              "content": {
-                "type": "PATTERN",
-                "value": "[^(){}\\[\\]\"'~;,@`\\s]+"
-              },
-              "named": true,
-              "value": "string_content"
-            }
+              "type": "SYMBOL",
+              "name": "_colon_string_colon"
+            },
+            "named": false,
+            "value": ":"
           }
-        ]
-      }
+        },
+        {
+          "type": "FIELD",
+          "name": "content",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_colon_string_content"
+            },
+            "named": true,
+            "value": "string_content"
+          }
+        }
+      ]
     },
     "_double_quote_string": {
       "type": "SEQ",
@@ -464,7 +446,7 @@
                 "members": [
                   {
                     "type": "PREC",
-                    "value": 1,
+                    "value": 2,
                     "content": {
                       "type": "PATTERN",
                       "value": "[^\"\\\\]+"
@@ -943,6 +925,18 @@
     {
       "type": "STRING",
       "value": ","
+    },
+    {
+      "type": "SYMBOL",
+      "name": "__reader_macro_count"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_colon_string_colon"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_colon_string_content"
     }
   ],
   "inline": [],
