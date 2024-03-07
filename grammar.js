@@ -36,10 +36,11 @@ module.exports = grammar({
 	],
 
 	externals: $ => [
-		'#',
-		'\'',
-		'`',
-		',',
+		$._hashfn_reader_macro_char,
+		$._quote_reader_macro_char,
+		$._quasi_quote_reader_macro_char,
+		$._unquote_reader_macro_char,
+
 		$.__reader_macro_count,
 
 		$._colon_string_colon,
@@ -83,12 +84,27 @@ module.exports = grammar({
 		_special_override_symbols: $ => alias(choice(...SPECIAL_OVERRIDE_SYMBOLS), $.symbol),
 
 		hashfn_reader_macro: $ => prec(PREC.READER_MACRO, seq(
-			field('macro', '#'),
+			field('macro', alias($._hashfn_reader_macro_char, '#')),
+			field('expression', $._sexp),
+		)),
+		quote_reader_macro: $ => prec(PREC.READER_MACRO, seq(
+			field('macro', alias($._quote_reader_macro_char, '\'')),
+			field('expression', $._sexp),
+		)),
+		quasi_quote_reader_macro: $ => prec(PREC.READER_MACRO, seq(
+			field('macro', alias($._quasi_quote_reader_macro_char, '`')),
+			field('expression', $._sexp),
+		)),
+		unquote_reader_macro: $ => prec(PREC.READER_MACRO, seq(
+			field('macro', alias($._unquote_reader_macro_char, ',')),
 			field('expression', $._sexp),
 		)),
 
 		_reader_macro: $ => choice(
 			$.hashfn_reader_macro,
+			$.quote_reader_macro,
+			$.quasi_quote_reader_macro,
+			$.unquote_reader_macro,
 		),
 
 		_list_content: $ => seq(

@@ -224,7 +224,7 @@ tables
            call: (symbol)
            item: (number)
            item: (number))
-    value: (reader_macro
+    value: (hashfn_reader_macro
              expression: (nil))
     key: (string
            content: (string_content))
@@ -262,7 +262,7 @@ sequences / sequential tables
     (string (string_content))
     (symbol)
     (symbol)
-    (reader_macro
+    (hashfn_reader_macro
       (boolean))))
 
 ===
@@ -315,40 +315,40 @@ reader macros
 ---
 
 (program
-  (reader_macro
+  (quote_reader_macro
     expression: (sequence))
-  (reader_macro
+  (quasi_quote_reader_macro
     expression: (number))
-  (reader_macro
+  (quasi_quote_reader_macro
     expression: (list
                   call: (symbol)
-                  item: (reader_macro
+                  item: (unquote_reader_macro
                           expression: (symbol))
-                  item: (reader_macro
+                  item: (unquote_reader_macro
                           expression: (symbol))))
-  (reader_macro
+  (quasi_quote_reader_macro
     expression: (list
                   call: (string)))
-  (reader_macro
+  (quote_reader_macro
     expression: (list
                   call: (symbol)))
-  (reader_macro
+  (hashfn_reader_macro
     expression: (list
                   call: (symbol)
                   item: (symbol)
                   item: (symbol)))
-  (reader_macro
+  (hashfn_reader_macro
     expression: (symbol))
-  (reader_macro
+  (hashfn_reader_macro
     expression: (sequence
                   item: (symbol)
                   item: (symbol)
                   item: (symbol)))
-  (reader_macro
+  (hashfn_reader_macro
     expression: (symbol))
-  (reader_macro
+  (hashfn_reader_macro
     expression: (symbol))
-  (reader_macro
+  (hashfn_reader_macro
     expression: (table
                   key: (symbol)
                   value: (symbol)

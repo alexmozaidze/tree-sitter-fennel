@@ -37,6 +37,14 @@
             "named": true
           },
           {
+            "type": "quasi_quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "quote_reader_macro",
+            "named": true
+          },
+          {
             "type": "sequence",
             "named": true
           },
@@ -50,6 +58,10 @@
           },
           {
             "type": "table",
+            "named": true
+          },
+          {
+            "type": "unquote_reader_macro",
             "named": true
           }
         ]
@@ -103,6 +115,14 @@
             "named": true
           },
           {
+            "type": "quasi_quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "quote_reader_macro",
+            "named": true
+          },
+          {
             "type": "sequence",
             "named": true
           },
@@ -116,6 +136,10 @@
           },
           {
             "type": "table",
+            "named": true
+          },
+          {
+            "type": "unquote_reader_macro",
             "named": true
           }
         ]
@@ -159,6 +183,14 @@
             "named": true
           },
           {
+            "type": "quasi_quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "quote_reader_macro",
+            "named": true
+          },
+          {
             "type": "sequence",
             "named": true
           },
@@ -172,6 +204,10 @@
           },
           {
             "type": "table",
+            "named": true
+          },
+          {
+            "type": "unquote_reader_macro",
             "named": true
           }
         ]
@@ -277,6 +313,14 @@
           "named": true
         },
         {
+          "type": "quasi_quote_reader_macro",
+          "named": true
+        },
+        {
+          "type": "quote_reader_macro",
+          "named": true
+        },
+        {
           "type": "sequence",
           "named": true
         },
@@ -295,8 +339,160 @@
         {
           "type": "table",
           "named": true
+        },
+        {
+          "type": "unquote_reader_macro",
+          "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "quasi_quote_reader_macro",
+    "named": true,
+    "fields": {
+      "expression": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "boolean",
+            "named": true
+          },
+          {
+            "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "multi_symbol",
+            "named": true
+          },
+          {
+            "type": "nil",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "quasi_quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "sequence",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "symbol",
+            "named": true
+          },
+          {
+            "type": "table",
+            "named": true
+          },
+          {
+            "type": "unquote_reader_macro",
+            "named": true
+          }
+        ]
+      },
+      "macro": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "`",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "quote_reader_macro",
+    "named": true,
+    "fields": {
+      "expression": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "boolean",
+            "named": true
+          },
+          {
+            "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "multi_symbol",
+            "named": true
+          },
+          {
+            "type": "nil",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "quasi_quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "sequence",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "symbol",
+            "named": true
+          },
+          {
+            "type": "table",
+            "named": true
+          },
+          {
+            "type": "unquote_reader_macro",
+            "named": true
+          }
+        ]
+      },
+      "macro": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "'",
+            "named": false
+          }
+        ]
+      }
     }
   },
   {
@@ -342,6 +538,14 @@
             "named": true
           },
           {
+            "type": "quasi_quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "quote_reader_macro",
+            "named": true
+          },
+          {
             "type": "sequence",
             "named": true
           },
@@ -355,6 +559,10 @@
           },
           {
             "type": "table",
+            "named": true
+          },
+          {
+            "type": "unquote_reader_macro",
             "named": true
           }
         ]
@@ -469,6 +677,14 @@
             "named": true
           },
           {
+            "type": "quasi_quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "quote_reader_macro",
+            "named": true
+          },
+          {
             "type": "sequence",
             "named": true
           },
@@ -482,6 +698,10 @@
           },
           {
             "type": "table",
+            "named": true
+          },
+          {
+            "type": "unquote_reader_macro",
             "named": true
           }
         ]
@@ -525,6 +745,14 @@
             "named": true
           },
           {
+            "type": "quasi_quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "quote_reader_macro",
+            "named": true
+          },
+          {
             "type": "sequence",
             "named": true
           },
@@ -539,6 +767,84 @@
           {
             "type": "table",
             "named": true
+          },
+          {
+            "type": "unquote_reader_macro",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "unquote_reader_macro",
+    "named": true,
+    "fields": {
+      "expression": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "boolean",
+            "named": true
+          },
+          {
+            "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "multi_symbol",
+            "named": true
+          },
+          {
+            "type": "nil",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "quasi_quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "sequence",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "symbol",
+            "named": true
+          },
+          {
+            "type": "table",
+            "named": true
+          },
+          {
+            "type": "unquote_reader_macro",
+            "named": true
+          }
+        ]
+      },
+      "macro": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": ",",
+            "named": false
           }
         ]
       }
@@ -553,11 +859,19 @@
     "named": false
   },
   {
+    "type": "'",
+    "named": false
+  },
+  {
     "type": "(",
     "named": false
   },
   {
     "type": ")",
+    "named": false
+  },
+  {
+    "type": ",",
     "named": false
   },
   {
@@ -574,6 +888,10 @@
   },
   {
     "type": "]",
+    "named": false
+  },
+  {
+    "type": "`",
     "named": false
   },
   {

@@ -159,8 +159,103 @@
             "type": "FIELD",
             "name": "macro",
             "content": {
-              "type": "STRING",
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_hashfn_reader_macro_char"
+              },
+              "named": false,
               "value": "#"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "expression",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_sexp"
+            }
+          }
+        ]
+      }
+    },
+    "quote_reader_macro": {
+      "type": "PREC",
+      "value": 10,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "macro",
+            "content": {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_quote_reader_macro_char"
+              },
+              "named": false,
+              "value": "'"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "expression",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_sexp"
+            }
+          }
+        ]
+      }
+    },
+    "quasi_quote_reader_macro": {
+      "type": "PREC",
+      "value": 10,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "macro",
+            "content": {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_quasi_quote_reader_macro_char"
+              },
+              "named": false,
+              "value": "`"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "expression",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_sexp"
+            }
+          }
+        ]
+      }
+    },
+    "unquote_reader_macro": {
+      "type": "PREC",
+      "value": 10,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "macro",
+            "content": {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_unquote_reader_macro_char"
+              },
+              "named": false,
+              "value": ","
             }
           },
           {
@@ -180,6 +275,18 @@
         {
           "type": "SYMBOL",
           "name": "hashfn_reader_macro"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "quote_reader_macro"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "quasi_quote_reader_macro"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "unquote_reader_macro"
         }
       ]
     },
@@ -911,20 +1018,20 @@
   "precedences": [],
   "externals": [
     {
-      "type": "STRING",
-      "value": "#"
+      "type": "SYMBOL",
+      "name": "_hashfn_reader_macro_char"
     },
     {
-      "type": "STRING",
-      "value": "'"
+      "type": "SYMBOL",
+      "name": "_quote_reader_macro_char"
     },
     {
-      "type": "STRING",
-      "value": "`"
+      "type": "SYMBOL",
+      "name": "_quasi_quote_reader_macro_char"
     },
     {
-      "type": "STRING",
-      "value": ","
+      "type": "SYMBOL",
+      "name": "_unquote_reader_macro_char"
     },
     {
       "type": "SYMBOL",
