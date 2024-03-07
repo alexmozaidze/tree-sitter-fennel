@@ -1,23 +1,26 @@
 #include "tree_sitter/parser.h"
+// TODO: Use TS alloc
+// #include <tree_sitter/alloc.h>
 #include <stdint.h>
 #include <wctype.h>
 #include <stdio.h>
 
 enum TokenType {
+	// Reader Macros
 	TK_HASHFN,
 	TK_QUOTE,
 	TK_QUASI_QUOTE,
 	TK_UNQUOTE,
 	TK_READER_MACRO_COUNT,
 
+	// Colon String colon
 	TK_COLON_STRING_COLON,
-	TK_COLON_STRING_CONTENT,
 
 	TK_COUNT,
 };
 
 bool in_error_recovery(const bool *valid_symbols) {
-	for (int i = 0; i < TK_COUNT; i++) {
+	for (int i = 0; i <= TK_COUNT; i++) {
 		if (!valid_symbols[i]) {
 			return false;
 		}
@@ -61,6 +64,33 @@ bool is_valid_colon_string_char(uint32_t ch) {
 	return true;
 }
 
+bool is_valid_symbol_char(uint32_t ch) {
+	if (iswspace(ch)) {
+		return false;
+	}
+
+	switch (ch) {
+		case '(':
+		case ')':
+		case '{':
+		case '}':
+		case '[':
+		case ']':
+		case '"':
+		case '\'':
+		case '~':
+		case ';':
+		case ',':
+		case '@':
+		case '`':
+		case '.':
+		case ':':
+			return false;
+	}
+
+	return true;
+}
+
 void* tree_sitter_fennel_external_scanner_create(
 	void
 )
@@ -71,12 +101,8 @@ void* tree_sitter_fennel_external_scanner_create(
 void tree_sitter_fennel_external_scanner_destroy(
 	void* payload
 )
-{}
-
-void tree_sitter_fennel_external_scanner_reset(
-	void* payload
-)
-{}
+{
+}
 
 unsigned tree_sitter_fennel_external_scanner_serialize(
 	void* payload,
@@ -91,7 +117,8 @@ void tree_sitter_fennel_external_scanner_deserialize(
 	const char *buffer,
 	unsigned length
 )
-{}
+{
+}
 
 bool tree_sitter_fennel_external_scanner_scan(
 	void *payload,
@@ -122,6 +149,8 @@ bool tree_sitter_fennel_external_scanner_scan(
 		if (!iswspace(lexer->lookahead) && !lexer->eof(lexer)) {
 			lexer->result_symbol = reader_macro;
 			return true;
+		} else {
+			return false;
 		}
 	}
 
@@ -132,15 +161,6 @@ bool tree_sitter_fennel_external_scanner_scan(
 			lexer->result_symbol = TK_COLON_STRING_COLON;
 			return true;
 		}
-	}
-
-	if (valid_symbols[TK_COLON_STRING_CONTENT]) {
-		while (is_valid_colon_string_char(lexer->lookahead) && !lexer->eof(lexer)) {
-			lexer->advance(lexer, false);
-		}
-
-		lexer->result_symbol = TK_COLON_STRING_CONTENT;
-		return true;
 	}
 
 	return false;

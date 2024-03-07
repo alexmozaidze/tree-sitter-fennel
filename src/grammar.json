@@ -59,6 +59,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "multi_symbol_method"
+        },
+        {
+          "type": "SYMBOL",
           "name": "list"
         },
         {
@@ -78,73 +82,77 @@
     "_special_override_symbols": {
       "type": "ALIAS",
       "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "PREC_DYNAMIC",
-            "value": 1,
-            "content": {
-              "type": "STRING",
-              "value": "#"
+        "type": "PREC_DYNAMIC",
+        "value": 1,
+        "content": {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "PREC_DYNAMIC",
+              "value": 1,
+              "content": {
+                "type": "STRING",
+                "value": "#"
+              }
+            },
+            {
+              "type": "PREC_DYNAMIC",
+              "value": 1,
+              "content": {
+                "type": "STRING",
+                "value": "?."
+              }
+            },
+            {
+              "type": "PREC_DYNAMIC",
+              "value": 1,
+              "content": {
+                "type": "STRING",
+                "value": "~="
+              }
+            },
+            {
+              "type": "PREC_DYNAMIC",
+              "value": 1,
+              "content": {
+                "type": "STRING",
+                "value": ":"
+              }
+            },
+            {
+              "type": "PREC_DYNAMIC",
+              "value": 1,
+              "content": {
+                "type": "STRING",
+                "value": "$..."
+              }
+            },
+            {
+              "type": "PREC_DYNAMIC",
+              "value": 1,
+              "content": {
+                "type": "STRING",
+                "value": "..."
+              }
+            },
+            {
+              "type": "PREC_DYNAMIC",
+              "value": 1,
+              "content": {
+                "type": "STRING",
+                "value": ".."
+              }
+            },
+            {
+              "type": "PREC_DYNAMIC",
+              "value": -1,
+              "content": {
+                "type": "STRING",
+                "value": "."
+              }
             }
-          },
-          {
-            "type": "PREC_DYNAMIC",
-            "value": 1,
-            "content": {
-              "type": "STRING",
-              "value": "?."
-            }
-          },
-          {
-            "type": "PREC_DYNAMIC",
-            "value": 1,
-            "content": {
-              "type": "STRING",
-              "value": "~="
-            }
-          },
-          {
-            "type": "PREC_DYNAMIC",
-            "value": 1,
-            "content": {
-              "type": "STRING",
-              "value": ":"
-            }
-          },
-          {
-            "type": "PREC_DYNAMIC",
-            "value": 1,
-            "content": {
-              "type": "STRING",
-              "value": "$..."
-            }
-          },
-          {
-            "type": "PREC_DYNAMIC",
-            "value": 1,
-            "content": {
-              "type": "STRING",
-              "value": "..."
-            }
-          },
-          {
-            "type": "PREC_DYNAMIC",
-            "value": 1,
-            "content": {
-              "type": "STRING",
-              "value": ".."
-            }
-          },
-          {
-            "type": "PREC_DYNAMIC",
-            "value": -1,
-            "content": {
-              "type": "STRING",
-              "value": "."
-            }
-          }
-        ]
+          ]
+        }
       },
       "named": true,
       "value": "symbol"
@@ -297,17 +305,8 @@
           "type": "FIELD",
           "name": "call",
           "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "multi_symbol_method"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_sexp"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "_sexp"
           }
         },
         {
@@ -521,8 +520,8 @@
           "content": {
             "type": "ALIAS",
             "content": {
-              "type": "SYMBOL",
-              "name": "_colon_string_content"
+              "type": "PATTERN",
+              "value": "[^(){}\\[\\]\"'~;,@`\\s]+"
             },
             "named": true,
             "value": "string_content"
@@ -899,56 +898,53 @@
       "type": "PREC_DYNAMIC",
       "value": 3,
       "content": {
-        "type": "PREC_RIGHT",
-        "value": 0,
-        "content": {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "FIELD",
-              "name": "base",
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "base",
+            "content": {
+              "type": "ALIAS",
               "content": {
-                "type": "ALIAS",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "symbol"
-                },
-                "named": true,
-                "value": "symbol_fragment"
-              }
-            },
-            {
-              "type": "REPEAT1",
-              "content": {
-                "type": "SEQ",
-                "members": [
-                  {
+                "type": "SYMBOL",
+                "name": "symbol"
+              },
+              "named": true,
+              "value": "symbol_fragment"
+            }
+          },
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "IMMEDIATE_TOKEN",
+                  "content": {
                     "type": "STRING",
                     "value": "."
-                  },
-                  {
-                    "type": "FIELD",
-                    "name": "member",
+                  }
+                },
+                {
+                  "type": "FIELD",
+                  "name": "member",
+                  "content": {
+                    "type": "IMMEDIATE_TOKEN",
                     "content": {
-                      "type": "ALIAS",
-                      "content": {
-                        "type": "SYMBOL",
-                        "name": "symbol"
-                      },
-                      "named": true,
-                      "value": "symbol_fragment"
+                      "type": "PATTERN",
+                      "value": "[^#(){}\\[\\]\"'~;,@`.:\\s][^(){}\\[\\]\"'~;,@`.:\\s]*"
                     }
                   }
-                ]
-              }
+                }
+              ]
             }
-          ]
-        }
+          }
+        ]
       }
     },
     "multi_symbol_method": {
-      "type": "PREC",
-      "value": 4,
+      "type": "PREC_RIGHT",
+      "value": 0,
       "content": {
         "type": "SEQ",
         "members": [
@@ -975,20 +971,22 @@
             }
           },
           {
-            "type": "STRING",
-            "value": ":"
+            "type": "PREC",
+            "value": 32,
+            "content": {
+              "type": "IMMEDIATE_TOKEN",
+              "content": {
+                "type": "STRING",
+                "value": ":"
+              }
+            }
           },
           {
             "type": "FIELD",
             "name": "method",
             "content": {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "symbol"
-              },
-              "named": true,
-              "value": "symbol_fragment"
+              "type": "SYMBOL",
+              "name": "_symbol_fragment_immediate"
             }
           }
         ]
@@ -997,6 +995,18 @@
     "symbol": {
       "type": "PATTERN",
       "value": "[^#(){}\\[\\]\"'~;,@`.:\\s][^(){}\\[\\]\"'~;,@`.:\\s]*"
+    },
+    "_symbol_fragment_immediate": {
+      "type": "ALIAS",
+      "content": {
+        "type": "IMMEDIATE_TOKEN",
+        "content": {
+          "type": "PATTERN",
+          "value": "[^#(){}\\[\\]\"'~;,@`.:\\s][^(){}\\[\\]\"'~;,@`.:\\s]*"
+        }
+      },
+      "named": true,
+      "value": "symbol_fragment"
     }
   },
   "extras": [
@@ -1009,12 +1019,7 @@
       "name": "comment"
     }
   ],
-  "conflicts": [
-    [
-      "multi_symbol",
-      "_sexp"
-    ]
-  ],
+  "conflicts": [],
   "precedences": [],
   "externals": [
     {
@@ -1043,10 +1048,9 @@
     },
     {
       "type": "SYMBOL",
-      "name": "_colon_string_content"
+      "name": "_multi_symbol_method_colon"
     }
   ],
   "inline": [],
   "supertypes": []
 }
-

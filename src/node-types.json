@@ -29,6 +29,10 @@
             "named": true
           },
           {
+            "type": "multi_symbol_method",
+            "named": true
+          },
+          {
             "type": "nil",
             "named": true
           },
@@ -175,6 +179,10 @@
             "named": true
           },
           {
+            "type": "multi_symbol_method",
+            "named": true
+          },
+          {
             "type": "nil",
             "named": true
           },
@@ -237,16 +245,6 @@
             "named": true
           }
         ]
-      },
-      "member": {
-        "multiple": true,
-        "required": true,
-        "types": [
-          {
-            "type": "symbol_fragment",
-            "named": true
-          }
-        ]
       }
     }
   },
@@ -302,6 +300,10 @@
         },
         {
           "type": "multi_symbol",
+          "named": true
+        },
+        {
+          "type": "multi_symbol_method",
           "named": true
         },
         {
@@ -369,6 +371,10 @@
           },
           {
             "type": "multi_symbol",
+            "named": true
+          },
+          {
+            "type": "multi_symbol_method",
             "named": true
           },
           {
@@ -443,6 +449,10 @@
           },
           {
             "type": "multi_symbol",
+            "named": true
+          },
+          {
+            "type": "multi_symbol_method",
             "named": true
           },
           {
@@ -527,6 +537,10 @@
           },
           {
             "type": "multi_symbol",
+            "named": true
+          },
+          {
+            "type": "multi_symbol_method",
             "named": true
           },
           {
@@ -669,6 +683,10 @@
             "named": true
           },
           {
+            "type": "multi_symbol_method",
+            "named": true
+          },
+          {
             "type": "nil",
             "named": true
           },
@@ -737,6 +755,10 @@
             "named": true
           },
           {
+            "type": "multi_symbol_method",
+            "named": true
+          },
+          {
             "type": "nil",
             "named": true
           },
@@ -798,6 +820,10 @@
           },
           {
             "type": "multi_symbol",
+            "named": true
+          },
+          {
+            "type": "multi_symbol_method",
             "named": true
           },
           {

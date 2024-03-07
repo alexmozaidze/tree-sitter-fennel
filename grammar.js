@@ -27,6 +27,8 @@ const SPECIAL_OVERRIDE_SYMBOLS = [
 	prec.dynamic(PREC.DOT_OVERRIDE_SYMBOL, '.'),
 ].map(symbol => typeof symbol === 'string' ? prec.dynamic(PREC.OVERRIDE_SYMBOL, symbol) : symbol);
 
+const SYMBOL = /[^#(){}\[\]"'~;,@`.:\s][^(){}\[\]"'~;,@`.:\s]*/;
+
 module.exports = grammar({
 	name: 'fennel',
 
@@ -44,11 +46,10 @@ module.exports = grammar({
 		$.__reader_macro_count,
 
 		$._colon_string_colon,
-		$._colon_string_content,
+		$._multi_symbol_method_colon,
 	],
 
 	conflicts: $ => [
-		[$.multi_symbol, $._sexp],
 		// Form conflicts
 		// [$._let_vars_body, $.sequence],
 		// [$.let_form],
@@ -74,6 +75,7 @@ module.exports = grammar({
 			$._reader_macro,
 			$.symbol,
 			$.multi_symbol,
+			$.multi_symbol_method,
 			// $._form,
 			$.list,
 			$.sequence,
@@ -81,7 +83,7 @@ module.exports = grammar({
 			$._literal,
 		),
 
-		_special_override_symbols: $ => alias(choice(...SPECIAL_OVERRIDE_SYMBOLS), $.symbol),
+		_special_override_symbols: $ => alias(prec.dynamic(PREC.OVERRIDE_SYMBOL, choice(...SPECIAL_OVERRIDE_SYMBOLS)), $.symbol),
 
 		hashfn_reader_macro: $ => prec(PREC.READER_MACRO, seq(
 			field('macro', alias($._hashfn_reader_macro_char, '#')),
@@ -108,10 +110,7 @@ module.exports = grammar({
 		),
 
 		_list_content: $ => seq(
-			field('call', choice(
-				$.multi_symbol_method,
-				$._sexp,
-			)),
+			field('call', $._sexp),
 			repeat(field('item', $._sexp)),
 		),
 
@@ -163,9 +162,12 @@ module.exports = grammar({
 		nil: $ => 'nil',
 		boolean: $ => choice('true', 'false'),
 
+		// $._colon_string_colon is only ever valid when it is followed by a valid
+		// colon string character, which means we don't have to specify token.immediate
+		// to the content regex.
 		_colon_string: $ =>  seq(
 			field('open', alias($._colon_string_colon, ':')),
-			field('content', alias($._colon_string_content, $.string_content)),
+			field('content', alias(/[^(){}\[\]"'~;,@`\s]+/, $.string_content)),
 		),
 
 		_double_quote_string: $ => seq(
@@ -226,23 +228,26 @@ module.exports = grammar({
 		},
 
 		// NOTE: Due to special override symbol `.` we need dynamic precedence here
-		multi_symbol: $ => prec.dynamic(PREC.MULTI_SYMBOL, prec.right(seq(
+		multi_symbol: $ => prec.dynamic(PREC.MULTI_SYMBOL, seq(
 			field('base', alias($.symbol, $.symbol_fragment)),
 			repeat1(seq(
-				'.',
-				field('member', alias($.symbol, $.symbol_fragment) ),
+				token.immediate('.'),
+				field('member', token.immediate(SYMBOL)),
 			)),
-		))),
+		)),
 
-		multi_symbol_method: $ => prec(PREC.MULTI_SYMBOL_METHOD, seq(
+		multi_symbol_method: $ => prec.right(seq(
 			field('base', choice(
 				alias($.symbol, $.symbol_fragment),
 				$.multi_symbol,
 			)),
-			':',
-			field('method', alias($.symbol, $.symbol_fragment)),
+			// alias($._colon_string_colon, ':'),
+			prec(32, token.immediate(':')),
+			field('method', $._symbol_fragment_immediate),
 		)),
 
-		symbol: $ => /[^#(){}\[\]"'~;,@`.:\s][^(){}\[\]"'~;,@`.:\s]*/,
+		symbol: $ => SYMBOL,
+		// NOTE: Immediate symbols are mainly used as symbol fragments
+		_symbol_fragment_immediate: $ => alias(token.immediate(SYMBOL), $.symbol_fragment),
 	},
 });
