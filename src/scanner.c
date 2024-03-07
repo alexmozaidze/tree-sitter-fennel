@@ -1,6 +1,7 @@
 #include "tree_sitter/parser.h"
 #include <stdint.h>
 #include <wctype.h>
+#include <stdio.h>
 
 enum TokenType {
 	// Reader Macros
@@ -18,12 +19,12 @@ static const uint32_t TOKEN_CHARS[] = {
 };
 static const int TOKEN_CHARS_LENGTH = sizeof(TOKEN_CHARS) / sizeof(uint32_t);
 
-bool is_reader_macro(enum TokenType tk) {
-	switch (tk) {
-		case TK_HASHFN:
-		case TK_QUOTE:
-		case TK_QUASI_QUOTE:
-		case TK_UNQUOTE: return true;
+bool is_character_a_reader_macro(uint32_t ch) {
+	switch (ch) {
+		case '#':
+		case '\'':
+		case '`':
+		case ',': return true;
 		default: return false;
 	}
 }
@@ -69,18 +70,24 @@ bool tree_sitter_fennel_external_scanner_scan(
 	const bool *valid_symbols
 )
 {
+	bool is_valid_token_found = false;
 	uint32_t token_char;
 	for (int i = 0; i < TOKEN_CHARS_LENGTH; i++) {
 		token_char = TOKEN_CHARS[i];
-		if (valid_symbols[token_char]) {
+		if (valid_symbols[i]) {
+			is_valid_token_found = true;
 			break;
 		}
 	}
+	if (!is_valid_token_found) return false;
 
-	if (is_reader_macro(token_char) && lexer->lookahead == token_char) {
+	printf("%c", token_char);
+	if (is_character_a_reader_macro(token_char) && lexer->lookahead == token_char) {
+		printf("1");
 		lexer->advance(lexer, false);
 
-		if (iswspace(lexer->lookahead) && !lexer->eof(lexer)) {
+		if (!iswspace(lexer->lookahead) && !lexer->eof(lexer)) {
+			printf("2");
 			lexer->result_symbol = token_char;
 			return true;
 		}
