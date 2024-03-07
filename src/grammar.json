@@ -157,19 +157,19 @@
         "members": [
           {
             "type": "SYMBOL",
-            "name": "_hashfn"
+            "name": "hashfn"
           },
           {
             "type": "SYMBOL",
-            "name": "_quote"
+            "name": "quote"
           },
           {
             "type": "SYMBOL",
-            "name": "_quasiquote"
+            "name": "quasiquote"
           },
           {
             "type": "SYMBOL",
-            "name": "_unquote"
+            "name": "unquote"
           }
         ]
       }
@@ -933,19 +933,19 @@
   "externals": [
     {
       "type": "SYMBOL",
-      "name": "_hashfn"
+      "name": "hashfn"
     },
     {
       "type": "SYMBOL",
-      "name": "_quote"
+      "name": "quote"
     },
     {
       "type": "SYMBOL",
-      "name": "_quasiquote"
+      "name": "quasiquote"
     },
     {
       "type": "SYMBOL",
-      "name": "_unquote"
+      "name": "unquote"
     }
   ],
   "inline": [],

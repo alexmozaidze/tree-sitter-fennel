@@ -281,6 +281,28 @@
             "named": true
           }
         ]
+      },
+      "macro": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "hashfn",
+            "named": true
+          },
+          {
+            "type": "quasiquote",
+            "named": true
+          },
+          {
+            "type": "quote",
+            "named": true
+          },
+          {
+            "type": "unquote",
+            "named": true
+          }
+        ]
       }
     }
   },
@@ -570,11 +592,23 @@
     "named": true
   },
   {
+    "type": "hashfn",
+    "named": true
+  },
+  {
     "type": "nil",
     "named": true
   },
   {
     "type": "number",
+    "named": true
+  },
+  {
+    "type": "quasiquote",
+    "named": true
+  },
+  {
+    "type": "quote",
     "named": true
   },
   {
@@ -587,6 +621,10 @@
   },
   {
     "type": "symbol_fragment",
+    "named": true
+  },
+  {
+    "type": "unquote",
     "named": true
   },
   {

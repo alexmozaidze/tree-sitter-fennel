@@ -20,11 +20,11 @@ static const int TOKEN_CHARS_LENGTH = sizeof(TOKEN_CHARS) / sizeof(uint32_t);
 
 bool is_reader_macro(enum TokenType tk) {
 	switch (tk) {
-		case TK_HASHFN: return '#';
-		case TK_QUOTE: return '\'';
-		case TK_QUASI_QUOTE: return '`';
-		case TK_UNQUOTE: return ',';
-		default: return NULL;
+		case TK_HASHFN:
+		case TK_QUOTE:
+		case TK_QUASI_QUOTE:
+		case TK_UNQUOTE: return true;
+		default: return false;
 	}
 }
 
