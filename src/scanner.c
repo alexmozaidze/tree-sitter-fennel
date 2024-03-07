@@ -6,28 +6,28 @@
 enum TokenType {
 	// Reader Macros
 	TK_HASHFN,
-	// TK_QUOTE,
-	// TK_QUASI_QUOTE,
-	// TK_UNQUOTE,
+	TK_QUOTE,
+	TK_QUASI_QUOTE,
+	TK_UNQUOTE,
+	TK_COUNT,
 };
 
-// static const uint32_t TOKEN_CHARS[] = {
-// 	[TK_HASHFN] = '#',
-// 	[TK_QUOTE] = '\'',
-// 	[TK_QUASI_QUOTE] = '`',
-// 	[TK_UNQUOTE] = ',',
-// };
-// static const int TOKEN_CHARS_LENGTH = sizeof(TOKEN_CHARS) / sizeof(uint32_t);
-//
-// bool is_character_a_reader_macro(uint32_t ch) {
-// 	switch (ch) {
-// 		case '#':
-// 		case '\'':
-// 		case '`':
-// 		case ',': return true;
-// 		default: return false;
-// 	}
-// }
+static const uint32_t TOKEN_CHARS[] = {
+	[TK_HASHFN] = '#',
+	[TK_QUOTE] = '\'',
+	[TK_QUASI_QUOTE] = '`',
+	[TK_UNQUOTE] = ',',
+};
+
+bool is_character_a_reader_macro(uint32_t ch) {
+	for (int i = 0; i < TK_COUNT; i++) {
+		if (TOKEN_CHARS[i] == ch) {
+			return true;
+		}
+	}
+
+	return false;
+}
 
 void* tree_sitter_fennel_external_scanner_create(
 	void
@@ -70,17 +70,37 @@ bool tree_sitter_fennel_external_scanner_scan(
 	const bool *valid_symbols
 )
 {
-	if (valid_symbols[TK_HASHFN] && lexer->lookahead == '#') {
-		printf("\nHash operator detected");
+	// const bool in_error_recovery = valid_symbols[TK_COUNT];
+	// if (in_error_recovery) {
+	// 	printf("L");
+	// 	return false;
+	// }
+
+	// SAFETY: If one reader macro matches, then all of them match
+	const bool is_reader_macro = valid_symbols[TK_HASHFN];
+
+	if (is_reader_macro) {
+		bool reader_macro_matched = false;
+		enum TokenType reader_macro;
+		for (int tk = 0; tk < TK_COUNT; tk++) {
+			if (lexer->lookahead == TOKEN_CHARS[tk]) {
+				reader_macro = tk;
+				reader_macro_matched = true;
+				break;
+			}
+		}
+
+		if (!reader_macro_matched) {
+			return false;
+		}
+
 		lexer->advance(lexer, false);
 
 		if (!iswspace(lexer->lookahead) && !lexer->eof(lexer)) {
-			printf("\nIt is not followed by whitespace");
-			lexer->result_symbol = '#';
+			lexer->result_symbol = reader_macro;
 			return true;
 		}
 	}
 
-	printf("\nLookahead: %c, eof: %d\n", lexer->lookahead, lexer->eof(lexer));
 	return false;
 }

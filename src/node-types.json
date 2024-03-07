@@ -287,20 +287,20 @@
         "required": true,
         "types": [
           {
-            "type": "hashfn",
-            "named": true
+            "type": "#",
+            "named": false
           },
           {
-            "type": "quasiquote",
-            "named": true
+            "type": "'",
+            "named": false
           },
           {
-            "type": "quote",
-            "named": true
+            "type": ",",
+            "named": false
           },
           {
-            "type": "unquote",
-            "named": true
+            "type": "`",
+            "named": false
           }
         ]
       }
@@ -556,11 +556,23 @@
     "named": false
   },
   {
+    "type": "#",
+    "named": false
+  },
+  {
+    "type": "'",
+    "named": false
+  },
+  {
     "type": "(",
     "named": false
   },
   {
     "type": ")",
+    "named": false
+  },
+  {
+    "type": ",",
     "named": false
   },
   {
@@ -580,6 +592,10 @@
     "named": false
   },
   {
+    "type": "`",
+    "named": false
+  },
+  {
     "type": "boolean",
     "named": true
   },
@@ -592,23 +608,11 @@
     "named": true
   },
   {
-    "type": "hashfn",
-    "named": true
-  },
-  {
     "type": "nil",
     "named": true
   },
   {
     "type": "number",
-    "named": true
-  },
-  {
-    "type": "quasiquote",
-    "named": true
-  },
-  {
-    "type": "quote",
     "named": true
   },
   {
@@ -621,10 +625,6 @@
   },
   {
     "type": "symbol_fragment",
-    "named": true
-  },
-  {
-    "type": "unquote",
     "named": true
   },
   {

@@ -36,10 +36,10 @@ module.exports = grammar({
 	],
 
 	externals: $ => [
-		$.hashfn,
-		$.quote,
-		$.quasiquote,
-		$.unquote,
+		'#',
+		'\'',
+		'`',
+		',',
 	],
 
 	conflicts: $ => [
@@ -79,10 +79,10 @@ module.exports = grammar({
 		_special_override_symbols: $ => alias(choice(...SPECIAL_OVERRIDE_SYMBOLS), $.symbol),
 
 		_reader_macro_char: $ => prec(PREC.READER_MACRO, choice(
-			$.hashfn,
-			$.quote,
-			$.quasiquote,
-			$.unquote,
+			'#',
+			'\'',
+			'`',
+			',',
 		)),
 
 		reader_macro: $ => prec(PREC.READER_MACRO, seq(
@@ -148,7 +148,7 @@ module.exports = grammar({
 
 		_colon_string: $ => prec.dynamic(PREC.STRING, seq(
 			field('open', ':'),
-			field('content', alias(token.immediate(/[^(){}\[\]"'~;,@`\s]+/), $.string_content)),
+			field('content', alias(/[^(){}\[\]"'~;,@`\s]+/, $.string_content)),
 		)),
 
 		_double_quote_string: $ => seq(

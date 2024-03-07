@@ -156,20 +156,20 @@
         "type": "CHOICE",
         "members": [
           {
-            "type": "SYMBOL",
-            "name": "hashfn"
+            "type": "STRING",
+            "value": "#"
           },
           {
-            "type": "SYMBOL",
-            "name": "quote"
+            "type": "STRING",
+            "value": "'"
           },
           {
-            "type": "SYMBOL",
-            "name": "quasiquote"
+            "type": "STRING",
+            "value": "`"
           },
           {
-            "type": "SYMBOL",
-            "name": "unquote"
+            "type": "STRING",
+            "value": ","
           }
         ]
       }
@@ -431,11 +431,8 @@
             "content": {
               "type": "ALIAS",
               "content": {
-                "type": "IMMEDIATE_TOKEN",
-                "content": {
-                  "type": "PATTERN",
-                  "value": "[^(){}\\[\\]\"'~;,@`\\s]+"
-                }
+                "type": "PATTERN",
+                "value": "[^(){}\\[\\]\"'~;,@`\\s]+"
               },
               "named": true,
               "value": "string_content"
@@ -932,20 +929,20 @@
   "precedences": [],
   "externals": [
     {
-      "type": "SYMBOL",
-      "name": "hashfn"
+      "type": "STRING",
+      "value": "#"
     },
     {
-      "type": "SYMBOL",
-      "name": "quote"
+      "type": "STRING",
+      "value": "'"
     },
     {
-      "type": "SYMBOL",
-      "name": "quasiquote"
+      "type": "STRING",
+      "value": "`"
     },
     {
-      "type": "SYMBOL",
-      "name": "unquote"
+      "type": "STRING",
+      "value": ","
     }
   ],
   "inline": [],

@@ -322,8 +322,10 @@ reader macros
   (reader_macro
     expression: (list
                   call: (symbol)
-                  item: (reader_macro (symbol))
-                  item: (reader_macro (symbol))))
+                  item: (reader_macro
+                          expression: (symbol))
+                  item: (reader_macro
+                          expression: (symbol))))
   (reader_macro
     expression: (list
                   call: (string)))
