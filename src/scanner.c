@@ -1,7 +1,6 @@
 #include "tree_sitter/parser.h"
-// TODO: Use TS alloc
-// #include <tree_sitter/alloc.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include <wctype.h>
 #include <stdio.h>
 
@@ -13,10 +12,20 @@ enum TokenType {
 	TK_UNQUOTE,
 	TK_READER_MACRO_COUNT,
 
-	// Colon String colon
-	TK_COLON_STRING_COLON,
+	// Other
+	// TK_COLON_STRING_COLON,
 
 	TK_COUNT,
+};
+
+// SAFETY: Make sure that these values are synced with all
+// possible reader macro tokens.
+static const uint32_t READER_MACRO_CHARS[TK_READER_MACRO_COUNT] = {
+	// Reader Macros
+	[TK_HASHFN] = '#',
+	[TK_QUOTE] = '\'',
+	[TK_QUASI_QUOTE] = '`',
+	[TK_UNQUOTE] = ',',
 };
 
 bool in_error_recovery(const bool *valid_symbols) {
@@ -28,16 +37,6 @@ bool in_error_recovery(const bool *valid_symbols) {
 
 	return true;
 }
-
-// SAFETY: Make sure that these values are synced with all
-// possible reader macro tokens.
-static const uint32_t TOKEN_CHARS[] = {
-	// Reader Macros
-	[TK_HASHFN] = '#',
-	[TK_QUOTE] = '\'',
-	[TK_QUASI_QUOTE] = '`',
-	[TK_UNQUOTE] = ',',
-};
 
 bool is_valid_colon_string_char(uint32_t ch) {
 	if (iswspace(ch)) {
@@ -136,7 +135,7 @@ bool tree_sitter_fennel_external_scanner_scan(
 	// NOTE: If one reader macro is expected, then all of them are
 	if (valid_symbols[TK_HASHFN]) {
 		for (int tk = 0; tk < TK_READER_MACRO_COUNT; tk++) {
-			if (lexer->lookahead == TOKEN_CHARS[tk]) {
+			if (lexer->lookahead == READER_MACRO_CHARS[tk]) {
 				reader_macro_matched = true;
 				reader_macro = tk;
 				break;
@@ -154,14 +153,14 @@ bool tree_sitter_fennel_external_scanner_scan(
 		}
 	}
 
-	if (valid_symbols[TK_COLON_STRING_COLON] && lexer->lookahead == ':') {
-		lexer->advance(lexer, false);
-
-		if (is_valid_colon_string_char(lexer->lookahead) && !lexer->eof(lexer)) {
-			lexer->result_symbol = TK_COLON_STRING_COLON;
-			return true;
-		}
-	}
+	// if (valid_symbols[TK_COLON_STRING_COLON] && lexer->lookahead == ':') {
+	// 	lexer->advance(lexer, false);
+	//
+	// 	if (is_valid_colon_string_char(lexer->lookahead) && !lexer->eof(lexer)) {
+	// 		lexer->result_symbol = TK_COLON_STRING_COLON;
+	// 		return true;
+	// 	}
+	// }
 
 	return false;
 }

@@ -6,13 +6,11 @@ const { pair, get_literal, apply_literal_recur } = require('./utils.js');
 // };
 
 const PREC = {
+	COMPOUND: -1,
 	OVERRIDE_SYMBOL: 1,
-	READER_MACRO: 10,
 	STRING: 2,
 	MULTI_SYMBOL: 3,
-	MULTI_SYMBOL_METHOD: 4,
-	DOT_OVERRIDE_SYMBOL: -1,
-	COMPOUND: -1,
+	READER_MACRO: 10,
 };
 
 // Symbols that should take priority over the default symbol definition
@@ -24,29 +22,32 @@ const SPECIAL_OVERRIDE_SYMBOLS = [
 	'$...',
 	'...',
 	'..',
-	prec.dynamic(PREC.DOT_OVERRIDE_SYMBOL, '.'),
-].map(symbol => typeof symbol === 'string' ? prec.dynamic(PREC.OVERRIDE_SYMBOL, symbol) : symbol);
+	'.',
+];
 
 const SYMBOL = /[^#(){}\[\]"'~;,@`.:\s][^(){}\[\]"'~;,@`.:\s]*/;
+
+const NIL = 'nil';
+const BOOLEAN = choice('true', 'false');
 
 module.exports = grammar({
 	name: 'fennel',
 
 	extras: $ => [
-		$._whitespace,
+		/\s+/,
 		$.comment,
 	],
 
 	externals: $ => [
+		// Reader Macros
 		$._hashfn_reader_macro_char,
 		$._quote_reader_macro_char,
 		$._quasi_quote_reader_macro_char,
 		$._unquote_reader_macro_char,
-
 		$.__reader_macro_count,
 
-		$._colon_string_colon,
-		$._multi_symbol_method_colon,
+		// TODO: Add shebang
+		// $.shebang,
 	],
 
 	conflicts: $ => [
@@ -61,13 +62,10 @@ module.exports = grammar({
 
 	rules: {
 		program: $ => seq(
-			optional($.shebang),
+			// optional($.shebang),
 			repeat($._sexp),
 		),
 
-		shebang: $ => /#!.*/,
-
-		_whitespace: $ => /\s+/,
 		comment: $ => /;.*\n?/,
 
 		_sexp: $ => choice(
@@ -159,16 +157,30 @@ module.exports = grammar({
 			$.nil,
 		),
 
-		nil: $ => 'nil',
-		boolean: $ => choice('true', 'false'),
+		nil: $ => NIL,
+		boolean: $ => BOOLEAN,
 
-		// $._colon_string_colon is only ever valid when it is followed by a valid
-		// colon string character, which means we don't have to specify token.immediate
-		// to the content regex.
-		_colon_string: $ =>  seq(
-			field('open', alias($._colon_string_colon, ':')),
-			field('content', alias(/[^(){}\[\]"'~;,@`\s]+/, $.string_content)),
+		// HACK: Dynamic precedence doesn't seem to override terminal strings,
+		// so we must do this rather ugly hack.
+		//
+		// This fix makes tokens such as:
+		// - :.
+		// - :true
+		// - :nil
+		// being parsed as a string instead of being 2 separate symbols.
+		_colon_string_content: $ => choice(
+			...[
+				NIL,
+				BOOLEAN,
+				...[...SPECIAL_OVERRIDE_SYMBOLS],
+				/[^(){}\[\]"'~;,@`\s]+/,
+			].map(tk => token.immediate(tk))
 		),
+
+		_colon_string: $ => prec(PREC.STRING, seq(
+			field('open', ':'),
+			field('content', alias($._colon_string_content, $.string_content)),
+		)),
 
 		_double_quote_string: $ => seq(
 			field('open', '"'),
@@ -227,12 +239,11 @@ module.exports = grammar({
 			));
 		},
 
-		// NOTE: Due to special override symbol `.` we need dynamic precedence here
 		multi_symbol: $ => prec.dynamic(PREC.MULTI_SYMBOL, seq(
 			field('base', alias($.symbol, $.symbol_fragment)),
 			repeat1(seq(
 				token.immediate('.'),
-				field('member', token.immediate(SYMBOL)),
+				field('member', alias($.symbol_immediate, $.symbol_fragment)),
 			)),
 		)),
 
@@ -241,13 +252,11 @@ module.exports = grammar({
 				alias($.symbol, $.symbol_fragment),
 				$.multi_symbol,
 			)),
-			// alias($._colon_string_colon, ':'),
-			prec(32, token.immediate(':')),
-			field('method', $._symbol_fragment_immediate),
+			token.immediate(':'),
+			field('method', alias($.symbol_immediate, $.symbol_fragment)),
 		)),
 
-		symbol: $ => SYMBOL,
-		// NOTE: Immediate symbols are mainly used as symbol fragments
-		_symbol_fragment_immediate: $ => alias(token.immediate(SYMBOL), $.symbol_fragment),
+		symbol: $ => token(SYMBOL),
+		symbol_immediate: $ => token.immediate(SYMBOL),
 	},
 });

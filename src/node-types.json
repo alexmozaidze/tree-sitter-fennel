@@ -245,6 +245,16 @@
             "named": true
           }
         ]
+      },
+      "member": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "symbol_fragment",
+            "named": true
+          }
+        ]
       }
     }
   },
@@ -324,10 +334,6 @@
         },
         {
           "type": "sequence",
-          "named": true
-        },
-        {
-          "type": "shebang",
           "named": true
         },
         {
@@ -885,6 +891,10 @@
     "named": false
   },
   {
+    "type": "$...",
+    "named": false
+  },
+  {
     "type": "'",
     "named": false
   },
@@ -905,7 +915,19 @@
     "named": false
   },
   {
+    "type": "..",
+    "named": false
+  },
+  {
+    "type": "...",
+    "named": false
+  },
+  {
     "type": ":",
+    "named": false
+  },
+  {
+    "type": "?.",
     "named": false
   },
   {
@@ -934,14 +956,14 @@
   },
   {
     "type": "nil",
+    "named": false
+  },
+  {
+    "type": "nil",
     "named": true
   },
   {
     "type": "number",
-    "named": true
-  },
-  {
-    "type": "shebang",
     "named": true
   },
   {
@@ -962,6 +984,10 @@
   },
   {
     "type": "}",
+    "named": false
+  },
+  {
+    "type": "~=",
     "named": false
   }
 ]
