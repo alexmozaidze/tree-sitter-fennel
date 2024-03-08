@@ -891,10 +891,6 @@
     "named": false
   },
   {
-    "type": "$...",
-    "named": false
-  },
-  {
     "type": "'",
     "named": false
   },
@@ -915,19 +911,7 @@
     "named": false
   },
   {
-    "type": "..",
-    "named": false
-  },
-  {
-    "type": "...",
-    "named": false
-  },
-  {
     "type": ":",
-    "named": false
-  },
-  {
-    "type": "?.",
     "named": false
   },
   {
@@ -956,10 +940,6 @@
   },
   {
     "type": "nil",
-    "named": false
-  },
-  {
-    "type": "nil",
     "named": true
   },
   {
@@ -984,10 +964,6 @@
   },
   {
     "type": "}",
-    "named": false
-  },
-  {
-    "type": "~=",
     "named": false
   }
 ]

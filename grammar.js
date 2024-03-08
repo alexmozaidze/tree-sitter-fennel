@@ -23,7 +23,7 @@ const SPECIAL_OVERRIDE_SYMBOLS = [
 	'...',
 	'..',
 	'.',
-].map(tk => prec.dynamic(PREC.OVERRIDE_SYMBOL, tk));
+];
 
 const SYMBOL = /[^#(){}\[\]"'~;,@`.:\s][^(){}\[\]"'~;,@`.:\s]*/;
 
@@ -46,6 +46,8 @@ module.exports = grammar({
 		$._unquote_reader_macro_char,
 		$.__reader_macro_count,
 
+		$._colon_string_colon,
+		$._colon_string_content,
 		// TODO: Add shebang
 		// $.shebang,
 	],
@@ -61,7 +63,10 @@ module.exports = grammar({
 	word: $ => $.symbol,
 
 	rules: {
-		program: $ => repeat($._sexp),
+		program: $ => seq(
+			// optional($.shebang),
+			repeat($._sexp),
+		),
 
 		comment: $ => /;.*\n?/,
 
@@ -157,27 +162,10 @@ module.exports = grammar({
 		nil: $ => NIL,
 		boolean: $ => BOOLEAN,
 
-		// HACK: Dynamic precedence doesn't seem to override terminal strings,
-		// so we must do this rather ugly hack.
-		//
-		// This fix makes tokens such as:
-		// - :.
-		// - :true
-		// - :nil
-		// being parsed as a string instead of being 2 separate symbols.
-		_colon_string_content: $ => choice(
-			...[
-				NIL,
-				BOOLEAN,
-				...[...SPECIAL_OVERRIDE_SYMBOLS],
-				/[^(){}\[\]"'~;,@`\s]+/,
-			].map(tk => token.immediate(tk))
-		),
-
-		_colon_string: $ => prec(PREC.STRING, seq(
-			field('open', ':'),
+		_colon_string: $ => seq(
+			field('open', alias($._colon_string_colon, ':')),
 			field('content', alias($._colon_string_content, $.string_content)),
-		)),
+		),
 
 		_double_quote_string: $ => seq(
 			field('open', '"'),
