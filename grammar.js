@@ -23,7 +23,7 @@ const SPECIAL_OVERRIDE_SYMBOLS = [
 	'...',
 	'..',
 	'.',
-];
+].map(tk => prec.dynamic(PREC.OVERRIDE_SYMBOL, tk));
 
 const SYMBOL = /[^#(){}\[\]"'~;,@`.:\s][^(){}\[\]"'~;,@`.:\s]*/;
 
@@ -34,7 +34,7 @@ module.exports = grammar({
 	name: 'fennel',
 
 	extras: $ => [
-		/\s+/,
+		/\s/,
 		$.comment,
 	],
 
@@ -61,16 +61,13 @@ module.exports = grammar({
 	word: $ => $.symbol,
 
 	rules: {
-		program: $ => seq(
-			// optional($.shebang),
-			repeat($._sexp),
-		),
+		program: $ => repeat($._sexp),
 
 		comment: $ => /;.*\n?/,
 
 		_sexp: $ => choice(
-			$._special_override_symbols,
 			$._reader_macro,
+			$._special_override_symbols,
 			$.symbol,
 			$.multi_symbol,
 			$.multi_symbol_method,
@@ -81,24 +78,24 @@ module.exports = grammar({
 			$._literal,
 		),
 
-		_special_override_symbols: $ => alias(prec.dynamic(PREC.OVERRIDE_SYMBOL, choice(...SPECIAL_OVERRIDE_SYMBOLS)), $.symbol),
+		_special_override_symbols: $ => alias(choice(...SPECIAL_OVERRIDE_SYMBOLS), $.symbol),
 
-		hashfn_reader_macro: $ => prec(PREC.READER_MACRO, seq(
+		hashfn_reader_macro: $ => seq(
 			field('macro', alias($._hashfn_reader_macro_char, '#')),
 			field('expression', $._sexp),
-		)),
-		quote_reader_macro: $ => prec(PREC.READER_MACRO, seq(
+		),
+		quote_reader_macro: $ => seq(
 			field('macro', alias($._quote_reader_macro_char, '\'')),
 			field('expression', $._sexp),
-		)),
-		quasi_quote_reader_macro: $ => prec(PREC.READER_MACRO, seq(
+		),
+		quasi_quote_reader_macro: $ => seq(
 			field('macro', alias($._quasi_quote_reader_macro_char, '`')),
 			field('expression', $._sexp),
-		)),
-		unquote_reader_macro: $ => prec(PREC.READER_MACRO, seq(
+		),
+		unquote_reader_macro: $ => seq(
 			field('macro', alias($._unquote_reader_macro_char, ',')),
 			field('expression', $._sexp),
-		)),
+		),
 
 		_reader_macro: $ => choice(
 			$.hashfn_reader_macro,
