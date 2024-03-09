@@ -1,0 +1,3 @@
+[submodule "src/c-vector"]
+	path = src/c-vector
+	url = https://github.com/Mashpoe/c-vector.git

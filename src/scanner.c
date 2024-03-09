@@ -3,8 +3,11 @@
 #include <stdlib.h>
 #include <wctype.h>
 #include <stdio.h>
+#include "c-vector/vec.h"
 
-enum TokenType {
+typedef uint32_t uchar;
+
+typedef enum TokenType {
 	// Reader Macros
 	TK_HASHFN,
 	TK_QUOTE,
@@ -18,11 +21,11 @@ enum TokenType {
 	TK_SHEBANG,
 
 	TK_COUNT,
-};
+} TokenType;
 
 // SAFETY: Make sure that these values are synced with all
 // possible reader macro tokens.
-static const uint32_t READER_MACRO_CHARS[TK_READER_MACRO_COUNT] = {
+static const uchar READER_MACRO_CHARS[TK_READER_MACRO_COUNT] = {
 	// Reader Macros
 	[TK_HASHFN] = '#',
 	[TK_QUOTE] = '\'',
@@ -40,7 +43,18 @@ inline static bool in_error_recovery(const bool *valid_symbols) {
 	return true;
 }
 
-inline static bool is_close_bracket(uint32_t ch) {
+inline static bool is_open_bracket(uchar ch) {
+	switch (ch) {
+		case '(':
+		case '{':
+		case '[':
+			return true;
+	}
+
+	return false;
+}
+
+inline static bool is_close_bracket(uchar ch) {
 	switch (ch) {
 		case ')':
 		case '}':
@@ -51,7 +65,7 @@ inline static bool is_close_bracket(uint32_t ch) {
 	return false;
 }
 
-inline static bool is_valid_colon_string_char(uint32_t ch) {
+inline static bool is_valid_colon_string_char(uchar ch) {
 	if (iswspace(ch)) {
 		return false;
 	}
@@ -76,17 +90,27 @@ inline static bool is_valid_colon_string_char(uint32_t ch) {
 	return true;
 }
 
+typedef struct BracketCount {
+	uchar bracket;
+	uint16_t count;
+} BracketCount;
+
+typedef BracketCount* vec_BracketCount;
+
 void* tree_sitter_fennel_external_scanner_create(
 	void
 )
 {
-	return NULL;
+	vec_BracketCount bracket_vec = vector_create();
+
+	return bracket_vec;
 }
 
 void tree_sitter_fennel_external_scanner_destroy(
 	void* payload
 )
 {
+	vector_free(&payload);
 }
 
 unsigned tree_sitter_fennel_external_scanner_serialize(
@@ -94,7 +118,15 @@ unsigned tree_sitter_fennel_external_scanner_serialize(
 	char* buffer
 )
 {
-	return 0;
+	BracketCount *bracket_buf = (BracketCount*)buffer;
+	vec_BracketCount bracket_vec = (vec_BracketCount)payload;
+
+	int size = vector_size(bracket_vec);
+	for (int i = 0; i < size; i++) {
+		bracket_buf[i] = bracket_vec[i];
+	}
+
+	return sizeof(BracketCount[size]);
 }
 
 void tree_sitter_fennel_external_scanner_deserialize(
@@ -103,6 +135,21 @@ void tree_sitter_fennel_external_scanner_deserialize(
 	unsigned length
 )
 {
+	if (length == 0) {
+		return;
+	}
+
+	const BracketCount *bracket_buf = (const BracketCount*)buffer;
+	vec_BracketCount bracket_vec = (vec_BracketCount)payload;
+
+	int size = vector_size(bracket_vec);
+	vector_erase(bracket_vec, 0, size);
+	size = vector_size(bracket_vec);
+
+	length = length / sizeof(BracketCount);
+	for (int i = 0; i < length; i++) {
+		vector_add(&bracket_vec, bracket_buf[i]);
+	}
 }
 
 bool tree_sitter_fennel_external_scanner_scan(
@@ -140,7 +187,7 @@ bool tree_sitter_fennel_external_scanner_scan(
 	}
 
 	bool reader_macro_matched = false;
-	enum TokenType reader_macro;
+	TokenType reader_macro;
 
 	// NOTE: If one reader macro is expected, then all of them are
 	if (valid_symbols[TK_HASHFN]) {

@@ -4,11 +4,12 @@
       "target_name": "tree_sitter_fennel_binding",
       "include_dirs": [
         "<!(node -e \"require('nan')\")",
-        "src"
+        "src",
       ],
       "sources": [
         "bindings/node/binding.cc",
         "src/parser.c",
+        "src/scanner.c",
         # If your language uses an external scanner, add it here.
       ],
       "cflags_c": [
