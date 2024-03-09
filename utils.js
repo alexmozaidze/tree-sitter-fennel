@@ -73,7 +73,8 @@ function gseq($, ...nodes) {
 }
 
 /**
- * Returns a pair.
+ * Helper function that constructs a pair value.
+ * Useful for associative structures.
  */
 function pair($, lhs, rhs) {
 	lhs = lhs ?? {};
@@ -82,37 +83,15 @@ function pair($, lhs, rhs) {
 
 	rhs = rhs ?? {};
 	rhs_field = rhs.field ?? 'rhs';
+	rhs_optional = rhs.optional ?? true;
 	rhs = rhs.rhs ?? $._sexp;
 
 	return prec.right(seq(
 		field(lhs_field, lhs),
 		// NOTE: The `optional` here kind of "normalizes" the tree if the pair is not complete,
 		// as if it's in the process of typing.
-		optional(seq(
-			$._gap,
-			field(rhs_field, rhs),
-		))
+		rhs_optional ? optional(field(rhs_field, rhs)) : field(rhs_field, rhs),
 	));
 }
-
-// class Forms {
-// 	constructor() {
-// 		this.conflicts = [];
-// 		this.rules = {};
-// 	}
-//
-// 	/**
-// 	 * @param {Object} rule
-// 	 */
-// 	add(rules) {
-// 		for (const [name, rule] of Object.entries(rules)) {
-// 			this[name] = rule;
-// 		}
-// 	}
-//
-// 	#add_seq($, rules) {
-// 		this.conflicts = []
-// 	}
-// }
 
 module.exports = { insert_between, gseq, pair, get_literal, apply_literal_recur };

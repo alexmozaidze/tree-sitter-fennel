@@ -1,9 +1,8 @@
-const { cloneDeep } = require('lodash');
-const { pair, get_literal, apply_literal_recur } = require('./utils.js');
+const { pair } = require('./utils.js');
 
-// const forms = {
-// 	...require('./forms/fennel.js').rules,
-// };
+const forms = {
+	// ...require('./forms/fennel.js').rules,
+};
 
 const PREC = {
 	COMPOUND: -1,
@@ -13,7 +12,10 @@ const PREC = {
 	READER_MACRO: 10,
 };
 
-// Symbols that should take priority over the default symbol definition
+// Symbols that should take priority over the default symbol definition.
+//
+// NOTE: They cannot be part of multi-symbols. See $.symbol_immediate if
+// you want to change this behaviour.
 const SPECIAL_OVERRIDE_SYMBOLS = [
 	'#',
 	'?.',
@@ -26,9 +28,6 @@ const SPECIAL_OVERRIDE_SYMBOLS = [
 ];
 
 const SYMBOL = /[^#(){}\[\]"'~;,@`.:\s][^(){}\[\]"'~;,@`.:\s]*/;
-
-const NIL = 'nil';
-const BOOLEAN = choice('true', 'false');
 
 module.exports = grammar({
 	name: 'fennel',
@@ -53,11 +52,7 @@ module.exports = grammar({
 	],
 
 	conflicts: $ => [
-		// Form conflicts
-		// [$._let_vars_body, $.sequence],
-		// [$.let_form],
-		// [$._let_vars_body_pair, $._list_content],
-		// [$._let_vars_body_pair, $.sequence],
+		// [$.let_form_vars, $.sequence]
 	],
 
 	word: $ => $.symbol,
@@ -72,7 +67,6 @@ module.exports = grammar({
 
 		_sexp: $ => choice(
 			$._reader_macro,
-			$._special_override_symbols,
 			$.symbol,
 			$.multi_symbol,
 			$.multi_symbol_method,
@@ -82,8 +76,6 @@ module.exports = grammar({
 			$.table,
 			$._literal,
 		),
-
-		_special_override_symbols: $ => alias(choice(...SPECIAL_OVERRIDE_SYMBOLS), $.symbol),
 
 		hashfn_reader_macro: $ => seq(
 			field('macro', alias($._hashfn_reader_macro_char, '#')),
@@ -121,16 +113,16 @@ module.exports = grammar({
 		)),
 
 		// ...forms,
-		//
-		// _form_content: $ => choice(
+
+		// _form: $ => choice(
 		// 	...[...Object.keys(forms)].map(form => $[form])
 		// ),
-		//
-		// _form: $ => prec.dynamic(10, seq(
+
+		// _form: $ => seq(
 		// 	field('open', '('),
 		// 	$._form_content,
 		// 	field('close', ')'),
-		// )),
+		// ),
 
 		sequence: $ => prec.dynamic(PREC.COMPOUND, seq(
 			field('open', '['),
@@ -138,13 +130,7 @@ module.exports = grammar({
 			field('close', ']'),
 		)),
 
-		// TODO: Make it public
-		_table_pair: $ => prec.right(seq(
-			field('key', $._sexp),
-			// NOTE: The `optional` here kind of "normalizes" the tree if the pair is not complete,
-			// as if it's in the process of typing.
-			optional(field('value', $._sexp))
-		)),
+		_table_pair: $ => pair($, { field: 'key' }, { field: 'value' }),
 
 		table: $ => prec(PREC.COMPOUND, seq(
 			field('open', '{'),
@@ -159,8 +145,8 @@ module.exports = grammar({
 			$.nil,
 		),
 
-		nil: $ => NIL,
-		boolean: $ => BOOLEAN,
+		nil: $ => 'nil',
+		boolean: $ => choice('true', 'false'),
 
 		_colon_string: $ => seq(
 			field('open', alias($._colon_string_colon, ':')),
@@ -241,7 +227,15 @@ module.exports = grammar({
 			field('method', alias($.symbol_immediate, $.symbol_fragment)),
 		)),
 
-		symbol: $ => token(SYMBOL),
+		symbol_binding: $ => $.symbol,
+		_binding: $ => $.symbol,
+
+		symbol: $ => token(choice(
+			SYMBOL,
+			...SPECIAL_OVERRIDE_SYMBOLS,
+		)),
+		// NOTE: No special symbols, since they're supposed to
+		// be matched by themselves, NOT as part of multi-symbols.
 		symbol_immediate: $ => token.immediate(SYMBOL),
 	},
 });

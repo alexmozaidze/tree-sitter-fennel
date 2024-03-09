@@ -1,4 +1,49 @@
 ===
+shebang
+===
+
+#!/usr/bin/env fennel
+(print "Yummy!")
+
+---
+
+(program
+  (shebang)
+  (list
+    call: (symbol)
+    item: (string
+            content: (string_content))))
+
+===
+let form
+===
+
+(let [key value
+      :key #()]
+  (print :one)
+  (print "two"))
+
+---
+
+(program
+  (let_form
+    vars: (let_form_vars
+            lhs: (symbol)
+            rhs: (symbol)
+            lhs: (string
+                   content: (string_content))
+            rhs: (hashfn_reader_macro
+                   expression: (list)))
+    item: (list
+            call: (symbol)
+            item: (string
+                    content: (string_content)))
+    item: (list
+            call: (symbol)
+            item: (string
+                    content: (string_content)))))
+
+===
 function call
 ===
 

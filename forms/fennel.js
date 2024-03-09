@@ -1,43 +1,37 @@
-const { gseq, pair } = require('../utils.js');
+const { pair } = require('../utils.js');
 
-const conflicts = {};
 const forms = {};
+const subforms = {};
 
-// [
-// 	'local',
-// 	'var',
-// 	'set',
-// 	'global',
-// ].forEach(name => forms[name] = $ => gseq($,
-// 		field('call', name),
-// 		field('lhs', $._sexp),
-// 		field('rhs', $._sexp),
-// 	)
-// );
-//
-// [
-// 	'let',
-// ].forEach(name => {
-// 		forms[`_${name}_vars_body_pair`] = $ => pair($),
-// 		forms[`_${name}_vars_body`] = $ => seq(
-// 			field('open', '['),
-// 			repeat(choice(
-// 				$[`_${name}_vars_body_pair`],
-// 				$._gap,
-// 			)),
-// 			field('close', ']'),
-// 		);
-//
-// 		forms[name] = $ => gseq($,
-// 			field('call', alias(name, $.symbol)),
-// 			field('vars', alias($[`_${name}_vars_body`], $.sequenceASd)),
-// 			repeat1(choice($._gap, field('item', $._sexp))),
-// 		);
-// 	}
-// );
+[
+	'local',
+	'var',
+	'set',
+	'global',
+].forEach(name => forms[name] = $ => seq(
+		'(',
+		field('call', name),
+		pair($),
+		')',
+	)
+);
 
-// TODO: Rename all keys to `%s_form`
-const rules = {};
+subforms['_let_form_vars_pair'] = $ => pair($, { lhs: $.binding }, { rhs: $._sexp }),
+subforms['let_form_vars'] = $ => seq(
+	field('open', '['),
+	repeat($._let_form_vars_pair),
+	field('close', ']'),
+);
+forms['let'] = $ => seq(
+	'(',
+	field('call', 'let'),
+	field('vars', $.let_form_vars),
+	repeat(field('item', $._sexp)),
+	')',
+);
+
+
+const rules = {...subforms};
 for (const [name, rule] of Object.entries(forms)) {
 	if (name.startsWith('_')) {
 		rules[name] = rule;
@@ -47,6 +41,5 @@ for (const [name, rule] of Object.entries(forms)) {
 }
 
 module.exports = {
-	conflicts,
 	rules,
 };

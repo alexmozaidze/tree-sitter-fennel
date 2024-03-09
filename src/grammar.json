@@ -27,10 +27,6 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_special_override_symbols"
-        },
-        {
-          "type": "SYMBOL",
           "name": "symbol"
         },
         {
@@ -58,48 +54,6 @@
           "name": "_literal"
         }
       ]
-    },
-    "_special_override_symbols": {
-      "type": "ALIAS",
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "#"
-          },
-          {
-            "type": "STRING",
-            "value": "?."
-          },
-          {
-            "type": "STRING",
-            "value": "~="
-          },
-          {
-            "type": "STRING",
-            "value": ":"
-          },
-          {
-            "type": "STRING",
-            "value": "$..."
-          },
-          {
-            "type": "STRING",
-            "value": "..."
-          },
-          {
-            "type": "STRING",
-            "value": ".."
-          },
-          {
-            "type": "STRING",
-            "value": "."
-          }
-        ]
-      },
-      "named": true,
-      "value": "symbol"
     },
     "hashfn_reader_macro": {
       "type": "SEQ",
@@ -923,11 +877,56 @@
         ]
       }
     },
+    "symbol_binding": {
+      "type": "SYMBOL",
+      "name": "symbol"
+    },
+    "_binding": {
+      "type": "SYMBOL",
+      "name": "symbol"
+    },
     "symbol": {
       "type": "TOKEN",
       "content": {
-        "type": "PATTERN",
-        "value": "[^#(){}\\[\\]\"'~;,@`.:\\s][^(){}\\[\\]\"'~;,@`.:\\s]*"
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "PATTERN",
+            "value": "[^#(){}\\[\\]\"'~;,@`.:\\s][^(){}\\[\\]\"'~;,@`.:\\s]*"
+          },
+          {
+            "type": "STRING",
+            "value": "#"
+          },
+          {
+            "type": "STRING",
+            "value": "?."
+          },
+          {
+            "type": "STRING",
+            "value": "~="
+          },
+          {
+            "type": "STRING",
+            "value": ":"
+          },
+          {
+            "type": "STRING",
+            "value": "$..."
+          },
+          {
+            "type": "STRING",
+            "value": "..."
+          },
+          {
+            "type": "STRING",
+            "value": ".."
+          },
+          {
+            "type": "STRING",
+            "value": "."
+          }
+        ]
       }
     },
     "symbol_immediate": {
