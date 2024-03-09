@@ -9,3 +9,16 @@ unfinished tables
 (program
   (table
     key: (symbol)))
+
+===
+calling colon string
+===
+
+(:lol)
+
+---
+
+(program
+  (list
+    call: (string
+            content: string_content)))

@@ -15,6 +15,8 @@ enum TokenType {
 	TK_COLON_STRING_COLON,
 	TK_COLON_STRING_CONTENT,
 
+	TK_SHEBANG,
+
 	TK_COUNT,
 };
 
@@ -50,7 +52,6 @@ inline static bool is_close_bracket(uint32_t ch) {
 }
 
 inline static bool is_valid_colon_string_char(uint32_t ch) {
-	// [^(){}\[\]"'~;,@`\s]
 	if (iswspace(ch)) {
 		return false;
 	}
