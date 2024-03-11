@@ -11,25 +11,23 @@ unfinished tables
     key: (symbol)))
 
 ===
-calling colon string
+colon string + reader macros
 ===
 
 (:lol)
 ( :: )
 (:#lmao)
+(:#)
+(#:mia)
 
 ---
 
 (program
-  (list
-    call: (string
-            content: (string_content)))
-  (list
-    call: (string
-            content: (string_content)))
-  (list
-    call: (string
-            content: (string_content))))
+  (list (string (string_content)))
+  (list (string (string_content)))
+  (list (string (string_content)))
+  (list (string (string_content)))
+  (list (hashfn_reader_macro (string (string_content)))))
 
 ===
 incorrect shebang
