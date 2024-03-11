@@ -26,8 +26,6 @@ const SPECIAL_OVERRIDE_SYMBOLS = [
 	'.',
 ];
 
-const SYMBOL = /[^#(){}\[\]"'~;,@`.:\s][^(){}\[\]"'~;,@`.:\s]*/;
-
 module.exports = grammar({
 	name: 'fennel',
 
@@ -222,7 +220,7 @@ module.exports = grammar({
 			field('base', alias($.symbol, $.symbol_fragment)),
 			repeat1(seq(
 				token.immediate('.'),
-				field('member', alias($.symbol_immediate, $.symbol_fragment)),
+				field('member', $._multi_symbol_fragment),
 			)),
 		)),
 
@@ -232,16 +230,18 @@ module.exports = grammar({
 				$.multi_symbol,
 			)),
 			token.immediate(':'),
-			field('method', alias($.symbol_immediate, $.symbol_fragment)),
+			field('method', $._multi_symbol_fragment),
 		)),
 
 		symbol_binding: $ => $.symbol,
 		_binding: $ => $.symbol,
 
+		symbol: $ => /[^#(){}\[\]"'~;,@`.:\s][^(){}\[\]"'~;,@`.:\s]*/,
+
+		// NOTE: multi-symbol fragments starting from second position onwards have fewer restrictions on what
+		// symbols they may contain, which is why its regex is just a stripped down version of $.symbol's.
+		_multi_symbol_fragment: $ => alias(token.immediate(/[^(){}\[\]"'~;,@`.:\s]*/), $.symbol_fragment),
+
 		_special_override_symbol: $ => alias(choice(...SPECIAL_OVERRIDE_SYMBOLS), $.symbol),
-		symbol: $ => SYMBOL,
-		// NOTE: No special symbols, since they're supposed to
-		// be matched by themselves, NOT as part of multi-symbols.
-		symbol_immediate: $ => token.immediate(SYMBOL),
 	},
 });

@@ -935,13 +935,8 @@
                   "type": "FIELD",
                   "name": "member",
                   "content": {
-                    "type": "ALIAS",
-                    "content": {
-                      "type": "SYMBOL",
-                      "name": "symbol_immediate"
-                    },
-                    "named": true,
-                    "value": "symbol_fragment"
+                    "type": "SYMBOL",
+                    "name": "_multi_symbol_fragment"
                   }
                 }
               ]
@@ -989,13 +984,8 @@
             "type": "FIELD",
             "name": "method",
             "content": {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "symbol_immediate"
-              },
-              "named": true,
-              "value": "symbol_fragment"
+              "type": "SYMBOL",
+              "name": "_multi_symbol_fragment"
             }
           }
         ]
@@ -1008,6 +998,22 @@
     "_binding": {
       "type": "SYMBOL",
       "name": "symbol"
+    },
+    "symbol": {
+      "type": "PATTERN",
+      "value": "[^#(){}\\[\\]\"'~;,@`.:\\s][^(){}\\[\\]\"'~;,@`.:\\s]*"
+    },
+    "_multi_symbol_fragment": {
+      "type": "ALIAS",
+      "content": {
+        "type": "IMMEDIATE_TOKEN",
+        "content": {
+          "type": "PATTERN",
+          "value": "[^(){}\\[\\]\"'~;,@`.:\\s]*"
+        }
+      },
+      "named": true,
+      "value": "symbol_fragment"
     },
     "_special_override_symbol": {
       "type": "ALIAS",
@@ -1050,17 +1056,6 @@
       },
       "named": true,
       "value": "symbol"
-    },
-    "symbol": {
-      "type": "PATTERN",
-      "value": "[^#(){}\\[\\]\"'~;,@`.:\\s][^(){}\\[\\]\"'~;,@`.:\\s]*"
-    },
-    "symbol_immediate": {
-      "type": "IMMEDIATE_TOKEN",
-      "content": {
-        "type": "PATTERN",
-        "value": "[^#(){}\\[\\]\"'~;,@`.:\\s][^(){}\\[\\]\"'~;,@`.:\\s]*"
-      }
     }
   },
   "extras": [

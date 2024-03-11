@@ -168,6 +168,7 @@ multi symbols
 
 string.format
 a.b.c.d.e.f.g
+ha.#haha
 &bl>/?.asd
 
 ---
@@ -182,6 +183,9 @@ a.b.c.d.e.f.g
     (symbol_fragment)
     (symbol_fragment)
     (symbol_fragment)
+    (symbol_fragment)
+    (symbol_fragment))
+  (multi_symbol
     (symbol_fragment)
     (symbol_fragment))
   (multi_symbol
