@@ -137,19 +137,15 @@ bool tree_sitter_fennel_external_scanner_scan(
 		return false;
 	}
 
+	const bool skipped_whitespace = iswspace(lexer->lookahead);
 	while (iswspace(lexer->lookahead)) {
 		lexer->advance(lexer, true);
 	}
 
-	if (valid_symbols[TK_COLON_STRING_START_MARK] && valid_symbols[TK_COLON_STRING_END_MARK]) {
-		if (!is_valid_colon_string_char(lexer->lookahead)) {
-			return false;
-		}
-	}
+	const bool in_colon_string_context = valid_symbols[TK_COLON_STRING_START_MARK] && valid_symbols[TK_COLON_STRING_END_MARK];
 
 	// NOTE: If one reader macro is expected, then all of them are
-	if (valid_symbols[TK_HASHFN] && !valid_symbols[TK_COLON_STRING_END_MARK] && !valid_symbols[TK_COLON_STRING_START_MARK]) {
-	reader_macro_case:;
+	if (valid_symbols[TK_HASHFN] && (skipped_whitespace || !valid_symbols[TK_COLON_STRING_START_MARK])) {
 		bool reader_macro_matched = false;
 		TokenType reader_macro;
 
