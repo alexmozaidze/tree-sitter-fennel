@@ -46,8 +46,8 @@ module.exports = grammar({
 
 		$.__colon_string_start_mark,
 		$.__colon_string_end_mark,
-		// TODO: Add shebang
-		// $.shebang,
+
+		$.shebang,
 	],
 
 	conflicts: $ => [
@@ -58,7 +58,7 @@ module.exports = grammar({
 
 	rules: {
 		program: $ => seq(
-			// optional($.shebang),
+			optional($.shebang),
 			repeat($._sexp),
 		),
 

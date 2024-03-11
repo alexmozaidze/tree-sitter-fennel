@@ -137,6 +137,20 @@ bool tree_sitter_fennel_external_scanner_scan(
 		return false;
 	}
 
+	if (valid_symbols[TK_SHEBANG]) {
+		lexer->mark_end(lexer);
+		if (lexer->lookahead != '#') return false;
+		lexer->advance(lexer, false);
+		if (lexer->lookahead != '!') return false;
+		lexer->advance(lexer, false);
+		while (lexer->lookahead != '\n') {
+			lexer->advance(lexer, false);
+		}
+		lexer->mark_end(lexer);
+		lexer->result_symbol = TK_SHEBANG;
+		return true;
+	}
+
 	const bool skipped_whitespace = iswspace(lexer->lookahead);
 	while (iswspace(lexer->lookahead)) {
 		lexer->advance(lexer, true);
