@@ -15,10 +15,18 @@ calling colon string
 ===
 
 (:lol)
+( :: )
+(:#lmao)
 
 ---
 
 (program
+  (list
+    call: (string
+            content: (string_content)))
+  (list
+    call: (string
+            content: (string_content)))
   (list
     call: (string
             content: (string_content))))
