@@ -22,3 +22,18 @@ calling colon string
   (list
     call: (string
             content: (string_content))))
+
+===
+incorrect shebang
+===
+
+# !lol
+#lol
+
+---
+
+(program
+  (symbol)
+  (symbol)
+  (hashfn_reader_macro
+    (symbol)))
