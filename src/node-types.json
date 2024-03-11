@@ -337,6 +337,10 @@
           "named": true
         },
         {
+          "type": "shebang",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -944,6 +948,10 @@
   },
   {
     "type": "number",
+    "named": true
+  },
+  {
+    "type": "shebang",
     "named": true
   },
   {

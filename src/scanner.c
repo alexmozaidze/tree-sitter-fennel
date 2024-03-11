@@ -137,24 +137,35 @@ bool tree_sitter_fennel_external_scanner_scan(
 		return false;
 	}
 
+	const bool skipped_whitespace = iswspace(lexer->lookahead);
+	while (iswspace(lexer->lookahead)) {
+		lexer->advance(lexer, true);
+	}
+
+	bool was_hashfn = false;
 	if (valid_symbols[TK_SHEBANG]) {
 		lexer->mark_end(lexer);
-		if (lexer->lookahead != '#') return false;
+
+		if (lexer->lookahead != '#') {
+			goto no_shebang;
+		}
+		was_hashfn = true;
 		lexer->advance(lexer, false);
-		if (lexer->lookahead != '!') return false;
+
+		if (lexer->lookahead != '!') {
+			goto no_shebang;
+		}
+		was_hashfn = false;
 		lexer->advance(lexer, false);
-		while (lexer->lookahead != '\n') {
+
+		while (lexer->lookahead != '\n' && !lexer->eof(lexer)) {
 			lexer->advance(lexer, false);
 		}
 		lexer->mark_end(lexer);
 		lexer->result_symbol = TK_SHEBANG;
 		return true;
 	}
-
-	const bool skipped_whitespace = iswspace(lexer->lookahead);
-	while (iswspace(lexer->lookahead)) {
-		lexer->advance(lexer, true);
-	}
+no_shebang:;
 
 	const bool in_colon_string_context = valid_symbols[TK_COLON_STRING_START_MARK] && valid_symbols[TK_COLON_STRING_END_MARK];
 
@@ -163,6 +174,11 @@ bool tree_sitter_fennel_external_scanner_scan(
 		bool reader_macro_matched = false;
 		TokenType reader_macro;
 
+		if (was_hashfn) {
+			reader_macro_matched = true;
+			reader_macro = TK_HASHFN;
+			goto matched_reader_macro;
+		}
 		for (int tk = 0; tk < TK_READER_MACRO_COUNT; tk++) {
 			if (lexer->lookahead == READER_MACRO_CHARS[tk]) {
 				reader_macro_matched = true;
@@ -170,6 +186,8 @@ bool tree_sitter_fennel_external_scanner_scan(
 				break;
 			}
 		}
+
+	matched_reader_macro:;
 
 		if (reader_macro_matched) {
 			lexer->advance(lexer, false);
@@ -179,6 +197,7 @@ bool tree_sitter_fennel_external_scanner_scan(
 				&& !lexer->eof(lexer);
 
 			if (is_valid_reader_macro_position) {
+				lexer->mark_end(lexer);
 				lexer->result_symbol = reader_macro;
 				return true;
 			}

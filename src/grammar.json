@@ -6,6 +6,18 @@
       "type": "SEQ",
       "members": [
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "shebang"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
@@ -1091,6 +1103,10 @@
     {
       "type": "SYMBOL",
       "name": "__colon_string_end_mark"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "shebang"
     }
   ],
   "inline": [],
