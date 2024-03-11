@@ -114,6 +114,7 @@ colon strings
   (string (string_content))
   (string (string_content))
   (string (string_content))
+  (string (string_content))
   (string (string_content)))
 
 ===

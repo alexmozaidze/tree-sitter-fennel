@@ -141,14 +141,14 @@ bool tree_sitter_fennel_external_scanner_scan(
 		lexer->advance(lexer, true);
 	}
 
-	if (valid_symbols[TK_COLON_STRING_START_MARK]) {
+	if (valid_symbols[TK_COLON_STRING_START_MARK] && valid_symbols[TK_COLON_STRING_END_MARK]) {
 		if (!is_valid_colon_string_char(lexer->lookahead)) {
 			return false;
 		}
 	}
 
 	// NOTE: If one reader macro is expected, then all of them are
-	if (valid_symbols[TK_HASHFN] && !valid_symbols[TK_COLON_STRING_END_MARK]) {
+	if (valid_symbols[TK_HASHFN] && !valid_symbols[TK_COLON_STRING_END_MARK] && !valid_symbols[TK_COLON_STRING_START_MARK]) {
 	reader_macro_case:;
 		bool reader_macro_matched = false;
 		TokenType reader_macro;
