@@ -28,7 +28,7 @@ incorrect shebang
 ===
 
 # !lol
-#lol
+#!lol
 
 ---
 
