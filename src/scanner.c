@@ -190,7 +190,9 @@ no_shebang:;
 	matched_reader_macro:;
 
 		if (reader_macro_matched) {
-			lexer->advance(lexer, false);
+			if (!was_hashfn) {
+				lexer->advance(lexer, false);
+			}
 
 			const bool is_valid_reader_macro_position = !iswspace(lexer->lookahead)
 				&& !is_close_bracket(lexer->lookahead)
