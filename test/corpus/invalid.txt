@@ -21,4 +21,4 @@ calling colon string
 (program
   (list
     call: (string
-            content: string_content)))
+            content: (string_content))))

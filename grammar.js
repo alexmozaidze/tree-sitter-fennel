@@ -5,8 +5,8 @@ const forms = {
 };
 
 const PREC = {
-	COMPOUND: -1,
-	OVERRIDE_SYMBOL: 1,
+	COMPOUND: -2,
+	OVERRIDE_SYMBOL: -1,
 	STRING: 2,
 	MULTI_SYMBOL: 3,
 	READER_MACRO: 10,
@@ -14,8 +14,7 @@ const PREC = {
 
 // Symbols that should take priority over the default symbol definition.
 //
-// NOTE: They cannot be part of multi-symbols. See $.symbol_immediate if
-// you want to change this behaviour.
+// NOTE: They cannot be part of multi-symbols.
 const SPECIAL_OVERRIDE_SYMBOLS = [
 	'#',
 	'?.',
@@ -45,8 +44,8 @@ module.exports = grammar({
 		$._unquote_reader_macro_char,
 		$.__reader_macro_count,
 
-		$._colon_string_colon,
-		$._colon_string_content,
+		$.__colon_string_start_mark,
+		$.__colon_string_end_mark,
 		// TODO: Add shebang
 		// $.shebang,
 	],
@@ -67,6 +66,7 @@ module.exports = grammar({
 
 		_sexp: $ => choice(
 			$._reader_macro,
+			$._special_override_symbol,
 			$.symbol,
 			$.multi_symbol,
 			$.multi_symbol_method,
@@ -148,10 +148,18 @@ module.exports = grammar({
 		nil: $ => 'nil',
 		boolean: $ => choice('true', 'false'),
 
-		_colon_string: $ => seq(
-			field('open', alias($._colon_string_colon, ':')),
-			field('content', alias($._colon_string_content, $.string_content)),
-		),
+		_colon_string: $ => prec.right(PREC.STRING, seq(
+			field('open', ':'),
+			optional($.__colon_string_start_mark),
+			field('content', alias(choice(...[
+				'nil',
+				'true',
+				'false',
+				...SPECIAL_OVERRIDE_SYMBOLS,
+				/[^(){}\[\]"'~;,@`\s]+/,
+			].map(tk => token.immediate(tk))), $.string_content)),
+			optional($.__colon_string_end_mark),
+		)),
 
 		_double_quote_string: $ => seq(
 			field('open', '"'),
@@ -230,10 +238,8 @@ module.exports = grammar({
 		symbol_binding: $ => $.symbol,
 		_binding: $ => $.symbol,
 
-		symbol: $ => token(choice(
-			SYMBOL,
-			...SPECIAL_OVERRIDE_SYMBOLS,
-		)),
+		_special_override_symbol: $ => alias(choice(...SPECIAL_OVERRIDE_SYMBOLS), $.symbol),
+		symbol: $ => SYMBOL,
 		// NOTE: No special symbols, since they're supposed to
 		// be matched by themselves, NOT as part of multi-symbols.
 		symbol_immediate: $ => token.immediate(SYMBOL),

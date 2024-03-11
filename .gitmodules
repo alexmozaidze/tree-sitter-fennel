@@ -1,3 +1,6 @@
 [submodule "src/c-vector"]
 	path = src/c-vector
 	url = https://github.com/Mashpoe/c-vector.git
+[submodule "src/blox"]
+	path = src/blox
+	url = https://github.com/gardhr/blox.git

@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <wctype.h>
 #include <stdio.h>
-#include "c-vector/vec.h"
 
 typedef uint32_t uchar;
 
@@ -15,8 +14,8 @@ typedef enum TokenType {
 	TK_UNQUOTE,
 	TK_READER_MACRO_COUNT,
 
-	TK_COLON_STRING_COLON,
-	TK_COLON_STRING_CONTENT,
+	TK_COLON_STRING_START_MARK,
+	TK_COLON_STRING_END_MARK,
 
 	TK_SHEBANG,
 
@@ -43,26 +42,28 @@ inline static bool in_error_recovery(const bool *valid_symbols) {
 	return true;
 }
 
-inline static bool is_open_bracket(uchar ch) {
+inline bool is_open_bracket(uint32_t ch) {
 	switch (ch) {
 		case '(':
 		case '{':
 		case '[':
 			return true;
 	}
-
 	return false;
 }
 
-inline static bool is_close_bracket(uchar ch) {
+inline bool is_close_bracket(uint32_t ch) {
 	switch (ch) {
 		case ')':
 		case '}':
 		case ']':
 			return true;
 	}
-
 	return false;
+}
+
+inline static bool is_bracket(uchar ch) {
+	return is_open_bracket(ch) || is_close_bracket(ch);
 }
 
 inline static bool is_valid_colon_string_char(uchar ch) {
@@ -101,16 +102,13 @@ void* tree_sitter_fennel_external_scanner_create(
 	void
 )
 {
-	vec_BracketCount bracket_vec = vector_create();
-
-	return bracket_vec;
+	return NULL;
 }
 
 void tree_sitter_fennel_external_scanner_destroy(
 	void* payload
 )
 {
-	vector_free(&payload);
 }
 
 unsigned tree_sitter_fennel_external_scanner_serialize(
@@ -118,15 +116,7 @@ unsigned tree_sitter_fennel_external_scanner_serialize(
 	char* buffer
 )
 {
-	BracketCount *bracket_buf = (BracketCount*)buffer;
-	vec_BracketCount bracket_vec = (vec_BracketCount)payload;
-
-	int size = vector_size(bracket_vec);
-	for (int i = 0; i < size; i++) {
-		bracket_buf[i] = bracket_vec[i];
-	}
-
-	return sizeof(BracketCount[size]);
+	return 0;
 }
 
 void tree_sitter_fennel_external_scanner_deserialize(
@@ -135,21 +125,6 @@ void tree_sitter_fennel_external_scanner_deserialize(
 	unsigned length
 )
 {
-	if (length == 0) {
-		return;
-	}
-
-	const BracketCount *bracket_buf = (const BracketCount*)buffer;
-	vec_BracketCount bracket_vec = (vec_BracketCount)payload;
-
-	int size = vector_size(bracket_vec);
-	vector_erase(bracket_vec, 0, size);
-	size = vector_size(bracket_vec);
-
-	length = length / sizeof(BracketCount);
-	for (int i = 0; i < length; i++) {
-		vector_add(&bracket_vec, bracket_buf[i]);
-	}
 }
 
 bool tree_sitter_fennel_external_scanner_scan(
@@ -162,35 +137,15 @@ bool tree_sitter_fennel_external_scanner_scan(
 		return false;
 	}
 
-	const bool has_whitespace_appeared = iswspace(lexer->lookahead);
 	while (iswspace(lexer->lookahead)) {
 		lexer->advance(lexer, true);
 	}
 
-	if (valid_symbols[TK_COLON_STRING_COLON] && lexer->lookahead == ':' && has_whitespace_appeared) {
-		lexer->advance(lexer, false);
-
-		if (is_valid_colon_string_char(lexer->lookahead) && !lexer->eof(lexer)) {
-			lexer->result_symbol = TK_COLON_STRING_COLON;
-			return true;
-		} else {
-			return false;
-		}
-	}
-	if (valid_symbols[TK_COLON_STRING_CONTENT]) {
-		while (is_valid_colon_string_char(lexer->lookahead) && !lexer->eof(lexer)) {
-			lexer->advance(lexer, false);
-		}
-
-		lexer->result_symbol = TK_COLON_STRING_CONTENT;
-		return true;
-	}
-
-	bool reader_macro_matched = false;
-	TokenType reader_macro;
-
 	// NOTE: If one reader macro is expected, then all of them are
-	if (valid_symbols[TK_HASHFN]) {
+	if (valid_symbols[TK_HASHFN] && !valid_symbols[TK_COLON_STRING_END_MARK]) {
+		bool reader_macro_matched = false;
+		TokenType reader_macro;
+
 		for (int tk = 0; tk < TK_READER_MACRO_COUNT; tk++) {
 			if (lexer->lookahead == READER_MACRO_CHARS[tk]) {
 				reader_macro_matched = true;
@@ -198,17 +153,18 @@ bool tree_sitter_fennel_external_scanner_scan(
 				break;
 			}
 		}
-	}
-	if (reader_macro_matched) {
-		lexer->advance(lexer, false);
 
-		const bool is_valid_reader_macro_position = !iswspace(lexer->lookahead)
-			&& !is_close_bracket(lexer->lookahead)
-			&& !lexer->eof(lexer);
+		if (reader_macro_matched) {
+			lexer->advance(lexer, false);
 
-		if (is_valid_reader_macro_position) {
-			lexer->result_symbol = reader_macro;
-			return true;
+			const bool is_valid_reader_macro_position = !iswspace(lexer->lookahead)
+				&& !is_close_bracket(lexer->lookahead)
+				&& !lexer->eof(lexer);
+
+			if (is_valid_reader_macro_position) {
+				lexer->result_symbol = reader_macro;
+				return true;
+			}
 		}
 	}
 
