@@ -1,7 +1,7 @@
-const { pair } = require('./utils.js');
+const { pair, open, close, item, call } = require('./utils.js');
 
 const forms = {
-	// ...require('./forms/fennel.js').rules,
+	...require('./forms/fennel.js').rules,
 };
 
 const PREC = {
@@ -49,7 +49,10 @@ module.exports = grammar({
 	],
 
 	conflicts: $ => [
-		// [$.let_form_vars, $.sequence]
+		[$._binding, $._sexp],
+		[$.list_binding, $._let_form_vars_pair],
+		[$.sequence_binding, $.sequence],
+		// [$.let_form_vars, $.sequence],
 	],
 
 	word: $ => $.symbol,
@@ -68,7 +71,7 @@ module.exports = grammar({
 			$.symbol,
 			$.multi_symbol,
 			$.multi_symbol_method,
-			// $._form,
+			$._form,
 			$.list,
 			$.sequence,
 			$.table,
@@ -100,40 +103,40 @@ module.exports = grammar({
 		),
 
 		_list_content: $ => seq(
-			field('call', $._sexp),
-			repeat(field('item', $._sexp)),
+			call($._sexp),
+			repeat(item($._sexp)),
 		),
 
 		list: $ => prec.right(PREC.COMPOUND, seq(
-			field('open', '('),
+			open('('),
 			optional($._list_content),
-			field('close', ')'),
+			close(')'),
 		)),
 
-		// ...forms,
+		...forms,
 
-		// _form: $ => choice(
-		// 	...[...Object.keys(forms)].map(form => $[form])
-		// ),
+		_form_content: $ => choice(
+			...[...Object.keys(forms)].map(form => $[form])
+		),
 
-		// _form: $ => seq(
-		// 	field('open', '('),
-		// 	$._form_content,
-		// 	field('close', ')'),
-		// ),
+		_form: $ => seq(
+			open('('),
+			$._form_content,
+			close(')'),
+		),
 
 		sequence: $ => prec.dynamic(PREC.COMPOUND, seq(
-			field('open', '['),
-			repeat(field('item', $._sexp)),
-			field('close', ']'),
+			open('['),
+			repeat(item($._sexp)),
+			close(']'),
 		)),
 
 		_table_pair: $ => pair($, { field: 'key' }, { field: 'value' }),
 
 		table: $ => prec(PREC.COMPOUND, seq(
-			field('open', '{'),
+			open('{'),
 			repeat($._table_pair),
-			field('close', '}'),
+			close('}'),
 		)),
 
 		_literal: $ => choice(
@@ -147,7 +150,7 @@ module.exports = grammar({
 		boolean: $ => choice('true', 'false'),
 
 		_colon_string: $ => prec.right(PREC.STRING, seq(
-			field('open', ':'),
+			open(':'),
 			optional($.__colon_string_start_mark),
 			field('content', alias(choice(...[
 				'nil',
@@ -160,12 +163,12 @@ module.exports = grammar({
 		)),
 
 		_double_quote_string: $ => seq(
-			field('open', '"'),
+			open('"'),
 			field('content', alias(repeat(choice(
 				prec(PREC.STRING, /[^"\\]+/),
 				$.escape_sequence,
 			)), $.string_content)),
-			field('close', '"'),
+			close('"'),
 		),
 
 		string: $ => choice(
@@ -233,14 +236,41 @@ module.exports = grammar({
 			field('method', $._multi_symbol_fragment),
 		)),
 
-		symbol_binding: $ => $.symbol,
-		_binding: $ => $.symbol,
+		_binding: $ => choice(
+			alias($.symbol, $.symbol_binding),
+			$.list_binding,
+			$.sequence_binding,
+			$.table_binding,
+		),
+		list_binding: $ => seq(
+			open('('),
+			repeat(item($._binding)),
+			close(')'),
+		),
+		sequence_binding: $ => seq(
+			open('['),
+			repeat(item($._binding)),
+			close(']'),
+		),
+		_table_binding_key: $ => choice(
+			alias(':', $.symbol_binding),
+			// FIXME: Better name
+			alias($._colon_string, $.colon_string_binding),
+			$.symbol_option,
+		),
+		_table_binding_pair: $ => pair($, { lhs: $._table_binding_key }, { rhs: $._binding }),
+		table_binding: $ => seq(
+			open('{'),
+			repeat($._table_binding_pair),
+			close('}'),
+		),
 
+		symbol_option: $ => /&[^(){}\[\]"'~;,@`.:\s]*/,
 		symbol: $ => /[^#(){}\[\]"'~;,@`.:\s][^(){}\[\]"'~;,@`.:\s]*/,
 
 		// NOTE: multi-symbol fragments starting from second position onwards have fewer restrictions on what
-		// symbols they may contain, which is why its regex is just a stripped down version of $.symbol's.
-		_multi_symbol_fragment: $ => alias(token.immediate(/[^(){}\[\]"'~;,@`.:\s]*/), $.symbol_fragment),
+		// symbols they may contain, which is why its regex is just a stripped down version of $.symbol.
+		_multi_symbol_fragment: $ => alias(token.immediate(/[^(){}\[\]"'~;,@`.:\s]+/), $.symbol_fragment),
 
 		_special_override_symbol: $ => alias(choice(...SPECIAL_OVERRIDE_SYMBOLS), $.symbol),
 	},

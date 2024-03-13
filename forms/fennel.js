@@ -1,4 +1,4 @@
-const { pair } = require('../utils.js');
+const { pair, open, close, item, form } = require('../utils.js');
 
 const forms = {};
 const subforms = {};
@@ -8,28 +8,23 @@ const subforms = {};
 	'var',
 	'set',
 	'global',
-].forEach(name => forms[name] = $ => seq(
-		'(',
-		field('call', name),
+].forEach(name => forms[name] = $ => form($,
+		call(name),
 		pair($),
-		')',
 	)
 );
 
-subforms['_let_form_vars_pair'] = $ => pair($, { lhs: $.binding }, { rhs: $._sexp }),
+subforms['_let_form_vars_pair'] = $ => pair($, { lhs: $._binding }, { rhs: $._sexp }),
 subforms['let_form_vars'] = $ => seq(
-	field('open', '['),
+	open('['),
 	repeat($._let_form_vars_pair),
-	field('close', ']'),
+	close(']'),
 );
-forms['let'] = $ => seq(
-	'(',
-	field('call', 'let'),
+forms['let'] = $ => form($,
+	'let',
 	field('vars', $.let_form_vars),
-	repeat(field('item', $._sexp)),
-	')',
+	repeat(item($._sexp)),
 );
-
 
 const rules = {...subforms};
 for (const [name, rule] of Object.entries(forms)) {

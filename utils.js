@@ -94,4 +94,24 @@ function pair($, lhs, rhs) {
 	));
 }
 
-module.exports = { insert_between, gseq, pair, get_literal, apply_literal_recur };
+const open = $ => field('open', $);
+const close = $ => field('close', $);
+const item = $ => field('item', $);
+const call = $ => field('call', $);
+const form = ($, name, ...rest) => seq(
+	call(alias(name, $.symbol)),
+	...rest,
+);
+
+module.exports = {
+	insert_between,
+	gseq,
+	pair,
+	get_literal,
+	apply_literal_recur,
+	open,
+	close,
+	item,
+	call,
+	form,
+};

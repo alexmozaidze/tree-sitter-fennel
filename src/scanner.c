@@ -25,7 +25,6 @@ typedef enum TokenType {
 // SAFETY: Make sure that these values are synced with all
 // possible reader macro tokens.
 static const uchar READER_MACRO_CHARS[TK_READER_MACRO_COUNT] = {
-	// Reader Macros
 	[TK_HASHFN] = '#',
 	[TK_QUOTE] = '\'',
 	[TK_QUASI_QUOTE] = '`',
@@ -42,7 +41,7 @@ inline static bool in_error_recovery(const bool *valid_symbols) {
 	return true;
 }
 
-inline bool is_open_bracket(uint32_t ch) {
+inline static bool is_open_bracket(const uchar ch) {
 	switch (ch) {
 		case '(':
 		case '{':
@@ -52,7 +51,7 @@ inline bool is_open_bracket(uint32_t ch) {
 	return false;
 }
 
-inline bool is_close_bracket(uint32_t ch) {
+inline static bool is_close_bracket(const uchar ch) {
 	switch (ch) {
 		case ')':
 		case '}':
@@ -62,11 +61,11 @@ inline bool is_close_bracket(uint32_t ch) {
 	return false;
 }
 
-inline static bool is_bracket(uchar ch) {
+inline static bool is_bracket(const uchar ch) {
 	return is_open_bracket(ch) || is_close_bracket(ch);
 }
 
-inline static bool is_valid_colon_string_char(uchar ch) {
+inline static bool is_valid_colon_string_char(const uchar ch) {
 	if (iswspace(ch)) {
 		return false;
 	}
@@ -90,13 +89,6 @@ inline static bool is_valid_colon_string_char(uchar ch) {
 
 	return true;
 }
-
-typedef struct BracketCount {
-	uchar bracket;
-	uint16_t count;
-} BracketCount;
-
-typedef BracketCount* vec_BracketCount;
 
 void* tree_sitter_fennel_external_scanner_create(
 	void
@@ -142,20 +134,20 @@ bool tree_sitter_fennel_external_scanner_scan(
 		lexer->advance(lexer, true);
 	}
 
-	bool was_hashfn = false;
+	bool skipped_hashfn = false;
 	if (valid_symbols[TK_SHEBANG]) {
 		lexer->mark_end(lexer);
 
 		if (lexer->lookahead != '#') {
 			goto no_shebang;
 		}
-		was_hashfn = true;
+		skipped_hashfn = true;
 		lexer->advance(lexer, false);
 
 		if (lexer->lookahead != '!') {
 			goto no_shebang;
 		}
-		was_hashfn = false;
+		skipped_hashfn = false;
 		lexer->advance(lexer, false);
 
 		while (lexer->lookahead != '\n' && !lexer->eof(lexer)) {
@@ -174,7 +166,7 @@ no_shebang:;
 		bool reader_macro_matched = false;
 		TokenType reader_macro;
 
-		if (was_hashfn) {
+		if (skipped_hashfn) {
 			reader_macro_matched = true;
 			reader_macro = TK_HASHFN;
 			goto matched_reader_macro;
@@ -190,7 +182,7 @@ no_shebang:;
 	matched_reader_macro:;
 
 		if (reader_macro_matched) {
-			if (!was_hashfn) {
+			if (!skipped_hashfn) {
 				lexer->advance(lexer, false);
 			}
 
