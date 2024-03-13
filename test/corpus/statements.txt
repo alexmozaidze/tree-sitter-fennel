@@ -19,7 +19,7 @@ let form
 ===
 
 (let [key value
-      :key #()]
+      (key) #()]
   (print :one)
   (print "two"))
 
@@ -27,11 +27,12 @@ let form
 
 (program
   (let_form
+    call: (symbol)
     vars: (let_form_vars
-            lhs: (symbol)
+            lhs: (symbol_binding)
             rhs: (symbol)
-            lhs: (string
-                   content: (string_content))
+            lhs: (list_binding
+                   item: (symbol_binding))
             rhs: (hashfn_reader_macro
                    expression: (list)))
     item: (list

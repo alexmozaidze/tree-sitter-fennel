@@ -1,15 +1,7 @@
-const { pair, open, close, item, call } = require('./utils.js');
+const { pair, open, close, item, call, PREC } = require('./utils.js');
 
 const forms = {
 	...require('./forms/fennel.js').rules,
-};
-
-const PREC = {
-	COMPOUND: -2,
-	OVERRIDE_SYMBOL: -1,
-	STRING: 2,
-	MULTI_SYMBOL: 3,
-	READER_MACRO: 10,
 };
 
 // Symbols that should take priority over the default symbol definition.
@@ -48,12 +40,7 @@ module.exports = grammar({
 		$.shebang,
 	],
 
-	conflicts: $ => [
-		[$._binding, $._sexp],
-		[$.list_binding, $._let_form_vars_pair],
-		[$.sequence_binding, $.sequence],
-		// [$.let_form_vars, $.sequence],
-	],
+	conflicts: $ => [],
 
 	word: $ => $.symbol,
 
@@ -107,7 +94,7 @@ module.exports = grammar({
 			repeat(item($._sexp)),
 		),
 
-		list: $ => prec.right(PREC.COMPOUND, seq(
+		list: $ => prec(PREC.COMPOUND, seq(
 			open('('),
 			optional($._list_content),
 			close(')'),
@@ -115,17 +102,11 @@ module.exports = grammar({
 
 		...forms,
 
-		_form_content: $ => choice(
+		_form: $ => prec(2, choice(
 			...[...Object.keys(forms)].map(form => $[form])
-		),
+		)),
 
-		_form: $ => seq(
-			open('('),
-			$._form_content,
-			close(')'),
-		),
-
-		sequence: $ => prec.dynamic(PREC.COMPOUND, seq(
+		sequence: $ => prec(PREC.COMPOUND, seq(
 			open('['),
 			repeat(item($._sexp)),
 			close(']'),
@@ -236,28 +217,28 @@ module.exports = grammar({
 			field('method', $._multi_symbol_fragment),
 		)),
 
-		_binding: $ => choice(
+		_binding: $ => prec(PREC.BINDING, choice(
 			alias($.symbol, $.symbol_binding),
 			$.list_binding,
 			$.sequence_binding,
 			$.table_binding,
-		),
-		list_binding: $ => seq(
+		)),
+		list_binding: $ => prec(PREC.BINDING, seq(
 			open('('),
 			repeat(item($._binding)),
 			close(')'),
-		),
+		)),
 		sequence_binding: $ => seq(
 			open('['),
 			repeat(item($._binding)),
 			close(']'),
 		),
-		_table_binding_key: $ => choice(
+		_table_binding_key: $ => prec(PREC.BINDING, choice(
 			alias(':', $.symbol_binding),
 			// FIXME: Better name
 			alias($._colon_string, $.colon_string_binding),
 			$.symbol_option,
-		),
+		)),
 		_table_binding_pair: $ => pair($, { lhs: $._table_binding_key }, { rhs: $._binding }),
 		table_binding: $ => seq(
 			open('{'),
