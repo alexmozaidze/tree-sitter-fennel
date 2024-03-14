@@ -225,12 +225,16 @@ module.exports = grammar({
 		)),
 		list_binding: $ => prec(PREC.BINDING, seq(
 			open('('),
-			repeat(item($._binding)),
+			repeat1(item($._binding)),
 			close(')'),
 		)),
+		_sequence_binding_item: $ => choice(
+			$.symbol_option,
+			$._binding,
+		),
 		sequence_binding: $ => seq(
 			open('['),
-			repeat(item($._binding)),
+			repeat1(item($._sequence_binding_item)),
 			close(']'),
 		),
 		_table_binding_key: $ => prec(PREC.BINDING, choice(
@@ -242,7 +246,7 @@ module.exports = grammar({
 		_table_binding_pair: $ => pair($, { lhs: $._table_binding_key }, { rhs: $._binding }),
 		table_binding: $ => seq(
 			open('{'),
-			repeat($._table_binding_pair),
+			repeat1($._table_binding_pair),
 			close('}'),
 		),
 

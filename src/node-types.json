@@ -1304,7 +1304,7 @@
       },
       "item": {
         "multiple": true,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "list_binding",
@@ -2604,7 +2604,7 @@
       },
       "item": {
         "multiple": true,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "list_binding",
@@ -2616,6 +2616,10 @@
           },
           {
             "type": "symbol_binding",
+            "named": true
+          },
+          {
+            "type": "symbol_option",
             "named": true
           },
           {
@@ -3301,7 +3305,7 @@
       },
       "lhs": {
         "multiple": true,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "colon_string_binding",
