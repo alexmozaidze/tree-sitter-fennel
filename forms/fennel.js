@@ -27,45 +27,45 @@ forms['let'] = $ => form($,
 	repeat(item($._sexp)),
 );
 
-// subforms['_function_identifier'] = $ => choice(
-// 	$.symbol,
-// 	$.multi_symbol,
-// );
-// subforms['sequence_arguments'] = $ => seq(
-// 	open('['),
-// 	repeat(item($._binding)),
-// 	optional(choice(
-// 		item($.rest_binding),
-// 		item(alias('...', $.symbol)),
-// 	)),
-// 	close(']'),
-// );
-// subforms['_table_metadata_pair'] = $ => choice(
-// 	kv_pair($, { key: colon_string($, 'fnl/docstring') }, { value: alias($.string, $.docstring) }),
-// 	kv_pair($, { key: colon_string($, 'fnl/arglist') }, { value: $.sequence_arguments }),
-// 	kv_pair($, { key: $.string }),
-// );
-// subforms['table_metadata'] = $ => prec(1, seq(
-// 	open('{'),
-// 	repeat($._table_metadata_pair),
-// 	close('}'),
-// ));
-// [
-// 	'fn',
-// 	'lambda',
-// ].forEach(name => forms[name] = $ => form($,
-// 	name == 'lambda' ? choice(name, 'λ') : name,
-// 	optional(field('name', $._function_identifier)),
-// 	field('args', $.sequence_arguments),
-// 	choice(
-// 		seq(
-// 			// optional(field('docstring', prec(1, alias($.string, $.docstring)))),
-// 			optional(field('metadata', prec(1, $.table))),
-// 			repeat1(item($._sexp)),
-// 		),
-// 		repeat(item($._sexp)),
-// 	),
-// ));
+subforms['_function_identifier'] = $ => choice(
+	$.symbol,
+	$.multi_symbol,
+);
+subforms['sequence_arguments'] = $ => seq(
+	open('['),
+	repeat(item($._binding)),
+	optional(choice(
+		item($.rest_binding),
+		item(alias('...', $.symbol)),
+	)),
+	close(']'),
+);
+subforms['_table_metadata_pair'] = $ => choice(
+	kv_pair($, { key: colon_string($, 'fnl/docstring') }, { value: alias($.string, $.docstring) }),
+	kv_pair($, { key: colon_string($, 'fnl/arglist') }, { value: $.sequence_arguments }),
+	kv_pair($, { key: $.string }),
+);
+subforms['table_metadata'] = $ => prec(1, seq(
+	open('{'),
+	repeat($._table_metadata_pair),
+	close('}'),
+));
+[
+	'fn',
+	'lambda',
+].forEach(name => forms[name] = $ => prec(4, form($,
+		name == 'lambda' ? choice(name, 'λ') : name,
+		optional(field('name', $._function_identifier)),
+		field('args', $.sequence_arguments),
+		choice(
+			seq(
+				// optional(field('docstring', prec(1, alias($.string, $.docstring)))),
+				optional(field('metadata', prec(1, $.table))),
+				repeat1(item($._sexp)),
+			),
+			repeat(item($._sexp)),
+		),
+	)));
 
 const forms_ = {};
 for (const [name, rule] of Object.entries(forms)) {
