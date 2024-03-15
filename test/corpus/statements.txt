@@ -43,8 +43,9 @@ let form
                    item: (number))
             lhs: (sequence_binding
                    item: (symbol_binding)
-                   item: (symbol_option)
-                   item: (symbol_binding))
+                   item: (rest_binding
+                           lhs: (symbol_option)
+                           rhs: (symbol_binding)))
             rhs: (sequence
                    item: (number)
                    item: (number)
@@ -125,10 +126,10 @@ function/lambda definition
 ---
 
 (program
-  (list
+  (fn_form
     call: (symbol)
-    item: (symbol)
-    item: (sequence
+    name: (symbol)
+    args: (sequence
             item: (symbol)
             item: (symbol)
             item: (symbol))
@@ -139,24 +140,24 @@ function/lambda definition
             value: (symbol)
             key: (symbol)
             value: (symbol)))
-  (list
+  (fn_form
     call: (symbol)
-    item: (symbol)
-    item: (sequence
+    name: (symbol)
+    args: (sequence
             item: (symbol)
             item: (symbol)
             item: (symbol))
     item: (sequence
             item: (symbol)))
-  (list
+  (lambda_form
     call: (symbol)
-    item: (multi_symbol
+    name: (multi_symbol
             base: (symbol_fragment)
             member: (symbol_fragment))
-    item: (sequence
+    args: (sequence
             item: (symbol)
             item: (symbol)
-            item: (symbol)
+            item: (symbol_option)
             item: (symbol))
     item: (list
             call: (symbol)
@@ -167,16 +168,16 @@ function/lambda definition
     item: (list
             call: (symbol)
             item: (symbol)))
-  (list
+  (lambda_form
     call: (symbol)
-    item: (symbol)
-    item: (sequence)
-    item: (string
-            content: (string_content))
+    name: (symbol)
+    args: (sequence)
+    docstring: (string
+                 content: (string_content))
     item: (symbol))
-  (list
+  (lambda_form
     call: (symbol)
-    item: (symbol)
-    item: (sequence)
+    name: (symbol)
+    args: (sequence)
     item: (string
             content: (string_content))))

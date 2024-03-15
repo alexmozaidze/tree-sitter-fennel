@@ -95,21 +95,20 @@ function pair($, lhs, rhs) {
 }
 
 const PREC = {
+	FORM: -40,
 	BINDING: -2,
 	OVERRIDE_SYMBOL: -1,
 	STRING: 1,
 	MULTI_SYMBOL: 2,
-	FORM: 7,
 	COMPOUND: 9,
 	READER_MACRO: 10,
 };
 
-const form_prec = $ => prec(PREC.FORM, $);
 const open = $ => field('open', $);
 const close = $ => field('close', $);
 const item = $ => field('item', $);
 const call = $ => field('call', $);
-const form = ($, name, ...rest) => form_prec(seq(
+const form = ($, name, ...rest) => prec(PREC.FORM, seq(
 	open('('),
 	call(alias(name, $.symbol)),
 	...rest,
@@ -128,5 +127,4 @@ module.exports = {
 	call,
 	form,
 	PREC,
-	form_prec,
 };

@@ -1,7 +1,9 @@
-const { pair, open, close, item, form, form_prec } = require('../utils.js');
+const { pair, open, close, item, form, PREC } = require('../utils.js');
 
 const forms = {};
 const subforms = {};
+
+subforms['_binding_pair'] = $ => prec(PREC.FORM, pair($, { lhs: $._binding }, { rhs: $._sexp }));
 
 [
 	'local',
@@ -10,14 +12,13 @@ const subforms = {};
 	'global',
 ].forEach(name => forms[name] = $ => form($,
 		name,
-		pair($),
+		$._binding_pair,
 	)
 );
 
-subforms['_let_form_vars_pair'] = $ => form_prec(pair($, { lhs: $._binding }, { rhs: $._sexp })),
-subforms['let_form_vars'] = $ => form_prec(seq(
+subforms['let_form_vars'] = $ => prec(PREC.FORM, seq(
 	open('['),
-	repeat($._let_form_vars_pair),
+	repeat($._binding_pair),
 	close(']'),
 ));
 forms['let'] = $ => form($,
@@ -26,12 +27,28 @@ forms['let'] = $ => form($,
 	repeat(item($._sexp)),
 );
 
+subforms['_function_identifier'] = $ => prec(PREC.FORM, choice(
+	$.symbol,
+	$.multi_symbol,
+));
+[
+	'fn',
+	'lambda',
+].forEach(name => forms[name] = $ => form($,
+	name == 'lambda' ? choice(name, 'λ') : name,
+	optional(field('name', $._function_identifier)),
+	field('args', $.sequence),
+	optional(prec(PREC.FORM, field('docstring', $.string))),
+	optional(prec(PREC.FORM, field('metadata', $.table))),
+	repeat(item($._sexp)),
+));
+
 const rules = {...subforms};
 for (const [name, rule] of Object.entries(forms)) {
-	if (name.startsWith('_')) {
-		rules[name] = rule;
-	} else {
+	if (!name.startsWith('_')) {
 		rules[name + '_form'] = rule;
+	} else {
+		rules[name] = rule;
 	}
 }
 

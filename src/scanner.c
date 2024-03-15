@@ -32,23 +32,13 @@ static const uchar READER_MACRO_CHARS[TK_READER_MACRO_COUNT] = {
 };
 
 inline static bool in_error_recovery(const bool *valid_symbols) {
-	for (int i = 0; i <= TK_COUNT; i++) {
+	for (size_t i = 0; i <= TK_COUNT; i++) {
 		if (!valid_symbols[i]) {
 			return false;
 		}
 	}
 
 	return true;
-}
-
-inline static bool is_open_bracket(const uchar ch) {
-	switch (ch) {
-		case '(':
-		case '{':
-		case '[':
-			return true;
-	}
-	return false;
 }
 
 inline static bool is_close_bracket(const uchar ch) {
@@ -59,35 +49,6 @@ inline static bool is_close_bracket(const uchar ch) {
 			return true;
 	}
 	return false;
-}
-
-inline static bool is_bracket(const uchar ch) {
-	return is_open_bracket(ch) || is_close_bracket(ch);
-}
-
-inline static bool is_valid_colon_string_char(const uchar ch) {
-	if (iswspace(ch)) {
-		return false;
-	}
-
-	switch (ch) {
-		case '(':
-		case ')':
-		case '{':
-		case '}':
-		case '[':
-		case ']':
-		case '"':
-		case '\'':
-		case '~':
-		case ';':
-		case ',':
-		case '@':
-		case '`':
-			return false;
-	}
-
-	return true;
 }
 
 void* tree_sitter_fennel_external_scanner_create(
@@ -171,7 +132,7 @@ no_shebang:;
 			reader_macro = TK_HASHFN;
 			goto matched_reader_macro;
 		}
-		for (int tk = 0; tk < TK_READER_MACRO_COUNT; tk++) {
+		for (size_t tk = 0; tk < TK_READER_MACRO_COUNT; tk++) {
 			if (lexer->lookahead == READER_MACRO_CHARS[tk]) {
 				reader_macro_matched = true;
 				reader_macro = tk;

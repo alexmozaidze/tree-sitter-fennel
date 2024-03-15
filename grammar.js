@@ -1,12 +1,15 @@
 const { pair, open, close, item, call, PREC } = require('./utils.js');
 
 const forms = {
-	...require('./forms/fennel.js').rules,
+	...require('./forms/fennel.js'),
 };
 
 // Symbols that should take priority over the default symbol definition.
 //
-// NOTE: They cannot be part of multi-symbols.
+// NOTE: They are only used in $._sexp, which means that they will not
+// match if you just use $.symbol, you must explicitly specify
+// $._special_override_symbol. This also means that they cannot be a
+// part of multi-symbols.
 const SPECIAL_OVERRIDE_SYMBOLS = [
 	'#',
 	'?.',
@@ -40,7 +43,7 @@ module.exports = grammar({
 		$.shebang,
 	],
 
-	conflicts: $ => [],
+	inline: $ => [],
 
 	word: $ => $.symbol,
 
@@ -55,6 +58,7 @@ module.exports = grammar({
 		_sexp: $ => choice(
 			$._reader_macro,
 			$._special_override_symbol,
+			$.symbol_option,
 			$.symbol,
 			$.multi_symbol,
 			$.multi_symbol_method,
@@ -100,11 +104,9 @@ module.exports = grammar({
 			close(')'),
 		)),
 
-		...forms,
+		...forms.rules,
 
-		_form: $ => prec(2, choice(
-			...[...Object.keys(forms)].map(form => $[form])
-		)),
+		_form: $ => prec(PREC.FORM, choice(...[...Object.keys(forms.rules)].map(form => $[form]))),
 
 		sequence: $ => prec(PREC.COMPOUND, seq(
 			open('['),
@@ -167,6 +169,7 @@ module.exports = grammar({
 			),
 		)),
 
+		// TODO: Separate floats from integers
 		number: $ => {
 			const sign = choice('-', '+');
 			const digits = /\d[_\d]*/;
@@ -228,20 +231,20 @@ module.exports = grammar({
 			repeat1(item($._binding)),
 			close(')'),
 		)),
-		_sequence_binding_item: $ => choice(
-			$.symbol_option,
-			$._binding,
+		rest_binding: $ => pair($,
+			{ lhs: alias('&', $.symbol_option) },
+			{ rhs: $._binding },
 		),
 		sequence_binding: $ => seq(
 			open('['),
-			repeat1(item($._sequence_binding_item)),
+			repeat1(item($._binding)),
+			optional(item($.rest_binding)),
 			close(']'),
 		),
 		_table_binding_key: $ => prec(PREC.BINDING, choice(
 			alias(':', $.symbol_binding),
 			// FIXME: Better name
 			alias($._colon_string, $.colon_string_binding),
-			$.symbol_option,
 		)),
 		_table_binding_pair: $ => pair($, { lhs: $._table_binding_key }, { rhs: $._binding }),
 		table_binding: $ => seq(

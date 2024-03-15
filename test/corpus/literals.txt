@@ -135,7 +135,6 @@ test#test#test
 ..
 ...
 ?.
-&
 :
 #
 ~=
@@ -159,8 +158,22 @@ test#test#test
   (symbol)
   (symbol)
   (symbol)
-  (symbol)
   (symbol))
+
+===
+symbol options
+===
+
+&
+&asdaskldjh
+&#hoi
+
+---
+
+(program
+  (symbol_option)
+  (symbol_option)
+  (symbol_option))
 
 ===
 multi symbols
@@ -169,7 +182,7 @@ multi symbols
 string.format
 a.b.c.d.e.f.g
 ha.#haha
-&bl>/?.asd
+$bl>/?.asd
 
 ---
 
@@ -242,9 +255,9 @@ tables
     key: (number)
     value: (number)
     key: (symbol)
-    value: (list
+    value: (fn_form
              call: (symbol)
-             item: (sequence
+             args: (sequence
                      item: (symbol))
              item: (list
                      call: (symbol)
@@ -259,6 +272,7 @@ sequences / sequential tables
 ===
 
 ["abd" :lol ?. : #true]
+[a b & cs]
 
 ---
 
@@ -269,7 +283,12 @@ sequences / sequential tables
     (symbol)
     (symbol)
     (hashfn_reader_macro
-      (boolean))))
+      (boolean)))
+  (sequence
+    (symbol)
+    (symbol)
+    (symbol_option)
+    (symbol)))
 
 ===
 comments
@@ -294,13 +313,13 @@ comments
   (comment)
   (comment)
   (comment)
-  (list
+  (fn_form
     (comment)
-    (symbol) (comment)
-    (symbol) (comment)
-    (sequence (comment)
-      (symbol) (comment)) (comment)
-    (symbol) (comment)) (comment))
+    call: (symbol) (comment)
+    name: (symbol) (comment)
+    args: (sequence (comment)
+            item: (symbol) (comment)) (comment)
+    item: (symbol) (comment)) (comment))
 
 ===
 reader macros
@@ -310,7 +329,7 @@ reader macros
 `123
 `(+ ,a ,b)
 `("")
-'(fn)
+'(bleh)
 #(+ $1 $2)
 #$3
 #[$1 $2 $3]
