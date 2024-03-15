@@ -36,7 +36,7 @@ subforms['sequence_arguments'] = $ => seq(
 	repeat(item($._binding)),
 	optional(choice(
 		item($.rest_binding),
-		item(alias('...', $.symbol)),
+		item(alias('...', $.symbol_binding)),
 	)),
 	close(']'),
 );
@@ -53,19 +53,19 @@ subforms['table_metadata'] = $ => prec(1, seq(
 [
 	'fn',
 	'lambda',
-].forEach(name => forms[name] = $ => prec(4, form($,
-		name == 'lambda' ? choice(name, 'λ') : name,
-		optional(field('name', $._function_identifier)),
-		field('args', $.sequence_arguments),
-		choice(
-			seq(
-				// optional(field('docstring', prec(1, alias($.string, $.docstring)))),
-				optional(field('metadata', prec(1, $.table))),
-				repeat1(item($._sexp)),
-			),
-			repeat(item($._sexp)),
+].forEach(name => forms[name] = $ => prec(1, form($,
+	name == 'lambda' ? choice(name, 'λ') : name,
+	optional(field('name', $._function_identifier)),
+	field('args', $.sequence_arguments),
+	choice(
+		seq(
+			optional(field('docstring', prec(1, $.string))),
+			optional(field('metadata', prec(1, $.table_metadata))),
+			repeat1(item($._sexp)),
 		),
-	)));
+		repeat(item($._sexp)),
+	),
+)));
 
 const forms_ = {};
 for (const [name, rule] of Object.entries(forms)) {

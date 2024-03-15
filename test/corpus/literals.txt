@@ -229,7 +229,7 @@ tables
  "key" value
  :#$le_key :mamamia
  69 24
- ?. (fn [x] (+ x 2))}
+ ?. nestro}
 
 {key value}
 
@@ -255,14 +255,7 @@ tables
     key: (number)
     value: (number)
     key: (symbol)
-    value: (fn_form
-             call: (symbol)
-             args: (sequence
-                     item: (symbol))
-             item: (list
-                     call: (symbol)
-                     item: (symbol)
-                     item: (number))))
+    value: (symbol))
   (table
     key: (symbol)
     value: (symbol)))
@@ -317,8 +310,8 @@ comments
     (comment)
     call: (symbol) (comment)
     name: (symbol) (comment)
-    args: (sequence (comment)
-            item: (symbol) (comment)) (comment)
+    args: (sequence_arguments (comment)
+            item: (symbol_binding) (comment)) (comment)
     item: (symbol) (comment)) (comment))
 
 ===

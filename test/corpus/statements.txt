@@ -126,10 +126,10 @@ function definition
   (fn_form
     call: (symbol)
     name: (symbol)
-    args: (sequence
-            item: (symbol)
-            item: (symbol)
-            item: (symbol))
+    args: (sequence_arguments
+            item: (symbol_binding)
+            item: (symbol_binding)
+            item: (symbol_binding))
     item: (table
             key: (symbol)
             value: (symbol)
@@ -140,10 +140,10 @@ function definition
   (fn_form
     call: (symbol)
     name: (symbol)
-    args: (sequence
-            item: (symbol)
-            item: (symbol)
-            item: (symbol))
+    args: (sequence_arguments
+            item: (symbol_binding)
+            item: (symbol_binding)
+            item: (symbol_binding))
     item: (sequence
             item: (symbol)))
   (lambda_form
@@ -151,11 +151,12 @@ function definition
     name: (multi_symbol
             base: (symbol_fragment)
             member: (symbol_fragment))
-    args: (sequence
-            item: (symbol)
-            item: (symbol)
-            item: (symbol_option)
-            item: (symbol))
+    args: (sequence_arguments
+            item: (symbol_binding)
+            item: (symbol_binding)
+            item: (rest_binding
+                    lhs: (symbol_option)
+                    rhs: (symbol_binding)))
     item: (list
             call: (symbol)
             item: (symbol))
@@ -185,18 +186,18 @@ function metadata
   (lambda_form
     call: (symbol)
     name: (symbol)
-    args: (sequence)
+    args: (sequence_arguments)
     docstring: (string
                  content: (string_content))
     item: (symbol))
   (lambda_form
     call: (symbol)
     name: (symbol)
-    args: (sequence)
+    args: (sequence_arguments)
     item: (string
             content: (string_content)))
   (fn_form
     call: (symbol)
     name: (symbol)
-    args: (sequence)
+    args: (sequence_arguments)
     ))
