@@ -114,7 +114,7 @@ function kv_pair($, lhs, rhs, ...rest) {
 	lhs = lhs ?? {};
 	rhs = rhs ?? {};
 
-	return pair($, { lhs: lhs.key, field: 'key' }, { rhs: rhs.key, field: 'value' }, ...rest);
+	return pair($, { lhs: lhs.key, field: 'key' }, { rhs: rhs.value, field: 'value' }, ...rest);
 }
 
 const open = $ => field('open', $);
@@ -142,8 +142,27 @@ function colon_string($, content) {
 		optional($.__colon_string_start_mark),
 		field('content', alias(content, $.string_content)),
 		optional($.__colon_string_end_mark),
-	)
+	);
 };
+
+function double_quote_string($, content) {
+	if (content == null) {
+		throw new Error('String must contain *something*');
+	}
+
+	return seq(
+		open('"'),
+		field('content', alias(content, $.string_content)),
+		close('"'),
+	);
+}
+
+function string($, content) {
+	return choice(
+		colon_string($, content),
+		double_quote_string($, content),
+	)
+}
 
 const prec_default = node => prec(-50, node);
 
@@ -162,4 +181,6 @@ module.exports = {
 	SPECIAL_OVERRIDE_SYMBOLS,
 	colon_string,
 	prec_default,
+	double_quote_string,
+	string,
 };

@@ -1,9 +1,10 @@
-const { pair, open, close, item, form, colon_string, kv_pair } = require('../utils.js');
+const { pair, open, close, item, form, string, kv_pair } = require('../utils.js');
 
+const subrules = {};
+const operators = {};
 const forms = {};
-const subforms = {};
 
-subforms['_binding_pair'] = $ => pair($, { lhs: $._binding }, { rhs: $._sexp });
+subrules['_binding_pair'] = $ => pair($, { lhs: $._binding }, { rhs: $._sexp });
 
 [
 	'local',
@@ -16,7 +17,7 @@ subforms['_binding_pair'] = $ => pair($, { lhs: $._binding }, { rhs: $._sexp });
 	)
 );
 
-subforms['let_form_vars'] = $ => seq(
+subrules['let_form_vars'] = $ => seq(
 	open('['),
 	repeat($._binding_pair),
 	close(']'),
@@ -27,11 +28,11 @@ forms['let'] = $ => form($,
 	repeat(item($._sexp)),
 );
 
-subforms['_function_identifier'] = $ => choice(
+subrules['_function_identifier'] = $ => choice(
 	$.symbol,
 	$.multi_symbol,
 );
-subforms['sequence_arguments'] = $ => seq(
+subrules['sequence_arguments'] = $ => seq(
 	open('['),
 	repeat(item($._binding)),
 	optional(choice(
@@ -40,12 +41,14 @@ subforms['sequence_arguments'] = $ => seq(
 	)),
 	close(']'),
 );
-subforms['_table_metadata_pair'] = $ => choice(
-	kv_pair($, { key: colon_string($, 'fnl/docstring') }, { value: alias($.string, $.docstring) }),
-	kv_pair($, { key: colon_string($, 'fnl/arglist') }, { value: $.sequence_arguments }),
+subrules['_table_metadata_key_docstring'] = $ => string($, 'fnl/docstring');
+subrules['_table_metadata_key_arglist'] = $ => string($, 'fnl/arglist');
+subrules['_table_metadata_pair'] = $ => choice(
+	kv_pair($, { key: alias($._table_metadata_key_docstring, $.string) }, { value: alias($.string, $.docstring) }),
+	kv_pair($, { key: alias($._table_metadata_key_arglist, $.string) }, { value: $.sequence_arguments }),
 	kv_pair($, { key: $.string }),
 );
-subforms['table_metadata'] = $ => prec(1, seq(
+subrules['table_metadata'] = $ => prec(1, seq(
 	open('{'),
 	repeat($._table_metadata_pair),
 	close('}'),
@@ -59,24 +62,31 @@ subforms['table_metadata'] = $ => prec(1, seq(
 	field('args', $.sequence_arguments),
 	choice(
 		seq(
-			optional(field('docstring', prec(1, $.string))),
-			optional(field('metadata', prec(1, $.table_metadata))),
+			optional(field('docstring', prec(1, alias($.string, $.docstring)))),
+			optional(field('metadata', $.table_metadata)),
 			repeat1(item($._sexp)),
 		),
 		repeat(item($._sexp)),
 	),
 )));
 
-const forms_ = {};
+const rules = {};
 for (const [name, rule] of Object.entries(forms)) {
 	if (!name.startsWith('_')) {
-		forms_[name + '_form'] = rule;
+		rules[name + '_form'] = rule;
 	} else {
-		forms_[name] = rule;
+		rules[name] = rule;
+	}
+}
+for (const [name, rule] of Object.entries(operators)) {
+	if (!name.startsWith('_')) {
+		rules[name + '_operator'] = rule;
+	} else {
+		rules[name] = rule;
 	}
 }
 
 module.exports = {
-	subforms,
-	forms: forms_,
+	subrules,
+	rules,
 };

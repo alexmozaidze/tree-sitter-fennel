@@ -1,4 +1,4 @@
-const { pair, kv_pair, open, close, item, call, SPECIAL_OVERRIDE_SYMBOLS, colon_string, prec_default } = require('./utils.js');
+const { pair, kv_pair, open, close, item, call, SPECIAL_OVERRIDE_SYMBOLS, colon_string, double_quote_string } = require('./utils.js');
 
 const forms = {
 	...require('./forms/fennel.js'),
@@ -88,10 +88,10 @@ module.exports = grammar({
 			close(')'),
 		),
 
-		...forms.subforms,
-		...forms.forms,
+		...forms.subrules,
+		...forms.rules,
 
-		_form: $ => choice(...[...Object.keys(forms.forms)].map(form => $[form])),
+		_form: $ => choice(...[...Object.keys(forms.rules)].map(form => $[form])),
 
 		sequence: $ => seq(
 			open('['),
@@ -107,17 +107,17 @@ module.exports = grammar({
 			close('}'),
 		),
 
-		_literal: $ => choice(
+		_literal: $ => prec(-1, choice(
 			$.string,
 			$.number,
 			$.boolean,
 			$.nil,
-		),
+		)),
 
 		nil: $ => 'nil',
 		boolean: $ => choice('true', 'false'),
 
-		_colon_string: $ => prec.right(colon_string($, choice(
+		_colon_string: $ => colon_string($, choice(
 			...[
 				// HACK(alexmozaidze): Fixes expressions such as:
 				// `:?.`
@@ -134,15 +134,13 @@ module.exports = grammar({
 				...SPECIAL_OVERRIDE_SYMBOLS,
 				/[^(){}\[\]"'~;,@`\s]+/,
 			].map(tk => token.immediate(tk))
-		))),
+		)),
 
-		_double_quote_string: $ => seq(
-			open('"'),
-			field('content', alias(repeat(choice(
+		_double_quote_string: $ => double_quote_string($,
+			repeat(choice(
 				/[^"\\]+/,
 				$.escape_sequence,
-			)), $.string_content)),
-			close('"'),
+			))
 		),
 
 		string: $ => choice(

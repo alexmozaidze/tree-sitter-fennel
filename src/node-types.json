@@ -31,6 +31,46 @@
     }
   },
   {
+    "type": "docstring",
+    "named": true,
+    "fields": {
+      "close": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "\"",
+            "named": false
+          }
+        ]
+      },
+      "content": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "string_content",
+            "named": true
+          }
+        ]
+      },
+      "open": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\"",
+            "named": false
+          },
+          {
+            "type": ":",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "fn_form",
     "named": true,
     "fields": {
@@ -69,7 +109,7 @@
         "required": false,
         "types": [
           {
-            "type": "string",
+            "type": "docstring",
             "named": true
           }
         ]
@@ -173,7 +213,7 @@
         "required": false,
         "types": [
           {
-            "type": "table",
+            "type": "table_metadata",
             "named": true
           }
         ]
@@ -505,7 +545,7 @@
         "required": false,
         "types": [
           {
-            "type": "string",
+            "type": "docstring",
             "named": true
           }
         ]
@@ -609,7 +649,7 @@
         "required": false,
         "types": [
           {
-            "type": "table",
+            "type": "table_metadata",
             "named": true
           }
         ]
@@ -2441,7 +2481,69 @@
         "required": false,
         "types": [
           {
+            "type": "list_binding",
+            "named": true
+          },
+          {
+            "type": "sequence_binding",
+            "named": true
+          },
+          {
+            "type": "symbol_binding",
+            "named": true
+          },
+          {
+            "type": "table_binding",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "table_metadata",
+    "named": true,
+    "fields": {
+      "close": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "}",
+            "named": false
+          }
+        ]
+      },
+      "key": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      },
+      "open": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "{",
+            "named": false
+          }
+        ]
+      },
+      "value": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
             "type": "boolean",
+            "named": true
+          },
+          {
+            "type": "docstring",
             "named": true
           },
           {
@@ -2498,6 +2600,10 @@
           },
           {
             "type": "sequence",
+            "named": true
+          },
+          {
+            "type": "sequence_arguments",
             "named": true
           },
           {
