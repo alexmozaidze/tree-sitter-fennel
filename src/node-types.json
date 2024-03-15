@@ -5,6 +5,11 @@
     "fields": {}
   },
   {
+    "type": "boolean_binding",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "docstring",
     "named": true,
     "fields": {
@@ -3178,6 +3183,10 @@
   },
   {
     "type": "number",
+    "named": true
+  },
+  {
+    "type": "number_binding",
     "named": true
   },
   {

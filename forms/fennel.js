@@ -74,7 +74,11 @@ forms['hashfn'] = $ => form($,
 	item($._sexp),
 );
 
-// subrules['case_pair'] = $ => pair($);
+// TODO: case, match, case-try, match-try.
+// I should parse the (= pin) expression as well,
+// since it's quite hard to capture with queries reliably.
+
+// subrules['_case_pair'] = $ => pair($);
 // [
 // 	'case',
 // 	'match',

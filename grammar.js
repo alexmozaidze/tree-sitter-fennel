@@ -234,7 +234,7 @@ module.exports = grammar({
 		),
 		_table_binding_key: $ => choice(
 			alias(':', $.symbol_binding),
-			alias($.string, $.string_binding),
+			$._string_binding,
 			$.symbol_option,
 		),
 		_table_binding_pair: $ => kv_pair($, { key: $._table_binding_key }, { value: $._symbol_binding }),
@@ -243,6 +243,17 @@ module.exports = grammar({
 			repeat1($._table_binding_pair),
 			close('}'),
 		),
+		// NOTE: Literal binding is made for pattern-matching forms. Don't use it elsewhere.
+		_literal_binding: $ => choice(
+			$._string_binding,
+			$._number_binding,
+			$._boolean_binding,
+			$._nil_binding,
+		),
+		_string_binding: $ => alias($.string, $.string_binding),
+		_number_binding: $ => alias($.number, $.number_binding),
+		_boolean_binding: $ => alias($.boolean, $.boolean_binding),
+		_nil_binding: $ => alias($.number, $.number_binding),
 
 		symbol_option: $ => /&[^(){}\[\]"'~;,@`.:\s]*/,
 		symbol: $ => /[^#(){}\[\]"'~;,@`.:\s][^(){}\[\]"'~;,@`.:\s]*/,

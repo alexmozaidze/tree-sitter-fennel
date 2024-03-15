@@ -2174,13 +2174,8 @@
           "value": "symbol_binding"
         },
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "string"
-          },
-          "named": true,
-          "value": "string_binding"
+          "type": "SYMBOL",
+          "name": "_string_binding"
         },
         {
           "type": "SYMBOL",
@@ -2248,6 +2243,63 @@
           }
         }
       ]
+    },
+    "_literal_binding": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_string_binding"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_number_binding"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_boolean_binding"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_nil_binding"
+        }
+      ]
+    },
+    "_string_binding": {
+      "type": "ALIAS",
+      "content": {
+        "type": "SYMBOL",
+        "name": "string"
+      },
+      "named": true,
+      "value": "string_binding"
+    },
+    "_number_binding": {
+      "type": "ALIAS",
+      "content": {
+        "type": "SYMBOL",
+        "name": "number"
+      },
+      "named": true,
+      "value": "number_binding"
+    },
+    "_boolean_binding": {
+      "type": "ALIAS",
+      "content": {
+        "type": "SYMBOL",
+        "name": "boolean"
+      },
+      "named": true,
+      "value": "boolean_binding"
+    },
+    "_nil_binding": {
+      "type": "ALIAS",
+      "content": {
+        "type": "SYMBOL",
+        "name": "number"
+      },
+      "named": true,
+      "value": "number_binding"
     },
     "symbol_option": {
       "type": "PATTERN",
