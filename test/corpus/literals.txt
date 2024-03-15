@@ -372,3 +372,56 @@ reader macros
                   value: (symbol)
                   key: (symbol)
                   value: (symbol))))
+
+===
+bindings
+===
+
+(local lol 42)
+(local (a b c) 42)
+(local [a b c] 42)
+(local [a b & cs] 42)
+(local {:A a : b &as cs} 42)
+
+---
+
+(program
+  (local_form
+    call: (symbol)
+    lhs: (symbol_binding)
+    rhs: (number))
+  (local_form
+    call: (symbol)
+    lhs: (list_binding
+           item: (symbol_binding)
+           item: (symbol_binding)
+           item: (symbol_binding))
+    rhs: (number))
+  (local_form
+    call: (symbol)
+    lhs: (sequence_binding
+           item: (symbol_binding)
+           item: (symbol_binding)
+           item: (symbol_binding))
+    rhs: (number))
+  (local_form
+    call: (symbol)
+    lhs: (sequence_binding
+           item: (symbol_binding)
+           item: (symbol_binding)
+           item: (rest_binding
+                   lhs: (symbol_option)
+                   rhs: (symbol_binding)))
+    rhs: (number))
+  (local_form
+    call: (symbol)
+    lhs: (table_binding
+           key: (string_binding
+                  content: (string_content))
+           value: (symbol_binding)
+           key: (symbol_binding)
+           value: (symbol_binding)
+           key: (symbol_option)
+           value: (symbol_binding))
+    rhs: (number))
+  )

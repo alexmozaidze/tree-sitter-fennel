@@ -1,7 +1,6 @@
 const { pair, open, close, item, form, string, kv_pair } = require('../utils.js');
 
 const subrules = {};
-const operators = {};
 const forms = {};
 
 subrules['_binding_pair'] = $ => pair($, { lhs: $._binding }, { rhs: $._sexp });
@@ -70,17 +69,25 @@ subrules['table_metadata'] = $ => prec(1, seq(
 	),
 )));
 
+forms['hashfn'] = $ => form($,
+	'hashfn',
+	item($._sexp),
+);
+
+// subrules['case_pair'] = $ => pair($);
+// [
+// 	'case',
+// 	'match',
+// ].forEach(name => forms[name] = $ => form($,
+// 	name,
+// 	item($._sexp),
+// 	repeat(),
+// ));
+
 const rules = {};
 for (const [name, rule] of Object.entries(forms)) {
 	if (!name.startsWith('_')) {
 		rules[name + '_form'] = rule;
-	} else {
-		rules[name] = rule;
-	}
-}
-for (const [name, rule] of Object.entries(operators)) {
-	if (!name.startsWith('_')) {
-		rules[name + '_operator'] = rule;
 	} else {
 		rules[name] = rule;
 	}

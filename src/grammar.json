@@ -1220,6 +1220,48 @@
         ]
       }
     },
+    "hashfn_form": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "open",
+          "content": {
+            "type": "STRING",
+            "value": "("
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "call",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "STRING",
+              "value": "hashfn"
+            },
+            "named": true,
+            "value": "symbol"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "item",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_sexp"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "close",
+          "content": {
+            "type": "STRING",
+            "value": ")"
+          }
+        }
+      ]
+    },
     "_form": {
       "type": "CHOICE",
       "members": [
@@ -1250,6 +1292,10 @@
         {
           "type": "SYMBOL",
           "name": "lambda_form"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "hashfn_form"
         }
       ]
     },
@@ -1971,13 +2017,8 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "symbol"
-          },
-          "named": true,
-          "value": "symbol_binding"
+          "type": "SYMBOL",
+          "name": "_symbol_binding"
         },
         {
           "type": "SYMBOL",
@@ -1992,6 +2033,15 @@
           "name": "table_binding"
         }
       ]
+    },
+    "_symbol_binding": {
+      "type": "ALIAS",
+      "content": {
+        "type": "SYMBOL",
+        "name": "symbol"
+      },
+      "named": true,
+      "value": "symbol_binding"
     },
     "list_binding": {
       "type": "SEQ",
@@ -2127,10 +2177,14 @@
           "type": "ALIAS",
           "content": {
             "type": "SYMBOL",
-            "name": "_colon_string"
+            "name": "string"
           },
           "named": true,
-          "value": "colon_string_binding"
+          "value": "string_binding"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "symbol_option"
         }
       ]
     },
@@ -2156,7 +2210,7 @@
                 "name": "value",
                 "content": {
                   "type": "SYMBOL",
-                  "name": "_binding"
+                  "name": "_symbol_binding"
                 }
               },
               {

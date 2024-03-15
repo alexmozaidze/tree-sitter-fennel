@@ -1,4 +1,4 @@
-const { pair, kv_pair, open, close, item, call, SPECIAL_OVERRIDE_SYMBOLS, colon_string, double_quote_string } = require('./utils.js');
+const { pair, kv_pair, open, close, item, call, SPECIAL_OVERRIDE_SYMBOLS, colon_string, double_quote_string, string } = require('./utils.js');
 
 const forms = {
 	...require('./forms/fennel.js'),
@@ -37,6 +37,7 @@ module.exports = grammar({
 		),
 
 		// TODO: Separate comment semicolon and body.
+		// NOTE: Should I separate comment semicolon from body?
 		comment: $ => /;.*\n?/,
 
 		_sexp: $ => choice(
@@ -210,11 +211,12 @@ module.exports = grammar({
 		),
 
 		_binding: $ => choice(
-			alias($.symbol, $.symbol_binding),
+			$._symbol_binding,
 			$.list_binding,
 			$.sequence_binding,
 			$.table_binding,
 		),
+		_symbol_binding: $ => alias($.symbol, $.symbol_binding),
 		list_binding: $ => seq(
 			open('('),
 			repeat1(item($._binding)),
@@ -232,10 +234,10 @@ module.exports = grammar({
 		),
 		_table_binding_key: $ => choice(
 			alias(':', $.symbol_binding),
-			// FIXME: Better name
-			alias($._colon_string, $.colon_string_binding),
+			alias($.string, $.string_binding),
+			$.symbol_option,
 		),
-		_table_binding_pair: $ => kv_pair($, { key: $._table_binding_key }, { value: $._binding }),
+		_table_binding_pair: $ => kv_pair($, { key: $._table_binding_key }, { value: $._symbol_binding }),
 		table_binding: $ => seq(
 			open('{'),
 			repeat1($._table_binding_pair),
