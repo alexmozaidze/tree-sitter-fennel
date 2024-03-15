@@ -1,25 +1,8 @@
-const { pair, open, close, item, call, PREC } = require('./utils.js');
+const { pair, kv_pair, open, close, item, call, SPECIAL_OVERRIDE_SYMBOLS, colon_string, prec_default } = require('./utils.js');
 
 const forms = {
 	...require('./forms/fennel.js'),
 };
-
-// Symbols that should take priority over the default symbol definition.
-//
-// NOTE: They are only used in $._sexp, which means that they will not
-// match if you just use $.symbol, you must explicitly specify
-// $._special_override_symbol. This also means that they cannot be a
-// part of multi-symbols.
-const SPECIAL_OVERRIDE_SYMBOLS = [
-	'#',
-	'?.',
-	'~=',
-	':',
-	'$...',
-	'...',
-	'..',
-	'.',
-];
 
 module.exports = grammar({
 	name: 'fennel',
@@ -53,6 +36,7 @@ module.exports = grammar({
 			repeat($._sexp),
 		),
 
+		// TODO: Separate comment semicolon and body.
 		comment: $ => /;.*\n?/,
 
 		_sexp: $ => choice(
@@ -98,29 +82,30 @@ module.exports = grammar({
 			repeat(item($._sexp)),
 		),
 
-		list: $ => prec(PREC.COMPOUND, seq(
+		list: $ => seq(
 			open('('),
 			optional($._list_content),
 			close(')'),
-		)),
+		),
 
-		...forms.rules,
+		...forms.subforms,
+		...forms.forms,
 
-		_form: $ => prec(PREC.FORM, choice(...[...Object.keys(forms.rules)].map(form => $[form]))),
+		_form: $ => choice(...[...Object.keys(forms.forms)].map(form => $[form])),
 
-		sequence: $ => prec(PREC.COMPOUND, seq(
+		sequence: $ => seq(
 			open('['),
 			repeat(item($._sexp)),
 			close(']'),
-		)),
+		),
 
-		_table_pair: $ => pair($, { field: 'key' }, { field: 'value' }),
+		_table_pair: $ => kv_pair($),
 
-		table: $ => prec(PREC.COMPOUND, seq(
+		table: $ => seq(
 			open('{'),
 			repeat($._table_pair),
 			close('}'),
-		)),
+		),
 
 		_literal: $ => choice(
 			$.string,
@@ -132,23 +117,29 @@ module.exports = grammar({
 		nil: $ => 'nil',
 		boolean: $ => choice('true', 'false'),
 
-		_colon_string: $ => prec.right(PREC.STRING, seq(
-			open(':'),
-			optional($.__colon_string_start_mark),
-			field('content', alias(choice(...[
+		_colon_string: $ => prec.right(colon_string($, choice(
+			...[
+				// HACK(alexmozaidze): Fixes expressions such as:
+				// `:?.`
+				// `:true`
+				// `:nil`
+				// `:$...`
+				//
+				// and so on, being parsed as 2 separate tokens.
+				// Dynamic precedence could eliminate this HACK, but
+				// I would prefer to stray away from it.
 				'nil',
 				'true',
 				'false',
 				...SPECIAL_OVERRIDE_SYMBOLS,
 				/[^(){}\[\]"'~;,@`\s]+/,
-			].map(tk => token.immediate(tk))), $.string_content)),
-			optional($.__colon_string_end_mark),
-		)),
+			].map(tk => token.immediate(tk))
+		))),
 
 		_double_quote_string: $ => seq(
 			open('"'),
 			field('content', alias(repeat(choice(
-				prec(PREC.STRING, /[^"\\]+/),
+				/[^"\\]+/,
 				$.escape_sequence,
 			)), $.string_content)),
 			close('"'),
@@ -203,34 +194,34 @@ module.exports = grammar({
 			));
 		},
 
-		multi_symbol: $ => prec.dynamic(PREC.MULTI_SYMBOL, seq(
+		multi_symbol: $ => seq(
 			field('base', alias($.symbol, $.symbol_fragment)),
 			repeat1(seq(
 				token.immediate('.'),
 				field('member', $._multi_symbol_fragment),
 			)),
-		)),
+		),
 
-		multi_symbol_method: $ => prec.right(seq(
+		multi_symbol_method: $ => seq(
 			field('base', choice(
 				alias($.symbol, $.symbol_fragment),
 				$.multi_symbol,
 			)),
 			token.immediate(':'),
 			field('method', $._multi_symbol_fragment),
-		)),
+		),
 
-		_binding: $ => prec(PREC.BINDING, choice(
+		_binding: $ => choice(
 			alias($.symbol, $.symbol_binding),
 			$.list_binding,
 			$.sequence_binding,
 			$.table_binding,
-		)),
-		list_binding: $ => prec(PREC.BINDING, seq(
+		),
+		list_binding: $ => seq(
 			open('('),
 			repeat1(item($._binding)),
 			close(')'),
-		)),
+		),
 		rest_binding: $ => pair($,
 			{ lhs: alias('&', $.symbol_option) },
 			{ rhs: $._binding },
@@ -241,12 +232,12 @@ module.exports = grammar({
 			optional(item($.rest_binding)),
 			close(']'),
 		),
-		_table_binding_key: $ => prec(PREC.BINDING, choice(
+		_table_binding_key: $ => choice(
 			alias(':', $.symbol_binding),
 			// FIXME: Better name
 			alias($._colon_string, $.colon_string_binding),
-		)),
-		_table_binding_pair: $ => pair($, { lhs: $._table_binding_key }, { rhs: $._binding }),
+		),
+		_table_binding_pair: $ => kv_pair($, { key: $._table_binding_key }, { value: $._binding }),
 		table_binding: $ => seq(
 			open('{'),
 			repeat1($._table_binding_pair),

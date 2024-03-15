@@ -1,4 +1,19 @@
-const { cloneDeep } = require('lodash');
+// Symbols that should take priority over the default symbol definition.
+//
+// NOTE: They are only used in $._sexp, which means that they will not
+// match if you just use $.symbol, you must explicitly specify
+// $._special_override_symbol. This also means that they cannot be a
+// part of multi-symbols.
+const SPECIAL_OVERRIDE_SYMBOLS = [
+	'#',
+	'?.',
+	'~=',
+	':',
+	'$...',
+	'...',
+	'..',
+	'.',
+];
 
 function is_literal(node) {
 	return typeof node === 'string' || node instanceof RegExp;
@@ -40,7 +55,7 @@ function apply_literal_recur($, node, func) {
 		case 'TOKEN':
 		case 'IMMEDIATE_TOKEN':
 			if (is_literal(node.content)) {
-				const node_backup = cloneDeep(node);
+				const node_backup = require('lodash').cloneDeep(node);
 				// If it doesn't return a new node, we put back the old one
 				node = func(node) ?? node_backup;
 			} else {
@@ -76,7 +91,7 @@ function gseq($, ...nodes) {
  * Helper function that constructs a pair value.
  * Useful for associative structures.
  */
-function pair($, lhs, rhs) {
+function pair($, lhs, rhs, precedence) {
 	lhs = lhs ?? {};
 	lhs_field = lhs.field ?? 'lhs';
 	lhs = lhs.lhs ?? $._sexp;
@@ -86,38 +101,56 @@ function pair($, lhs, rhs) {
 	rhs_optional = rhs.optional ?? true;
 	rhs = rhs.rhs ?? $._sexp;
 
-	return prec.right(seq(
+	const prec_right = precedence == null ?  node => prec.right(node) : node => prec.right(precedence, node);
+
+	return prec_right(seq(
 		field(lhs_field, lhs),
 		// NOTE: The `optional` here kind of "normalizes" the tree if the pair is not complete,
 		// as if it's in the process of typing.
 		rhs_optional ? optional(field(rhs_field, rhs)) : field(rhs_field, rhs),
 	));
 }
+function kv_pair($, lhs, rhs, ...rest) {
+	lhs = lhs ?? {};
+	rhs = rhs ?? {};
 
-const PREC = {
-	FORM: -40,
-	BINDING: -2,
-	OVERRIDE_SYMBOL: -1,
-	STRING: 1,
-	MULTI_SYMBOL: 2,
-	COMPOUND: 9,
-	READER_MACRO: 10,
-};
+	return pair($, { lhs: lhs.key, field: 'key' }, { rhs: rhs.key, field: 'value' }, ...rest);
+}
 
 const open = $ => field('open', $);
 const close = $ => field('close', $);
 const item = $ => field('item', $);
 const call = $ => field('call', $);
-const form = ($, name, ...rest) => prec(PREC.FORM, seq(
+const form = ($, name, ...rest) => seq(
 	open('('),
 	call(alias(name, $.symbol)),
 	...rest,
 	close(')'),
-));
+);
+
+function colon_string($, content) {
+	if (content == null) {
+		throw new Error('Colon string must contain *something*');
+	}
+
+	if (is_literal(content)) {
+		content = token.immediate(content);
+	}
+
+	return seq(
+		open(':'),
+		optional($.__colon_string_start_mark),
+		field('content', alias(content, $.string_content)),
+		optional($.__colon_string_end_mark),
+	)
+};
+
+const prec_default = node => prec(-50, node);
 
 module.exports = {
 	insert_between,
 	gseq,
+	kv_pair,
 	pair,
 	get_literal,
 	apply_literal_recur,
@@ -126,5 +159,7 @@ module.exports = {
 	item,
 	call,
 	form,
-	PREC,
+	SPECIAL_OVERRIDE_SYMBOLS,
+	colon_string,
+	prec_default,
 };

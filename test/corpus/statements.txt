@@ -109,7 +109,7 @@ method call
             content: (string_content))))
 
 ===
-function/lambda definition
+function definition
 ===
 
 (fn abcs [a b c] {: a : b : c})
@@ -119,9 +119,6 @@ function/lambda definition
   (print a)
   (print b)
   (print cs))
-
-(λ ooo-docstring [] :docstring a)
-(λ booo-no-docstring [] :not-docstring)
 
 ---
 
@@ -167,7 +164,24 @@ function/lambda definition
             item: (symbol))
     item: (list
             call: (symbol)
-            item: (symbol)))
+            item: (symbol))))
+
+===
+function metadata
+===
+
+(λ ooo-docstring [] :docstring a)
+(λ booo-no-docstring [] :not-docstring)
+
+(fn ayo-some-metadata-over-here [a b & cs]
+  "This function does something..."
+  {:fnl/arglist [a b & cs]
+   :fnl/docstring "Ha! Now it's a different docstring!"}
+  b)
+
+---
+
+(program
   (lambda_form
     call: (symbol)
     name: (symbol)
@@ -180,4 +194,9 @@ function/lambda definition
     name: (symbol)
     args: (sequence)
     item: (string
-            content: (string_content))))
+            content: (string_content)))
+  (fn_form
+    call: (symbol)
+    name: (symbol)
+    args: (sequence)
+    ))
