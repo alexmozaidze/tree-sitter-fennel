@@ -1,6 +1,6 @@
 const { pair, kv_pair, open, close, item, call, SPECIAL_OVERRIDE_SYMBOLS, colon_string, double_quote_string, string } = require('./utils.js');
 
-const forms = {
+const extensions = {
 	...require('./forms/fennel.js'),
 };
 
@@ -89,10 +89,10 @@ module.exports = grammar({
 			close(')'),
 		),
 
-		...forms.subrules,
-		...forms.rules,
+		...extensions.rules,
+		...extensions.forms,
 
-		_form: $ => choice(...[...Object.keys(forms.rules)].map(form => $[form])),
+		_form: $ => choice(...[...Object.keys(extensions.forms)].map(form => $[form])),
 
 		sequence: $ => seq(
 			open('['),
@@ -129,6 +129,8 @@ module.exports = grammar({
 				// and so on, being parsed as 2 separate tokens.
 				// Dynamic precedence could eliminate this HACK, but
 				// I would prefer to stray away from it.
+				//
+				// TODO: Find a way to get rid of this HACK.
 				'nil',
 				'true',
 				'false',
@@ -159,7 +161,7 @@ module.exports = grammar({
 			),
 		)),
 
-		// TODO: Separate floats from integers
+		// TODO: Separate floats from integers.
 		number: $ => {
 			const sign = choice('-', '+');
 			const digits = /\d[_\d]*/;
@@ -209,51 +211,6 @@ module.exports = grammar({
 			token.immediate(':'),
 			field('method', $._multi_symbol_fragment),
 		),
-
-		_binding: $ => choice(
-			$._symbol_binding,
-			$.list_binding,
-			$.sequence_binding,
-			$.table_binding,
-		),
-		_symbol_binding: $ => alias($.symbol, $.symbol_binding),
-		list_binding: $ => seq(
-			open('('),
-			repeat1(item($._binding)),
-			close(')'),
-		),
-		rest_binding: $ => pair($,
-			{ lhs: alias('&', $.symbol_option) },
-			{ rhs: $._binding },
-		),
-		sequence_binding: $ => seq(
-			open('['),
-			repeat1(item($._binding)),
-			optional(item($.rest_binding)),
-			close(']'),
-		),
-		_table_binding_key: $ => choice(
-			alias(':', $.symbol_binding),
-			$._string_binding,
-			$.symbol_option,
-		),
-		_table_binding_pair: $ => kv_pair($, { key: $._table_binding_key }, { value: $._symbol_binding }),
-		table_binding: $ => seq(
-			open('{'),
-			repeat1($._table_binding_pair),
-			close('}'),
-		),
-		// NOTE: Literal binding is made for pattern-matching forms. Don't use it elsewhere.
-		_literal_binding: $ => choice(
-			$._string_binding,
-			$._number_binding,
-			$._boolean_binding,
-			$._nil_binding,
-		),
-		_string_binding: $ => alias($.string, $.string_binding),
-		_number_binding: $ => alias($.number, $.number_binding),
-		_boolean_binding: $ => alias($.boolean, $.boolean_binding),
-		_nil_binding: $ => alias($.number, $.number_binding),
 
 		symbol_option: $ => /&[^(){}\[\]"'~;,@`.:\s]*/,
 		symbol: $ => /[^#(){}\[\]"'~;,@`.:\s][^(){}\[\]"'~;,@`.:\s]*/,
