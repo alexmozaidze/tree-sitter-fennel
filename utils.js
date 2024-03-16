@@ -1,5 +1,5 @@
-// Symbols that should take priority over the default symbol definition.
-//
+const _ = require('lodash');
+
 // NOTE: They are only used in $._sexp, which means that they will not
 // match if you just use $.symbol, you must explicitly specify
 // $._special_override_symbol. This also means that they cannot be a
@@ -55,7 +55,7 @@ function apply_literal_recur($, node, func) {
 		case 'TOKEN':
 		case 'IMMEDIATE_TOKEN':
 			if (is_literal(node.content)) {
-				const node_backup = require('lodash').cloneDeep(node);
+				const node_backup = _.cloneDeep(node);
 				// If it doesn't return a new node, we put back the old one
 				node = func(node) ?? node_backup;
 			} else {

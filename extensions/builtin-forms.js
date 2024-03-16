@@ -1,52 +1,15 @@
-const { pair, open, close, item, form, string, kv_pair } = require('../utils.js');
+const _ = require('lodash');
+const {
+	open,
+	close,
+	item,
+	form,
+	string,
+	kv_pair,
+} = require('../utils.js');
 
 const rules = {};
 const forms = {};
-
-rules['_binding'] = $ => choice(
-	$._symbol_binding,
-	$.list_binding,
-	$.sequence_binding,
-	$.table_binding,
-);
-rules['_symbol_binding'] = $ => alias($.symbol, $.symbol_binding);
-rules['list_binding'] = $ => seq(
-	open('('),
-	repeat1(item($._binding)),
-	close(')'),
-);
-rules['rest_binding'] = $ => pair($,
-	{ lhs: alias('&', $.symbol_option) },
-	{ rhs: $._binding },
-);
-rules['sequence_binding'] = $ => seq(
-	open('['),
-	repeat1(item($._binding)),
-	optional(item($.rest_binding)),
-	close(']'),
-);
-rules['_table_binding_key'] = $ => choice(
-	alias(':', $.symbol_binding),
-	$._string_binding,
-	$.symbol_option,
-);
-rules['_table_binding_pair'] = $ => kv_pair($, { key: $._table_binding_key }, { value: $._symbol_binding });
-rules['table_binding'] = $ => seq(
-	open('{'),
-	repeat1($._table_binding_pair),
-	close('}'),
-);
-rules['_literal_binding'] = $ => choice(
-	$._string_binding,
-	$._number_binding,
-	$._boolean_binding,
-	$._nil_binding,
-);
-rules['_string_binding'] = $ => alias($.string, $.string_binding);
-rules['_number_binding'] = $ => alias($.number, $.number_binding);
-rules['_boolean_binding'] = $ => alias($.boolean, $.boolean_binding);
-rules['_nil_binding'] = $ => alias($.number, $.number_binding);
-rules['_binding_pair'] = $ => pair($, { lhs: $._binding }, { rhs: $._sexp });
 
 [
 	'local',
@@ -139,14 +102,7 @@ forms['hashfn'] = $ => form($,
 // 	repeat(),
 // ));
 
-const processed_forms = {};
-for (const [name, rule] of Object.entries(forms)) {
-	if (!name.startsWith('_')) {
-		processed_forms[name + '_form'] = rule;
-	} else {
-		processed_forms[name] = rule;
-	}
-}
+const processed_forms = _.mapKeys(forms, (_, name) => `${name}_form`);
 
 module.exports = {
 	rules,

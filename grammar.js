@@ -1,8 +1,21 @@
-const { pair, kv_pair, open, close, item, call, SPECIAL_OVERRIDE_SYMBOLS, colon_string, double_quote_string, string } = require('./utils.js');
+const fs = require('fs');
+const _ = require('lodash');
+const {
+	kv_pair,
+	open,
+	close,
+	item,
+	call,
+	SPECIAL_OVERRIDE_SYMBOLS,
+	colon_string,
+	double_quote_string,
+} = require('./utils.js');
 
-const extensions = {
-	...require('./forms/fennel.js'),
-};
+const extensions = _.reduce(
+	fs.readdirSync('./extensions/'),
+	(extensions, filename) => _.merge(extensions, require(`./extensions/${filename}`)),
+	{},
+);
 
 module.exports = grammar({
 	name: 'fennel',
@@ -13,7 +26,6 @@ module.exports = grammar({
 	],
 
 	externals: $ => [
-		// Reader Macros
 		$._hashfn_reader_macro_char,
 		$._quote_reader_macro_char,
 		$._quasi_quote_reader_macro_char,
