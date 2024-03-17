@@ -1,3 +1,5 @@
+//! TODO: Split this file into logical components
+
 const _ = require('lodash');
 
 // NOTE: They are only used in $._sexp, which means that they will not
@@ -121,11 +123,24 @@ const open = $ => field('open', $);
 const close = $ => field('close', $);
 const item = $ => field('item', $);
 const call = $ => field('call', $);
-const form = ($, name, ...rest) => seq(
+const list = (...nodes) => seq(
 	open('('),
+	...nodes,
+	close(')'),
+);
+const sequence = (...nodes) => seq(
+	open('['),
+	...nodes,
+	close(']'),
+);
+const table = (...nodes) => seq(
+	open('{'),
+	...nodes,
+	close('}'),
+);
+const form = ($, name, ...rest) => list(
 	call(alias(name, $.symbol)),
 	...rest,
-	close(')'),
 );
 
 function colon_string($, content) {
@@ -183,4 +198,7 @@ module.exports = {
 	prec_default,
 	double_quote_string,
 	string,
+	list,
+	sequence,
+	table,
 };

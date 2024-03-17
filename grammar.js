@@ -13,8 +13,12 @@ const {
 
 const extensions = _.reduce(
 	fs.readdirSync('./extensions/'),
-	(extensions, filename) => _.merge(extensions, require(`./extensions/${filename}`)),
-	{},
+	(extensions, filename) => _.mergeWith(
+		extensions,
+		require(`./extensions/${filename}`),
+		(base, extension) => Array.isArray(base) ? [...base, extension] : undefined,
+	),
+	{ rules: {}, forms: {}, inline: [], conflicts: [] },
 );
 
 module.exports = grammar({
@@ -38,7 +42,13 @@ module.exports = grammar({
 		$.shebang,
 	],
 
-	inline: $ => [],
+	inline: $ => [
+		..._.flatMap(extensions.inline, inline => inline($)),
+	],
+
+	conflicts: $ => [
+		..._.flatMap(extensions.conflicts, conflicts => conflicts($)),
+	],
 
 	word: $ => $.symbol,
 

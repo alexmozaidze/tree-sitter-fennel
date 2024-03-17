@@ -1,46 +1,59 @@
 const {
-	open,
-	close,
 	item,
 	kv_pair,
 	pair,
+	list,
+	sequence,
+	table,
 } = require('../utils.js');
 
 module.exports = {
+	inline: $ => [
+		$._string_binding,
+		$._number_binding,
+		$._boolean_binding,
+		$._nil_binding,
+	],
+
 	rules: {
 		_binding: $ => choice(
 			$._symbol_binding,
 			$.list_binding,
 			$.sequence_binding,
 			$.table_binding,
+			$._literal_binding,
 		),
+
 		_symbol_binding: $ => alias($.symbol, $.symbol_binding),
-		list_binding: $ => seq(
-			open('('),
-			repeat1(item($._binding)),
-			close(')'),
+
+		list_binding: $ => list(
+			repeat1(item($._binding))
 		),
+
 		rest_binding: $ => pair($,
 			{ lhs: alias('&', $.symbol_option) },
 			{ rhs: $._binding },
 		),
-		sequence_binding: $ => seq(
-			open('['),
+
+		sequence_binding: $ => sequence(
 			repeat1(item($._binding)),
 			optional(item($.rest_binding)),
-			close(']'),
 		),
+
 		_table_binding_key: $ => choice(
 			alias(':', $.symbol_binding),
 			$._string_binding,
 			$.symbol_option,
 		),
+
 		_table_binding_pair: $ => kv_pair($, { key: $._table_binding_key }, { value: $._symbol_binding }),
-		table_binding: $ => seq(
-			open('{'),
+
+		table_binding: $ => table(
 			repeat1($._table_binding_pair),
-			close('}'),
 		),
+
+		_binding_pair: $ => pair($, { lhs: $._binding }, { rhs: $._sexp }),
+
 		_literal_binding: $ => choice(
 			$._string_binding,
 			$._number_binding,
@@ -51,6 +64,5 @@ module.exports = {
 		_number_binding: $ => alias($.number, $.number_binding),
 		_boolean_binding: $ => alias($.boolean, $.boolean_binding),
 		_nil_binding: $ => alias($.number, $.number_binding),
-		_binding_pair: $ => pair($, { lhs: $._binding }, { rhs: $._sexp }),
 	}
 };

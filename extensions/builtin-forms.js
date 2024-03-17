@@ -1,11 +1,13 @@
 const _ = require('lodash');
 const {
-	open,
-	close,
 	item,
 	form,
 	string,
+	pair,
 	kv_pair,
+	list,
+	sequence,
+	table,
 } = require('../utils.js');
 
 const rules = {};
@@ -22,10 +24,8 @@ const forms = {};
 	)
 );
 
-rules['let_form_vars'] = $ => seq(
-	open('['),
+rules['let_form_vars'] = $ => sequence(
 	repeat($._binding_pair),
-	close(']'),
 );
 forms['let'] = $ => form($,
 	'let',
@@ -37,14 +37,12 @@ rules['_function_identifier'] = $ => choice(
 	$.symbol,
 	$.multi_symbol,
 );
-rules['sequence_arguments'] = $ => seq(
-	open('['),
+rules['sequence_arguments'] = $ => sequence(
 	repeat(item($._binding)),
 	optional(choice(
 		item($.rest_binding),
 		item(alias('...', $.symbol_binding)),
 	)),
-	close(']'),
 );
 rules['_table_metadata_key_docstring'] = $ => string($, 'fnl/docstring');
 rules['_table_metadata_key_arglist'] = $ => string($, 'fnl/arglist');
@@ -53,10 +51,8 @@ rules['_table_metadata_pair'] = $ => choice(
 	kv_pair($, { key: alias($._table_metadata_key_arglist, $.string) }, { value: $.sequence_arguments }),
 	kv_pair($, { key: $.string }),
 );
-rules['table_metadata'] = $ => prec(1, seq(
-	open('{'),
+rules['table_metadata'] = $ => prec(1, table(
 	repeat($._table_metadata_pair),
-	close('}'),
 ));
 rules['_function_body'] = $ => seq(
 	optional(field('name', $._function_identifier)),
@@ -83,24 +79,15 @@ forms['hashfn'] = $ => form($,
 	item($._sexp),
 );
 
-// TODO: case, match, case-try, match-try.
-// I should parse the (= pin) expression as well,
-// since it's quite hard to capture with queries reliably.
-
-// rules['_case_pair'] = $ => pair($, {
-// 	lhs: choice(
-// 		$.case_form_pin,
-// 		$._binding,
-// 	),
-// });
-// [
-// 	'case',
-// 	'match',
-// ].forEach(name => forms[name] = $ => form($,
-// 	name,
-// 	item($._sexp),
-// 	repeat(),
-// ));
+rules['_case_pair'] = $ => pair($, { lhs: $._binding });
+[
+	'case',
+	'match',
+].forEach(name => forms[name] = $ => form($,
+	name,
+	item($._sexp),
+	repeat($._case_pair),
+));
 
 const processed_forms = _.mapKeys(forms, (_, name) => `${name}_form`);
 
