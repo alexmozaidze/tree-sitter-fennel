@@ -10,7 +10,7 @@
     "fields": {}
   },
   {
-    "type": "case_form",
+    "type": "case_catch",
     "named": true,
     "fields": {
       "call": {
@@ -33,9 +33,53 @@
           }
         ]
       },
-      "item": {
+      "lhs": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "boolean_binding",
+            "named": true
+          },
+          {
+            "type": "list_binding",
+            "named": true
+          },
+          {
+            "type": "number_binding",
+            "named": true
+          },
+          {
+            "type": "sequence_binding",
+            "named": true
+          },
+          {
+            "type": "string_binding",
+            "named": true
+          },
+          {
+            "type": "symbol_binding",
+            "named": true
+          },
+          {
+            "type": "table_binding",
+            "named": true
+          }
+        ]
+      },
+      "open": {
         "multiple": false,
         "required": true,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          }
+        ]
+      },
+      "rhs": {
+        "multiple": true,
+        "required": false,
         "types": [
           {
             "type": "boolean",
@@ -43,6 +87,10 @@
           },
           {
             "type": "case_form",
+            "named": true
+          },
+          {
+            "type": "case_try_form",
             "named": true
           },
           {
@@ -79,6 +127,150 @@
           },
           {
             "type": "match_form",
+            "named": true
+          },
+          {
+            "type": "match_try_form",
+            "named": true
+          },
+          {
+            "type": "multi_symbol",
+            "named": true
+          },
+          {
+            "type": "multi_symbol_method",
+            "named": true
+          },
+          {
+            "type": "nil",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "quasi_quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "sequence",
+            "named": true
+          },
+          {
+            "type": "set_form",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "symbol",
+            "named": true
+          },
+          {
+            "type": "symbol_option",
+            "named": true
+          },
+          {
+            "type": "table",
+            "named": true
+          },
+          {
+            "type": "unquote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "var_form",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "case_form",
+    "named": true,
+    "fields": {
+      "call": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "symbol",
+            "named": true
+          }
+        ]
+      },
+      "close": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": ")",
+            "named": false
+          }
+        ]
+      },
+      "item": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "boolean",
+            "named": true
+          },
+          {
+            "type": "case_form",
+            "named": true
+          },
+          {
+            "type": "case_try_form",
+            "named": true
+          },
+          {
+            "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "global_form",
+            "named": true
+          },
+          {
+            "type": "hashfn_form",
+            "named": true
+          },
+          {
+            "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "lambda_form",
+            "named": true
+          },
+          {
+            "type": "let_form",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "local_form",
+            "named": true
+          },
+          {
+            "type": "match_form",
+            "named": true
+          },
+          {
+            "type": "match_try_form",
             "named": true
           },
           {
@@ -196,6 +388,10 @@
             "named": true
           },
           {
+            "type": "case_try_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
             "named": true
           },
@@ -229,6 +425,318 @@
           },
           {
             "type": "match_form",
+            "named": true
+          },
+          {
+            "type": "match_try_form",
+            "named": true
+          },
+          {
+            "type": "multi_symbol",
+            "named": true
+          },
+          {
+            "type": "multi_symbol_method",
+            "named": true
+          },
+          {
+            "type": "nil",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "quasi_quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "sequence",
+            "named": true
+          },
+          {
+            "type": "set_form",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "symbol",
+            "named": true
+          },
+          {
+            "type": "symbol_option",
+            "named": true
+          },
+          {
+            "type": "table",
+            "named": true
+          },
+          {
+            "type": "unquote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "var_form",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "case_try_form",
+    "named": true,
+    "fields": {
+      "call": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "symbol",
+            "named": true
+          }
+        ]
+      },
+      "catch": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "case_catch",
+            "named": true
+          }
+        ]
+      },
+      "close": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": ")",
+            "named": false
+          }
+        ]
+      },
+      "item": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "boolean",
+            "named": true
+          },
+          {
+            "type": "case_form",
+            "named": true
+          },
+          {
+            "type": "case_try_form",
+            "named": true
+          },
+          {
+            "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "global_form",
+            "named": true
+          },
+          {
+            "type": "hashfn_form",
+            "named": true
+          },
+          {
+            "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "lambda_form",
+            "named": true
+          },
+          {
+            "type": "let_form",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "local_form",
+            "named": true
+          },
+          {
+            "type": "match_form",
+            "named": true
+          },
+          {
+            "type": "match_try_form",
+            "named": true
+          },
+          {
+            "type": "multi_symbol",
+            "named": true
+          },
+          {
+            "type": "multi_symbol_method",
+            "named": true
+          },
+          {
+            "type": "nil",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "quasi_quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "sequence",
+            "named": true
+          },
+          {
+            "type": "set_form",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "symbol",
+            "named": true
+          },
+          {
+            "type": "symbol_option",
+            "named": true
+          },
+          {
+            "type": "table",
+            "named": true
+          },
+          {
+            "type": "unquote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "var_form",
+            "named": true
+          }
+        ]
+      },
+      "lhs": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "boolean_binding",
+            "named": true
+          },
+          {
+            "type": "list_binding",
+            "named": true
+          },
+          {
+            "type": "number_binding",
+            "named": true
+          },
+          {
+            "type": "sequence_binding",
+            "named": true
+          },
+          {
+            "type": "string_binding",
+            "named": true
+          },
+          {
+            "type": "symbol_binding",
+            "named": true
+          },
+          {
+            "type": "table_binding",
+            "named": true
+          }
+        ]
+      },
+      "open": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          }
+        ]
+      },
+      "rhs": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "boolean",
+            "named": true
+          },
+          {
+            "type": "case_form",
+            "named": true
+          },
+          {
+            "type": "case_try_form",
+            "named": true
+          },
+          {
+            "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "global_form",
+            "named": true
+          },
+          {
+            "type": "hashfn_form",
+            "named": true
+          },
+          {
+            "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "lambda_form",
+            "named": true
+          },
+          {
+            "type": "let_form",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "local_form",
+            "named": true
+          },
+          {
+            "type": "match_form",
+            "named": true
+          },
+          {
+            "type": "match_try_form",
             "named": true
           },
           {
@@ -388,6 +896,10 @@
             "named": true
           },
           {
+            "type": "case_try_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
             "named": true
           },
@@ -421,6 +933,10 @@
           },
           {
             "type": "match_form",
+            "named": true
+          },
+          {
+            "type": "match_try_form",
             "named": true
           },
           {
@@ -598,6 +1114,10 @@
             "named": true
           },
           {
+            "type": "case_try_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
             "named": true
           },
@@ -631,6 +1151,10 @@
           },
           {
             "type": "match_form",
+            "named": true
+          },
+          {
+            "type": "match_try_form",
             "named": true
           },
           {
@@ -730,6 +1254,10 @@
             "named": true
           },
           {
+            "type": "case_try_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
             "named": true
           },
@@ -763,6 +1291,10 @@
           },
           {
             "type": "match_form",
+            "named": true
+          },
+          {
+            "type": "match_try_form",
             "named": true
           },
           {
@@ -852,6 +1384,10 @@
             "named": true
           },
           {
+            "type": "case_try_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
             "named": true
           },
@@ -885,6 +1421,10 @@
           },
           {
             "type": "match_form",
+            "named": true
+          },
+          {
+            "type": "match_try_form",
             "named": true
           },
           {
@@ -1014,6 +1554,10 @@
             "named": true
           },
           {
+            "type": "case_try_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
             "named": true
           },
@@ -1047,6 +1591,10 @@
           },
           {
             "type": "match_form",
+            "named": true
+          },
+          {
+            "type": "match_try_form",
             "named": true
           },
           {
@@ -1180,6 +1728,10 @@
             "named": true
           },
           {
+            "type": "case_try_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
             "named": true
           },
@@ -1213,6 +1765,10 @@
           },
           {
             "type": "match_form",
+            "named": true
+          },
+          {
+            "type": "match_try_form",
             "named": true
           },
           {
@@ -1366,6 +1922,10 @@
             "named": true
           },
           {
+            "type": "case_try_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
             "named": true
           },
@@ -1399,6 +1959,10 @@
           },
           {
             "type": "match_form",
+            "named": true
+          },
+          {
+            "type": "match_try_form",
             "named": true
           },
           {
@@ -1478,6 +2042,10 @@
             "named": true
           },
           {
+            "type": "case_try_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
             "named": true
           },
@@ -1511,6 +2079,10 @@
           },
           {
             "type": "match_form",
+            "named": true
+          },
+          {
+            "type": "match_try_form",
             "named": true
           },
           {
@@ -1594,6 +2166,10 @@
             "named": true
           },
           {
+            "type": "case_try_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
             "named": true
           },
@@ -1627,6 +2203,10 @@
           },
           {
             "type": "match_form",
+            "named": true
+          },
+          {
+            "type": "match_try_form",
             "named": true
           },
           {
@@ -1840,6 +2420,10 @@
             "named": true
           },
           {
+            "type": "case_try_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
             "named": true
           },
@@ -1873,6 +2457,10 @@
           },
           {
             "type": "match_form",
+            "named": true
+          },
+          {
+            "type": "match_try_form",
             "named": true
           },
           {
@@ -1972,6 +2560,10 @@
             "named": true
           },
           {
+            "type": "case_try_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
             "named": true
           },
@@ -2005,6 +2597,10 @@
           },
           {
             "type": "match_form",
+            "named": true
+          },
+          {
+            "type": "match_try_form",
             "named": true
           },
           {
@@ -2122,6 +2718,10 @@
             "named": true
           },
           {
+            "type": "case_try_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
             "named": true
           },
@@ -2155,6 +2755,318 @@
           },
           {
             "type": "match_form",
+            "named": true
+          },
+          {
+            "type": "match_try_form",
+            "named": true
+          },
+          {
+            "type": "multi_symbol",
+            "named": true
+          },
+          {
+            "type": "multi_symbol_method",
+            "named": true
+          },
+          {
+            "type": "nil",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "quasi_quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "sequence",
+            "named": true
+          },
+          {
+            "type": "set_form",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "symbol",
+            "named": true
+          },
+          {
+            "type": "symbol_option",
+            "named": true
+          },
+          {
+            "type": "table",
+            "named": true
+          },
+          {
+            "type": "unquote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "var_form",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "match_try_form",
+    "named": true,
+    "fields": {
+      "call": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "symbol",
+            "named": true
+          }
+        ]
+      },
+      "catch": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "case_catch",
+            "named": true
+          }
+        ]
+      },
+      "close": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": ")",
+            "named": false
+          }
+        ]
+      },
+      "item": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "boolean",
+            "named": true
+          },
+          {
+            "type": "case_form",
+            "named": true
+          },
+          {
+            "type": "case_try_form",
+            "named": true
+          },
+          {
+            "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "global_form",
+            "named": true
+          },
+          {
+            "type": "hashfn_form",
+            "named": true
+          },
+          {
+            "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "lambda_form",
+            "named": true
+          },
+          {
+            "type": "let_form",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "local_form",
+            "named": true
+          },
+          {
+            "type": "match_form",
+            "named": true
+          },
+          {
+            "type": "match_try_form",
+            "named": true
+          },
+          {
+            "type": "multi_symbol",
+            "named": true
+          },
+          {
+            "type": "multi_symbol_method",
+            "named": true
+          },
+          {
+            "type": "nil",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "quasi_quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "sequence",
+            "named": true
+          },
+          {
+            "type": "set_form",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "symbol",
+            "named": true
+          },
+          {
+            "type": "symbol_option",
+            "named": true
+          },
+          {
+            "type": "table",
+            "named": true
+          },
+          {
+            "type": "unquote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "var_form",
+            "named": true
+          }
+        ]
+      },
+      "lhs": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "boolean_binding",
+            "named": true
+          },
+          {
+            "type": "list_binding",
+            "named": true
+          },
+          {
+            "type": "number_binding",
+            "named": true
+          },
+          {
+            "type": "sequence_binding",
+            "named": true
+          },
+          {
+            "type": "string_binding",
+            "named": true
+          },
+          {
+            "type": "symbol_binding",
+            "named": true
+          },
+          {
+            "type": "table_binding",
+            "named": true
+          }
+        ]
+      },
+      "open": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          }
+        ]
+      },
+      "rhs": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "boolean",
+            "named": true
+          },
+          {
+            "type": "case_form",
+            "named": true
+          },
+          {
+            "type": "case_try_form",
+            "named": true
+          },
+          {
+            "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "global_form",
+            "named": true
+          },
+          {
+            "type": "hashfn_form",
+            "named": true
+          },
+          {
+            "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "lambda_form",
+            "named": true
+          },
+          {
+            "type": "let_form",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "local_form",
+            "named": true
+          },
+          {
+            "type": "match_form",
+            "named": true
+          },
+          {
+            "type": "match_try_form",
             "named": true
           },
           {
@@ -2290,6 +3202,10 @@
           "named": true
         },
         {
+          "type": "case_try_form",
+          "named": true
+        },
+        {
           "type": "fn_form",
           "named": true
         },
@@ -2323,6 +3239,10 @@
         },
         {
           "type": "match_form",
+          "named": true
+        },
+        {
+          "type": "match_try_form",
           "named": true
         },
         {
@@ -2405,6 +3325,10 @@
             "named": true
           },
           {
+            "type": "case_try_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
             "named": true
           },
@@ -2438,6 +3362,10 @@
           },
           {
             "type": "match_form",
+            "named": true
+          },
+          {
+            "type": "match_try_form",
             "named": true
           },
           {
@@ -2527,6 +3455,10 @@
             "named": true
           },
           {
+            "type": "case_try_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
             "named": true
           },
@@ -2560,6 +3492,10 @@
           },
           {
             "type": "match_form",
+            "named": true
+          },
+          {
+            "type": "match_try_form",
             "named": true
           },
           {
@@ -2709,6 +3645,10 @@
             "named": true
           },
           {
+            "type": "case_try_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
             "named": true
           },
@@ -2742,6 +3682,10 @@
           },
           {
             "type": "match_form",
+            "named": true
+          },
+          {
+            "type": "match_try_form",
             "named": true
           },
           {
@@ -3023,6 +3967,10 @@
             "named": true
           },
           {
+            "type": "case_try_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
             "named": true
           },
@@ -3056,6 +4004,10 @@
           },
           {
             "type": "match_form",
+            "named": true
+          },
+          {
+            "type": "match_try_form",
             "named": true
           },
           {
@@ -3240,6 +4192,10 @@
             "named": true
           },
           {
+            "type": "case_try_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
             "named": true
           },
@@ -3273,6 +4229,10 @@
           },
           {
             "type": "match_form",
+            "named": true
+          },
+          {
+            "type": "match_try_form",
             "named": true
           },
           {
@@ -3356,6 +4316,10 @@
             "named": true
           },
           {
+            "type": "case_try_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
             "named": true
           },
@@ -3389,6 +4353,10 @@
           },
           {
             "type": "match_form",
+            "named": true
+          },
+          {
+            "type": "match_try_form",
             "named": true
           },
           {
@@ -3552,6 +4520,10 @@
             "named": true
           },
           {
+            "type": "case_try_form",
+            "named": true
+          },
+          {
             "type": "docstring",
             "named": true
           },
@@ -3589,6 +4561,10 @@
           },
           {
             "type": "match_form",
+            "named": true
+          },
+          {
+            "type": "match_try_form",
             "named": true
           },
           {
@@ -3672,6 +4648,10 @@
             "named": true
           },
           {
+            "type": "case_try_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
             "named": true
           },
@@ -3705,6 +4685,10 @@
           },
           {
             "type": "match_form",
+            "named": true
+          },
+          {
+            "type": "match_try_form",
             "named": true
           },
           {
@@ -3858,6 +4842,10 @@
             "named": true
           },
           {
+            "type": "case_try_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
             "named": true
           },
@@ -3891,6 +4879,10 @@
           },
           {
             "type": "match_form",
+            "named": true
+          },
+          {
+            "type": "match_try_form",
             "named": true
           },
           {

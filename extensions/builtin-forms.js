@@ -89,6 +89,20 @@ rules['_case_pair'] = $ => pair($, { lhs: $._binding });
 	repeat($._case_pair),
 ));
 
+rules['case_catch'] = $ => form($,
+	'catch',
+	repeat($._case_pair),
+);
+[
+	'case-try',
+	'match-try',
+].forEach(name => forms[_.snakeCase(name)] = $ => form($,
+	name,
+	item($._sexp),
+	repeat($._case_pair),
+	optional(field('catch', $.case_catch)),
+));
+
 const processed_forms = _.mapKeys(forms, (_, name) => `${name}_form`);
 
 module.exports = {

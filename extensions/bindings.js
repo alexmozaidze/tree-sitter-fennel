@@ -9,6 +9,7 @@ const {
 
 module.exports = {
 	inline: $ => [
+		$._symbol_binding,
 		$._string_binding,
 		$._number_binding,
 		$._boolean_binding,
