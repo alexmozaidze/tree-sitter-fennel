@@ -80,7 +80,7 @@ forms['hashfn'] = $ => form($,
 	item($._sexp),
 );
 
-// TODO: Special binding for case/match to support `(where)` and `(= pin)`
+// TODO: Special binding for case/match to support `(= pin)`.
 rules['case_guard_or_special'] = $ => form($,
 	'or',
 	repeat(item($._binding)),
