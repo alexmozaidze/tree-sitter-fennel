@@ -565,10 +565,7 @@ case guard
                            item: (symbol_binding))
                    item: (sequence_binding
                            item: (symbol_binding)
-                           item: (symbol_binding))
-                   )
-           )
-    ))
+                           item: (symbol_binding))))))
 
 ===
 each
