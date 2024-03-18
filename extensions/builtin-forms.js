@@ -8,6 +8,7 @@ const {
 	list,
 	sequence,
 	table,
+	PREC_PRIORITY,
 } = require('../utils.js');
 
 const rules = {};
@@ -51,7 +52,7 @@ rules['_table_metadata_pair'] = $ => choice(
 	kv_pair($, { key: alias($._table_metadata_key_arglist, $.string) }, { value: $.sequence_arguments }),
 	kv_pair($, { key: $.string }),
 );
-rules['table_metadata'] = $ => prec(1, table(
+rules['table_metadata'] = $ => prec(PREC_PRIORITY, table(
 	repeat($._table_metadata_pair),
 ));
 rules['_function_body'] = $ => seq(
@@ -79,6 +80,7 @@ forms['hashfn'] = $ => form($,
 	item($._sexp),
 );
 
+// TODO: Special binding for case/match to support `(where)` and `(= pin)`
 rules['_case_pair'] = $ => pair($, { lhs: $._binding });
 [
 	'case',
@@ -102,6 +104,74 @@ rules['case_catch'] = $ => form($,
 	repeat($._case_pair),
 	optional(field('catch', $.case_catch)),
 ));
+
+rules['iter_option'] = $ => prec(1, pair($, { lhs: $.symbol_option, field: 'option' }, { field: 'value' }));
+rules['_iter_body'] = $ => prec.right(seq(
+	repeat1(field('binding', $._binding)),
+	field('iterator', $._sexp),
+	repeat($.iter_option),
+));
+rules['_each_iter_body'] = $ => alias(sequence($._iter_body), $.iter_body);
+forms['each'] = $ => form($,
+	'each',
+	$._each_iter_body,
+	repeat(item($._sexp)),
+);
+
+rules['_collect_iter_body'] = $ => alias(sequence($._iter_body), $.iter_body);
+forms['collect'] = $ => form($,
+	'collect',
+	$._collect_iter_body,
+	item($._sexp),
+	item($._sexp),
+);
+forms['icollect'] = $ => form($,
+	'icollect',
+	$._collect_iter_body,
+	item($._sexp),
+);
+
+rules['_accumulator_pair'] = $ => pair($, { lhs: $._binding, field: 'accumulator_binding' }, { field: 'accumulator_value' });
+rules['_accumulate_iter_body'] = $ => sequence(
+	$._accumulator_pair,
+	$._iter_body,
+);
+forms['accumulate'] = $ => form($,
+	'accumulate',
+	$._accumulate_iter_body,
+	item($._sexp),
+);
+
+rules['_fiter_body'] = $ => prec.right(seq(
+	field('index', $._symbol_binding),
+	field('from', $._sexp),
+	field('to', $._sexp),
+	optional(field('step', $._sexp)),
+	repeat($.iter_option),
+));
+rules['_for_iter_body'] = $ => sequence($._fiter_body);
+forms['for'] = $ => form($,
+	'for',
+	alias($._fiter_body, $.for_iter_body),
+	repeat(item($._sexp)),
+);
+
+rules['_fcollect_iter_body'] = $ => sequence($._fiter_body);
+forms['fcollect'] = $ => form($,
+	'fcollect',
+	alias($._fcollect_iter_body, $.for_iter_body),
+	item($._sexp),
+);
+
+rules['_faccumulate_iter_body'] = $ => sequence(
+	$._accumulator_pair,
+	$._fiter_body,
+);
+forms['faccumulate'] = $ => form($,
+	'faccumulate',
+	alias($._faccumulate_iter_body, $.for_iter_body),
+	item($._sexp),
+);
 
 const processed_forms = _.mapKeys(forms, (_, name) => `${name}_form`);
 

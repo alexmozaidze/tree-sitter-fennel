@@ -1,5 +1,553 @@
 [
   {
+    "type": "accumulate_form",
+    "named": true,
+    "fields": {
+      "accumulator_binding": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "boolean_binding",
+            "named": true
+          },
+          {
+            "type": "list_binding",
+            "named": true
+          },
+          {
+            "type": "number_binding",
+            "named": true
+          },
+          {
+            "type": "sequence_binding",
+            "named": true
+          },
+          {
+            "type": "string_binding",
+            "named": true
+          },
+          {
+            "type": "symbol_binding",
+            "named": true
+          },
+          {
+            "type": "table_binding",
+            "named": true
+          }
+        ]
+      },
+      "accumulator_value": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "accumulate_form",
+            "named": true
+          },
+          {
+            "type": "boolean",
+            "named": true
+          },
+          {
+            "type": "case_form",
+            "named": true
+          },
+          {
+            "type": "case_try_form",
+            "named": true
+          },
+          {
+            "type": "collect_form",
+            "named": true
+          },
+          {
+            "type": "each_form",
+            "named": true
+          },
+          {
+            "type": "faccumulate_form",
+            "named": true
+          },
+          {
+            "type": "fcollect_form",
+            "named": true
+          },
+          {
+            "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "for_form",
+            "named": true
+          },
+          {
+            "type": "global_form",
+            "named": true
+          },
+          {
+            "type": "hashfn_form",
+            "named": true
+          },
+          {
+            "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "icollect_form",
+            "named": true
+          },
+          {
+            "type": "lambda_form",
+            "named": true
+          },
+          {
+            "type": "let_form",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "local_form",
+            "named": true
+          },
+          {
+            "type": "match_form",
+            "named": true
+          },
+          {
+            "type": "match_try_form",
+            "named": true
+          },
+          {
+            "type": "multi_symbol",
+            "named": true
+          },
+          {
+            "type": "multi_symbol_method",
+            "named": true
+          },
+          {
+            "type": "nil",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "quasi_quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "sequence",
+            "named": true
+          },
+          {
+            "type": "set_form",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "symbol",
+            "named": true
+          },
+          {
+            "type": "symbol_option",
+            "named": true
+          },
+          {
+            "type": "table",
+            "named": true
+          },
+          {
+            "type": "unquote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "var_form",
+            "named": true
+          }
+        ]
+      },
+      "binding": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "boolean_binding",
+            "named": true
+          },
+          {
+            "type": "list_binding",
+            "named": true
+          },
+          {
+            "type": "number_binding",
+            "named": true
+          },
+          {
+            "type": "sequence_binding",
+            "named": true
+          },
+          {
+            "type": "string_binding",
+            "named": true
+          },
+          {
+            "type": "symbol_binding",
+            "named": true
+          },
+          {
+            "type": "table_binding",
+            "named": true
+          }
+        ]
+      },
+      "call": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "symbol",
+            "named": true
+          }
+        ]
+      },
+      "close": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": ")",
+            "named": false
+          },
+          {
+            "type": "]",
+            "named": false
+          }
+        ]
+      },
+      "item": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "accumulate_form",
+            "named": true
+          },
+          {
+            "type": "boolean",
+            "named": true
+          },
+          {
+            "type": "case_form",
+            "named": true
+          },
+          {
+            "type": "case_try_form",
+            "named": true
+          },
+          {
+            "type": "collect_form",
+            "named": true
+          },
+          {
+            "type": "each_form",
+            "named": true
+          },
+          {
+            "type": "faccumulate_form",
+            "named": true
+          },
+          {
+            "type": "fcollect_form",
+            "named": true
+          },
+          {
+            "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "for_form",
+            "named": true
+          },
+          {
+            "type": "global_form",
+            "named": true
+          },
+          {
+            "type": "hashfn_form",
+            "named": true
+          },
+          {
+            "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "icollect_form",
+            "named": true
+          },
+          {
+            "type": "lambda_form",
+            "named": true
+          },
+          {
+            "type": "let_form",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "local_form",
+            "named": true
+          },
+          {
+            "type": "match_form",
+            "named": true
+          },
+          {
+            "type": "match_try_form",
+            "named": true
+          },
+          {
+            "type": "multi_symbol",
+            "named": true
+          },
+          {
+            "type": "multi_symbol_method",
+            "named": true
+          },
+          {
+            "type": "nil",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "quasi_quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "sequence",
+            "named": true
+          },
+          {
+            "type": "set_form",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "symbol",
+            "named": true
+          },
+          {
+            "type": "symbol_option",
+            "named": true
+          },
+          {
+            "type": "table",
+            "named": true
+          },
+          {
+            "type": "unquote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "var_form",
+            "named": true
+          }
+        ]
+      },
+      "iterator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "accumulate_form",
+            "named": true
+          },
+          {
+            "type": "boolean",
+            "named": true
+          },
+          {
+            "type": "case_form",
+            "named": true
+          },
+          {
+            "type": "case_try_form",
+            "named": true
+          },
+          {
+            "type": "collect_form",
+            "named": true
+          },
+          {
+            "type": "each_form",
+            "named": true
+          },
+          {
+            "type": "faccumulate_form",
+            "named": true
+          },
+          {
+            "type": "fcollect_form",
+            "named": true
+          },
+          {
+            "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "for_form",
+            "named": true
+          },
+          {
+            "type": "global_form",
+            "named": true
+          },
+          {
+            "type": "hashfn_form",
+            "named": true
+          },
+          {
+            "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "icollect_form",
+            "named": true
+          },
+          {
+            "type": "lambda_form",
+            "named": true
+          },
+          {
+            "type": "let_form",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "local_form",
+            "named": true
+          },
+          {
+            "type": "match_form",
+            "named": true
+          },
+          {
+            "type": "match_try_form",
+            "named": true
+          },
+          {
+            "type": "multi_symbol",
+            "named": true
+          },
+          {
+            "type": "multi_symbol_method",
+            "named": true
+          },
+          {
+            "type": "nil",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "quasi_quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "sequence",
+            "named": true
+          },
+          {
+            "type": "set_form",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "symbol",
+            "named": true
+          },
+          {
+            "type": "symbol_option",
+            "named": true
+          },
+          {
+            "type": "table",
+            "named": true
+          },
+          {
+            "type": "unquote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "var_form",
+            "named": true
+          }
+        ]
+      },
+      "open": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": "[",
+            "named": false
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "iter_option",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "boolean",
     "named": true,
     "fields": {}
@@ -82,6 +630,10 @@
         "required": false,
         "types": [
           {
+            "type": "accumulate_form",
+            "named": true
+          },
+          {
             "type": "boolean",
             "named": true
           },
@@ -94,7 +646,27 @@
             "named": true
           },
           {
+            "type": "collect_form",
+            "named": true
+          },
+          {
+            "type": "each_form",
+            "named": true
+          },
+          {
+            "type": "faccumulate_form",
+            "named": true
+          },
+          {
+            "type": "fcollect_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "for_form",
             "named": true
           },
           {
@@ -107,6 +679,10 @@
           },
           {
             "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "icollect_form",
             "named": true
           },
           {
@@ -222,6 +798,10 @@
         "required": true,
         "types": [
           {
+            "type": "accumulate_form",
+            "named": true
+          },
+          {
             "type": "boolean",
             "named": true
           },
@@ -234,7 +814,27 @@
             "named": true
           },
           {
+            "type": "collect_form",
+            "named": true
+          },
+          {
+            "type": "each_form",
+            "named": true
+          },
+          {
+            "type": "faccumulate_form",
+            "named": true
+          },
+          {
+            "type": "fcollect_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "for_form",
             "named": true
           },
           {
@@ -247,6 +847,10 @@
           },
           {
             "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "icollect_form",
             "named": true
           },
           {
@@ -380,6 +984,10 @@
         "required": false,
         "types": [
           {
+            "type": "accumulate_form",
+            "named": true
+          },
+          {
             "type": "boolean",
             "named": true
           },
@@ -392,7 +1000,27 @@
             "named": true
           },
           {
+            "type": "collect_form",
+            "named": true
+          },
+          {
+            "type": "each_form",
+            "named": true
+          },
+          {
+            "type": "faccumulate_form",
+            "named": true
+          },
+          {
+            "type": "fcollect_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "for_form",
             "named": true
           },
           {
@@ -405,6 +1033,10 @@
           },
           {
             "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "icollect_form",
             "named": true
           },
           {
@@ -530,6 +1162,10 @@
         "required": true,
         "types": [
           {
+            "type": "accumulate_form",
+            "named": true
+          },
+          {
             "type": "boolean",
             "named": true
           },
@@ -542,7 +1178,27 @@
             "named": true
           },
           {
+            "type": "collect_form",
+            "named": true
+          },
+          {
+            "type": "each_form",
+            "named": true
+          },
+          {
+            "type": "faccumulate_form",
+            "named": true
+          },
+          {
+            "type": "fcollect_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "for_form",
             "named": true
           },
           {
@@ -555,6 +1211,10 @@
           },
           {
             "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "icollect_form",
             "named": true
           },
           {
@@ -688,6 +1348,10 @@
         "required": false,
         "types": [
           {
+            "type": "accumulate_form",
+            "named": true
+          },
+          {
             "type": "boolean",
             "named": true
           },
@@ -700,7 +1364,27 @@
             "named": true
           },
           {
+            "type": "collect_form",
+            "named": true
+          },
+          {
+            "type": "each_form",
+            "named": true
+          },
+          {
+            "type": "faccumulate_form",
+            "named": true
+          },
+          {
+            "type": "fcollect_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "for_form",
             "named": true
           },
           {
@@ -713,6 +1397,10 @@
           },
           {
             "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "icollect_form",
             "named": true
           },
           {
@@ -800,6 +1488,202 @@
     }
   },
   {
+    "type": "collect_form",
+    "named": true,
+    "fields": {
+      "call": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "symbol",
+            "named": true
+          }
+        ]
+      },
+      "close": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": ")",
+            "named": false
+          },
+          {
+            "type": "iter_body",
+            "named": true
+          }
+        ]
+      },
+      "item": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "accumulate_form",
+            "named": true
+          },
+          {
+            "type": "boolean",
+            "named": true
+          },
+          {
+            "type": "case_form",
+            "named": true
+          },
+          {
+            "type": "case_try_form",
+            "named": true
+          },
+          {
+            "type": "collect_form",
+            "named": true
+          },
+          {
+            "type": "each_form",
+            "named": true
+          },
+          {
+            "type": "faccumulate_form",
+            "named": true
+          },
+          {
+            "type": "fcollect_form",
+            "named": true
+          },
+          {
+            "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "for_form",
+            "named": true
+          },
+          {
+            "type": "global_form",
+            "named": true
+          },
+          {
+            "type": "hashfn_form",
+            "named": true
+          },
+          {
+            "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "icollect_form",
+            "named": true
+          },
+          {
+            "type": "lambda_form",
+            "named": true
+          },
+          {
+            "type": "let_form",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "local_form",
+            "named": true
+          },
+          {
+            "type": "match_form",
+            "named": true
+          },
+          {
+            "type": "match_try_form",
+            "named": true
+          },
+          {
+            "type": "multi_symbol",
+            "named": true
+          },
+          {
+            "type": "multi_symbol_method",
+            "named": true
+          },
+          {
+            "type": "nil",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "quasi_quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "sequence",
+            "named": true
+          },
+          {
+            "type": "set_form",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "symbol",
+            "named": true
+          },
+          {
+            "type": "symbol_option",
+            "named": true
+          },
+          {
+            "type": "table",
+            "named": true
+          },
+          {
+            "type": "unquote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "var_form",
+            "named": true
+          }
+        ]
+      },
+      "open": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": "iter_body",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "iter_body",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "docstring",
     "named": true,
     "fields": {
@@ -837,6 +1721,578 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "each_form",
+    "named": true,
+    "fields": {
+      "call": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "symbol",
+            "named": true
+          }
+        ]
+      },
+      "close": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": ")",
+            "named": false
+          },
+          {
+            "type": "iter_body",
+            "named": true
+          }
+        ]
+      },
+      "item": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "accumulate_form",
+            "named": true
+          },
+          {
+            "type": "boolean",
+            "named": true
+          },
+          {
+            "type": "case_form",
+            "named": true
+          },
+          {
+            "type": "case_try_form",
+            "named": true
+          },
+          {
+            "type": "collect_form",
+            "named": true
+          },
+          {
+            "type": "each_form",
+            "named": true
+          },
+          {
+            "type": "faccumulate_form",
+            "named": true
+          },
+          {
+            "type": "fcollect_form",
+            "named": true
+          },
+          {
+            "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "for_form",
+            "named": true
+          },
+          {
+            "type": "global_form",
+            "named": true
+          },
+          {
+            "type": "hashfn_form",
+            "named": true
+          },
+          {
+            "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "icollect_form",
+            "named": true
+          },
+          {
+            "type": "lambda_form",
+            "named": true
+          },
+          {
+            "type": "let_form",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "local_form",
+            "named": true
+          },
+          {
+            "type": "match_form",
+            "named": true
+          },
+          {
+            "type": "match_try_form",
+            "named": true
+          },
+          {
+            "type": "multi_symbol",
+            "named": true
+          },
+          {
+            "type": "multi_symbol_method",
+            "named": true
+          },
+          {
+            "type": "nil",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "quasi_quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "sequence",
+            "named": true
+          },
+          {
+            "type": "set_form",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "symbol",
+            "named": true
+          },
+          {
+            "type": "symbol_option",
+            "named": true
+          },
+          {
+            "type": "table",
+            "named": true
+          },
+          {
+            "type": "unquote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "var_form",
+            "named": true
+          }
+        ]
+      },
+      "open": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": "iter_body",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "iter_body",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "faccumulate_form",
+    "named": true,
+    "fields": {
+      "call": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "symbol",
+            "named": true
+          }
+        ]
+      },
+      "close": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": ")",
+            "named": false
+          }
+        ]
+      },
+      "item": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "accumulate_form",
+            "named": true
+          },
+          {
+            "type": "boolean",
+            "named": true
+          },
+          {
+            "type": "case_form",
+            "named": true
+          },
+          {
+            "type": "case_try_form",
+            "named": true
+          },
+          {
+            "type": "collect_form",
+            "named": true
+          },
+          {
+            "type": "each_form",
+            "named": true
+          },
+          {
+            "type": "faccumulate_form",
+            "named": true
+          },
+          {
+            "type": "fcollect_form",
+            "named": true
+          },
+          {
+            "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "for_form",
+            "named": true
+          },
+          {
+            "type": "global_form",
+            "named": true
+          },
+          {
+            "type": "hashfn_form",
+            "named": true
+          },
+          {
+            "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "icollect_form",
+            "named": true
+          },
+          {
+            "type": "lambda_form",
+            "named": true
+          },
+          {
+            "type": "let_form",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "local_form",
+            "named": true
+          },
+          {
+            "type": "match_form",
+            "named": true
+          },
+          {
+            "type": "match_try_form",
+            "named": true
+          },
+          {
+            "type": "multi_symbol",
+            "named": true
+          },
+          {
+            "type": "multi_symbol_method",
+            "named": true
+          },
+          {
+            "type": "nil",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "quasi_quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "sequence",
+            "named": true
+          },
+          {
+            "type": "set_form",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "symbol",
+            "named": true
+          },
+          {
+            "type": "symbol_option",
+            "named": true
+          },
+          {
+            "type": "table",
+            "named": true
+          },
+          {
+            "type": "unquote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "var_form",
+            "named": true
+          }
+        ]
+      },
+      "open": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "for_iter_body",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "fcollect_form",
+    "named": true,
+    "fields": {
+      "call": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "symbol",
+            "named": true
+          }
+        ]
+      },
+      "close": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": ")",
+            "named": false
+          }
+        ]
+      },
+      "item": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "accumulate_form",
+            "named": true
+          },
+          {
+            "type": "boolean",
+            "named": true
+          },
+          {
+            "type": "case_form",
+            "named": true
+          },
+          {
+            "type": "case_try_form",
+            "named": true
+          },
+          {
+            "type": "collect_form",
+            "named": true
+          },
+          {
+            "type": "each_form",
+            "named": true
+          },
+          {
+            "type": "faccumulate_form",
+            "named": true
+          },
+          {
+            "type": "fcollect_form",
+            "named": true
+          },
+          {
+            "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "for_form",
+            "named": true
+          },
+          {
+            "type": "global_form",
+            "named": true
+          },
+          {
+            "type": "hashfn_form",
+            "named": true
+          },
+          {
+            "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "icollect_form",
+            "named": true
+          },
+          {
+            "type": "lambda_form",
+            "named": true
+          },
+          {
+            "type": "let_form",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "local_form",
+            "named": true
+          },
+          {
+            "type": "match_form",
+            "named": true
+          },
+          {
+            "type": "match_try_form",
+            "named": true
+          },
+          {
+            "type": "multi_symbol",
+            "named": true
+          },
+          {
+            "type": "multi_symbol_method",
+            "named": true
+          },
+          {
+            "type": "nil",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "quasi_quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "sequence",
+            "named": true
+          },
+          {
+            "type": "set_form",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "symbol",
+            "named": true
+          },
+          {
+            "type": "symbol_option",
+            "named": true
+          },
+          {
+            "type": "table",
+            "named": true
+          },
+          {
+            "type": "unquote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "var_form",
+            "named": true
+          }
+        ]
+      },
+      "open": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "for_iter_body",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -888,6 +2344,10 @@
         "required": false,
         "types": [
           {
+            "type": "accumulate_form",
+            "named": true
+          },
+          {
             "type": "boolean",
             "named": true
           },
@@ -900,7 +2360,27 @@
             "named": true
           },
           {
+            "type": "collect_form",
+            "named": true
+          },
+          {
+            "type": "each_form",
+            "named": true
+          },
+          {
+            "type": "faccumulate_form",
+            "named": true
+          },
+          {
+            "type": "fcollect_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "for_form",
             "named": true
           },
           {
@@ -913,6 +2393,10 @@
           },
           {
             "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "icollect_form",
             "named": true
           },
           {
@@ -1034,6 +2518,842 @@
     }
   },
   {
+    "type": "for_form",
+    "named": true,
+    "fields": {
+      "call": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "symbol",
+            "named": true
+          }
+        ]
+      },
+      "close": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": ")",
+            "named": false
+          }
+        ]
+      },
+      "item": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "accumulate_form",
+            "named": true
+          },
+          {
+            "type": "boolean",
+            "named": true
+          },
+          {
+            "type": "case_form",
+            "named": true
+          },
+          {
+            "type": "case_try_form",
+            "named": true
+          },
+          {
+            "type": "collect_form",
+            "named": true
+          },
+          {
+            "type": "each_form",
+            "named": true
+          },
+          {
+            "type": "faccumulate_form",
+            "named": true
+          },
+          {
+            "type": "fcollect_form",
+            "named": true
+          },
+          {
+            "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "for_form",
+            "named": true
+          },
+          {
+            "type": "global_form",
+            "named": true
+          },
+          {
+            "type": "hashfn_form",
+            "named": true
+          },
+          {
+            "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "icollect_form",
+            "named": true
+          },
+          {
+            "type": "lambda_form",
+            "named": true
+          },
+          {
+            "type": "let_form",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "local_form",
+            "named": true
+          },
+          {
+            "type": "match_form",
+            "named": true
+          },
+          {
+            "type": "match_try_form",
+            "named": true
+          },
+          {
+            "type": "multi_symbol",
+            "named": true
+          },
+          {
+            "type": "multi_symbol_method",
+            "named": true
+          },
+          {
+            "type": "nil",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "quasi_quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "sequence",
+            "named": true
+          },
+          {
+            "type": "set_form",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "symbol",
+            "named": true
+          },
+          {
+            "type": "symbol_option",
+            "named": true
+          },
+          {
+            "type": "table",
+            "named": true
+          },
+          {
+            "type": "unquote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "var_form",
+            "named": true
+          }
+        ]
+      },
+      "open": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "for_iter_body",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "for_iter_body",
+    "named": true,
+    "fields": {
+      "accumulator_binding": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "boolean_binding",
+            "named": true
+          },
+          {
+            "type": "list_binding",
+            "named": true
+          },
+          {
+            "type": "number_binding",
+            "named": true
+          },
+          {
+            "type": "sequence_binding",
+            "named": true
+          },
+          {
+            "type": "string_binding",
+            "named": true
+          },
+          {
+            "type": "symbol_binding",
+            "named": true
+          },
+          {
+            "type": "table_binding",
+            "named": true
+          }
+        ]
+      },
+      "accumulator_value": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "accumulate_form",
+            "named": true
+          },
+          {
+            "type": "boolean",
+            "named": true
+          },
+          {
+            "type": "case_form",
+            "named": true
+          },
+          {
+            "type": "case_try_form",
+            "named": true
+          },
+          {
+            "type": "collect_form",
+            "named": true
+          },
+          {
+            "type": "each_form",
+            "named": true
+          },
+          {
+            "type": "faccumulate_form",
+            "named": true
+          },
+          {
+            "type": "fcollect_form",
+            "named": true
+          },
+          {
+            "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "for_form",
+            "named": true
+          },
+          {
+            "type": "global_form",
+            "named": true
+          },
+          {
+            "type": "hashfn_form",
+            "named": true
+          },
+          {
+            "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "icollect_form",
+            "named": true
+          },
+          {
+            "type": "lambda_form",
+            "named": true
+          },
+          {
+            "type": "let_form",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "local_form",
+            "named": true
+          },
+          {
+            "type": "match_form",
+            "named": true
+          },
+          {
+            "type": "match_try_form",
+            "named": true
+          },
+          {
+            "type": "multi_symbol",
+            "named": true
+          },
+          {
+            "type": "multi_symbol_method",
+            "named": true
+          },
+          {
+            "type": "nil",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "quasi_quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "sequence",
+            "named": true
+          },
+          {
+            "type": "set_form",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "symbol",
+            "named": true
+          },
+          {
+            "type": "symbol_option",
+            "named": true
+          },
+          {
+            "type": "table",
+            "named": true
+          },
+          {
+            "type": "unquote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "var_form",
+            "named": true
+          }
+        ]
+      },
+      "close": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "]",
+            "named": false
+          }
+        ]
+      },
+      "from": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "accumulate_form",
+            "named": true
+          },
+          {
+            "type": "boolean",
+            "named": true
+          },
+          {
+            "type": "case_form",
+            "named": true
+          },
+          {
+            "type": "case_try_form",
+            "named": true
+          },
+          {
+            "type": "collect_form",
+            "named": true
+          },
+          {
+            "type": "each_form",
+            "named": true
+          },
+          {
+            "type": "faccumulate_form",
+            "named": true
+          },
+          {
+            "type": "fcollect_form",
+            "named": true
+          },
+          {
+            "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "for_form",
+            "named": true
+          },
+          {
+            "type": "global_form",
+            "named": true
+          },
+          {
+            "type": "hashfn_form",
+            "named": true
+          },
+          {
+            "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "icollect_form",
+            "named": true
+          },
+          {
+            "type": "lambda_form",
+            "named": true
+          },
+          {
+            "type": "let_form",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "local_form",
+            "named": true
+          },
+          {
+            "type": "match_form",
+            "named": true
+          },
+          {
+            "type": "match_try_form",
+            "named": true
+          },
+          {
+            "type": "multi_symbol",
+            "named": true
+          },
+          {
+            "type": "multi_symbol_method",
+            "named": true
+          },
+          {
+            "type": "nil",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "quasi_quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "sequence",
+            "named": true
+          },
+          {
+            "type": "set_form",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "symbol",
+            "named": true
+          },
+          {
+            "type": "symbol_option",
+            "named": true
+          },
+          {
+            "type": "table",
+            "named": true
+          },
+          {
+            "type": "unquote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "var_form",
+            "named": true
+          }
+        ]
+      },
+      "index": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "symbol_binding",
+            "named": true
+          }
+        ]
+      },
+      "open": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "[",
+            "named": false
+          }
+        ]
+      },
+      "step": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "accumulate_form",
+            "named": true
+          },
+          {
+            "type": "boolean",
+            "named": true
+          },
+          {
+            "type": "case_form",
+            "named": true
+          },
+          {
+            "type": "case_try_form",
+            "named": true
+          },
+          {
+            "type": "collect_form",
+            "named": true
+          },
+          {
+            "type": "each_form",
+            "named": true
+          },
+          {
+            "type": "faccumulate_form",
+            "named": true
+          },
+          {
+            "type": "fcollect_form",
+            "named": true
+          },
+          {
+            "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "for_form",
+            "named": true
+          },
+          {
+            "type": "global_form",
+            "named": true
+          },
+          {
+            "type": "hashfn_form",
+            "named": true
+          },
+          {
+            "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "icollect_form",
+            "named": true
+          },
+          {
+            "type": "lambda_form",
+            "named": true
+          },
+          {
+            "type": "let_form",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "local_form",
+            "named": true
+          },
+          {
+            "type": "match_form",
+            "named": true
+          },
+          {
+            "type": "match_try_form",
+            "named": true
+          },
+          {
+            "type": "multi_symbol",
+            "named": true
+          },
+          {
+            "type": "multi_symbol_method",
+            "named": true
+          },
+          {
+            "type": "nil",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "quasi_quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "sequence",
+            "named": true
+          },
+          {
+            "type": "set_form",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "symbol",
+            "named": true
+          },
+          {
+            "type": "symbol_option",
+            "named": true
+          },
+          {
+            "type": "table",
+            "named": true
+          },
+          {
+            "type": "unquote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "var_form",
+            "named": true
+          }
+        ]
+      },
+      "to": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "accumulate_form",
+            "named": true
+          },
+          {
+            "type": "boolean",
+            "named": true
+          },
+          {
+            "type": "case_form",
+            "named": true
+          },
+          {
+            "type": "case_try_form",
+            "named": true
+          },
+          {
+            "type": "collect_form",
+            "named": true
+          },
+          {
+            "type": "each_form",
+            "named": true
+          },
+          {
+            "type": "faccumulate_form",
+            "named": true
+          },
+          {
+            "type": "fcollect_form",
+            "named": true
+          },
+          {
+            "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "for_form",
+            "named": true
+          },
+          {
+            "type": "global_form",
+            "named": true
+          },
+          {
+            "type": "hashfn_form",
+            "named": true
+          },
+          {
+            "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "icollect_form",
+            "named": true
+          },
+          {
+            "type": "lambda_form",
+            "named": true
+          },
+          {
+            "type": "let_form",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "local_form",
+            "named": true
+          },
+          {
+            "type": "match_form",
+            "named": true
+          },
+          {
+            "type": "match_try_form",
+            "named": true
+          },
+          {
+            "type": "multi_symbol",
+            "named": true
+          },
+          {
+            "type": "multi_symbol_method",
+            "named": true
+          },
+          {
+            "type": "nil",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "quasi_quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "sequence",
+            "named": true
+          },
+          {
+            "type": "set_form",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "symbol",
+            "named": true
+          },
+          {
+            "type": "symbol_option",
+            "named": true
+          },
+          {
+            "type": "table",
+            "named": true
+          },
+          {
+            "type": "unquote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "var_form",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "iter_option",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "global_form",
     "named": true,
     "fields": {
@@ -1106,6 +3426,10 @@
         "required": false,
         "types": [
           {
+            "type": "accumulate_form",
+            "named": true
+          },
+          {
             "type": "boolean",
             "named": true
           },
@@ -1118,7 +3442,27 @@
             "named": true
           },
           {
+            "type": "collect_form",
+            "named": true
+          },
+          {
+            "type": "each_form",
+            "named": true
+          },
+          {
+            "type": "faccumulate_form",
+            "named": true
+          },
+          {
+            "type": "fcollect_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "for_form",
             "named": true
           },
           {
@@ -1131,6 +3475,10 @@
           },
           {
             "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "icollect_form",
             "named": true
           },
           {
@@ -1246,6 +3594,10 @@
         "required": true,
         "types": [
           {
+            "type": "accumulate_form",
+            "named": true
+          },
+          {
             "type": "boolean",
             "named": true
           },
@@ -1258,7 +3610,27 @@
             "named": true
           },
           {
+            "type": "collect_form",
+            "named": true
+          },
+          {
+            "type": "each_form",
+            "named": true
+          },
+          {
+            "type": "faccumulate_form",
+            "named": true
+          },
+          {
+            "type": "fcollect_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "for_form",
             "named": true
           },
           {
@@ -1271,6 +3643,10 @@
           },
           {
             "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "icollect_form",
             "named": true
           },
           {
@@ -1376,6 +3752,10 @@
         "required": true,
         "types": [
           {
+            "type": "accumulate_form",
+            "named": true
+          },
+          {
             "type": "boolean",
             "named": true
           },
@@ -1388,7 +3768,27 @@
             "named": true
           },
           {
+            "type": "collect_form",
+            "named": true
+          },
+          {
+            "type": "each_form",
+            "named": true
+          },
+          {
+            "type": "faccumulate_form",
+            "named": true
+          },
+          {
+            "type": "fcollect_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "for_form",
             "named": true
           },
           {
@@ -1401,6 +3801,10 @@
           },
           {
             "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "icollect_form",
             "named": true
           },
           {
@@ -1498,6 +3902,552 @@
     }
   },
   {
+    "type": "icollect_form",
+    "named": true,
+    "fields": {
+      "call": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "symbol",
+            "named": true
+          }
+        ]
+      },
+      "close": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": ")",
+            "named": false
+          },
+          {
+            "type": "iter_body",
+            "named": true
+          }
+        ]
+      },
+      "item": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "accumulate_form",
+            "named": true
+          },
+          {
+            "type": "boolean",
+            "named": true
+          },
+          {
+            "type": "case_form",
+            "named": true
+          },
+          {
+            "type": "case_try_form",
+            "named": true
+          },
+          {
+            "type": "collect_form",
+            "named": true
+          },
+          {
+            "type": "each_form",
+            "named": true
+          },
+          {
+            "type": "faccumulate_form",
+            "named": true
+          },
+          {
+            "type": "fcollect_form",
+            "named": true
+          },
+          {
+            "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "for_form",
+            "named": true
+          },
+          {
+            "type": "global_form",
+            "named": true
+          },
+          {
+            "type": "hashfn_form",
+            "named": true
+          },
+          {
+            "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "icollect_form",
+            "named": true
+          },
+          {
+            "type": "lambda_form",
+            "named": true
+          },
+          {
+            "type": "let_form",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "local_form",
+            "named": true
+          },
+          {
+            "type": "match_form",
+            "named": true
+          },
+          {
+            "type": "match_try_form",
+            "named": true
+          },
+          {
+            "type": "multi_symbol",
+            "named": true
+          },
+          {
+            "type": "multi_symbol_method",
+            "named": true
+          },
+          {
+            "type": "nil",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "quasi_quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "sequence",
+            "named": true
+          },
+          {
+            "type": "set_form",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "symbol",
+            "named": true
+          },
+          {
+            "type": "symbol_option",
+            "named": true
+          },
+          {
+            "type": "table",
+            "named": true
+          },
+          {
+            "type": "unquote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "var_form",
+            "named": true
+          }
+        ]
+      },
+      "open": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": "iter_body",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "iter_body",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "iter_body",
+    "named": true,
+    "fields": {
+      "binding": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "boolean_binding",
+            "named": true
+          },
+          {
+            "type": "list_binding",
+            "named": true
+          },
+          {
+            "type": "number_binding",
+            "named": true
+          },
+          {
+            "type": "sequence_binding",
+            "named": true
+          },
+          {
+            "type": "string_binding",
+            "named": true
+          },
+          {
+            "type": "symbol_binding",
+            "named": true
+          },
+          {
+            "type": "table_binding",
+            "named": true
+          }
+        ]
+      },
+      "iterator": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "accumulate_form",
+            "named": true
+          },
+          {
+            "type": "boolean",
+            "named": true
+          },
+          {
+            "type": "case_form",
+            "named": true
+          },
+          {
+            "type": "case_try_form",
+            "named": true
+          },
+          {
+            "type": "collect_form",
+            "named": true
+          },
+          {
+            "type": "each_form",
+            "named": true
+          },
+          {
+            "type": "faccumulate_form",
+            "named": true
+          },
+          {
+            "type": "fcollect_form",
+            "named": true
+          },
+          {
+            "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "for_form",
+            "named": true
+          },
+          {
+            "type": "global_form",
+            "named": true
+          },
+          {
+            "type": "hashfn_form",
+            "named": true
+          },
+          {
+            "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "icollect_form",
+            "named": true
+          },
+          {
+            "type": "lambda_form",
+            "named": true
+          },
+          {
+            "type": "let_form",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "local_form",
+            "named": true
+          },
+          {
+            "type": "match_form",
+            "named": true
+          },
+          {
+            "type": "match_try_form",
+            "named": true
+          },
+          {
+            "type": "multi_symbol",
+            "named": true
+          },
+          {
+            "type": "multi_symbol_method",
+            "named": true
+          },
+          {
+            "type": "nil",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "quasi_quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "sequence",
+            "named": true
+          },
+          {
+            "type": "set_form",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "symbol",
+            "named": true
+          },
+          {
+            "type": "symbol_option",
+            "named": true
+          },
+          {
+            "type": "table",
+            "named": true
+          },
+          {
+            "type": "unquote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "var_form",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "iter_option",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "iter_option",
+    "named": true,
+    "fields": {
+      "option": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "symbol_option",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "accumulate_form",
+            "named": true
+          },
+          {
+            "type": "boolean",
+            "named": true
+          },
+          {
+            "type": "case_form",
+            "named": true
+          },
+          {
+            "type": "case_try_form",
+            "named": true
+          },
+          {
+            "type": "collect_form",
+            "named": true
+          },
+          {
+            "type": "each_form",
+            "named": true
+          },
+          {
+            "type": "faccumulate_form",
+            "named": true
+          },
+          {
+            "type": "fcollect_form",
+            "named": true
+          },
+          {
+            "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "for_form",
+            "named": true
+          },
+          {
+            "type": "global_form",
+            "named": true
+          },
+          {
+            "type": "hashfn_form",
+            "named": true
+          },
+          {
+            "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "icollect_form",
+            "named": true
+          },
+          {
+            "type": "lambda_form",
+            "named": true
+          },
+          {
+            "type": "let_form",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "local_form",
+            "named": true
+          },
+          {
+            "type": "match_form",
+            "named": true
+          },
+          {
+            "type": "match_try_form",
+            "named": true
+          },
+          {
+            "type": "multi_symbol",
+            "named": true
+          },
+          {
+            "type": "multi_symbol_method",
+            "named": true
+          },
+          {
+            "type": "nil",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "quasi_quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "sequence",
+            "named": true
+          },
+          {
+            "type": "set_form",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "symbol",
+            "named": true
+          },
+          {
+            "type": "symbol_option",
+            "named": true
+          },
+          {
+            "type": "table",
+            "named": true
+          },
+          {
+            "type": "unquote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "var_form",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "lambda_form",
     "named": true,
     "fields": {
@@ -1546,6 +4496,10 @@
         "required": false,
         "types": [
           {
+            "type": "accumulate_form",
+            "named": true
+          },
+          {
             "type": "boolean",
             "named": true
           },
@@ -1558,7 +4512,27 @@
             "named": true
           },
           {
+            "type": "collect_form",
+            "named": true
+          },
+          {
+            "type": "each_form",
+            "named": true
+          },
+          {
+            "type": "faccumulate_form",
+            "named": true
+          },
+          {
+            "type": "fcollect_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "for_form",
             "named": true
           },
           {
@@ -1571,6 +4545,10 @@
           },
           {
             "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "icollect_form",
             "named": true
           },
           {
@@ -1720,6 +4698,10 @@
         "required": false,
         "types": [
           {
+            "type": "accumulate_form",
+            "named": true
+          },
+          {
             "type": "boolean",
             "named": true
           },
@@ -1732,7 +4714,27 @@
             "named": true
           },
           {
+            "type": "collect_form",
+            "named": true
+          },
+          {
+            "type": "each_form",
+            "named": true
+          },
+          {
+            "type": "faccumulate_form",
+            "named": true
+          },
+          {
+            "type": "fcollect_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "for_form",
             "named": true
           },
           {
@@ -1745,6 +4747,10 @@
           },
           {
             "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "icollect_form",
             "named": true
           },
           {
@@ -1914,6 +4920,10 @@
         "required": false,
         "types": [
           {
+            "type": "accumulate_form",
+            "named": true
+          },
+          {
             "type": "boolean",
             "named": true
           },
@@ -1926,7 +4936,27 @@
             "named": true
           },
           {
+            "type": "collect_form",
+            "named": true
+          },
+          {
+            "type": "each_form",
+            "named": true
+          },
+          {
+            "type": "faccumulate_form",
+            "named": true
+          },
+          {
+            "type": "fcollect_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "for_form",
             "named": true
           },
           {
@@ -1939,6 +4969,10 @@
           },
           {
             "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "icollect_form",
             "named": true
           },
           {
@@ -2034,6 +5068,10 @@
         "required": false,
         "types": [
           {
+            "type": "accumulate_form",
+            "named": true
+          },
+          {
             "type": "boolean",
             "named": true
           },
@@ -2046,7 +5084,27 @@
             "named": true
           },
           {
+            "type": "collect_form",
+            "named": true
+          },
+          {
+            "type": "each_form",
+            "named": true
+          },
+          {
+            "type": "faccumulate_form",
+            "named": true
+          },
+          {
+            "type": "fcollect_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "for_form",
             "named": true
           },
           {
@@ -2059,6 +5117,10 @@
           },
           {
             "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "icollect_form",
             "named": true
           },
           {
@@ -2158,6 +5220,10 @@
         "required": false,
         "types": [
           {
+            "type": "accumulate_form",
+            "named": true
+          },
+          {
             "type": "boolean",
             "named": true
           },
@@ -2170,7 +5236,27 @@
             "named": true
           },
           {
+            "type": "collect_form",
+            "named": true
+          },
+          {
+            "type": "each_form",
+            "named": true
+          },
+          {
+            "type": "faccumulate_form",
+            "named": true
+          },
+          {
+            "type": "fcollect_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "for_form",
             "named": true
           },
           {
@@ -2183,6 +5269,10 @@
           },
           {
             "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "icollect_form",
             "named": true
           },
           {
@@ -2412,6 +5502,10 @@
         "required": false,
         "types": [
           {
+            "type": "accumulate_form",
+            "named": true
+          },
+          {
             "type": "boolean",
             "named": true
           },
@@ -2424,7 +5518,27 @@
             "named": true
           },
           {
+            "type": "collect_form",
+            "named": true
+          },
+          {
+            "type": "each_form",
+            "named": true
+          },
+          {
+            "type": "faccumulate_form",
+            "named": true
+          },
+          {
+            "type": "fcollect_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "for_form",
             "named": true
           },
           {
@@ -2437,6 +5551,10 @@
           },
           {
             "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "icollect_form",
             "named": true
           },
           {
@@ -2552,6 +5670,10 @@
         "required": true,
         "types": [
           {
+            "type": "accumulate_form",
+            "named": true
+          },
+          {
             "type": "boolean",
             "named": true
           },
@@ -2564,7 +5686,27 @@
             "named": true
           },
           {
+            "type": "collect_form",
+            "named": true
+          },
+          {
+            "type": "each_form",
+            "named": true
+          },
+          {
+            "type": "faccumulate_form",
+            "named": true
+          },
+          {
+            "type": "fcollect_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "for_form",
             "named": true
           },
           {
@@ -2577,6 +5719,10 @@
           },
           {
             "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "icollect_form",
             "named": true
           },
           {
@@ -2710,6 +5856,10 @@
         "required": false,
         "types": [
           {
+            "type": "accumulate_form",
+            "named": true
+          },
+          {
             "type": "boolean",
             "named": true
           },
@@ -2722,7 +5872,27 @@
             "named": true
           },
           {
+            "type": "collect_form",
+            "named": true
+          },
+          {
+            "type": "each_form",
+            "named": true
+          },
+          {
+            "type": "faccumulate_form",
+            "named": true
+          },
+          {
+            "type": "fcollect_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "for_form",
             "named": true
           },
           {
@@ -2735,6 +5905,10 @@
           },
           {
             "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "icollect_form",
             "named": true
           },
           {
@@ -2860,6 +6034,10 @@
         "required": true,
         "types": [
           {
+            "type": "accumulate_form",
+            "named": true
+          },
+          {
             "type": "boolean",
             "named": true
           },
@@ -2872,7 +6050,27 @@
             "named": true
           },
           {
+            "type": "collect_form",
+            "named": true
+          },
+          {
+            "type": "each_form",
+            "named": true
+          },
+          {
+            "type": "faccumulate_form",
+            "named": true
+          },
+          {
+            "type": "fcollect_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "for_form",
             "named": true
           },
           {
@@ -2885,6 +6083,10 @@
           },
           {
             "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "icollect_form",
             "named": true
           },
           {
@@ -3018,6 +6220,10 @@
         "required": false,
         "types": [
           {
+            "type": "accumulate_form",
+            "named": true
+          },
+          {
             "type": "boolean",
             "named": true
           },
@@ -3030,7 +6236,27 @@
             "named": true
           },
           {
+            "type": "collect_form",
+            "named": true
+          },
+          {
+            "type": "each_form",
+            "named": true
+          },
+          {
+            "type": "faccumulate_form",
+            "named": true
+          },
+          {
+            "type": "fcollect_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "for_form",
             "named": true
           },
           {
@@ -3043,6 +6269,10 @@
           },
           {
             "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "icollect_form",
             "named": true
           },
           {
@@ -3194,6 +6424,10 @@
       "required": false,
       "types": [
         {
+          "type": "accumulate_form",
+          "named": true
+        },
+        {
           "type": "boolean",
           "named": true
         },
@@ -3206,7 +6440,27 @@
           "named": true
         },
         {
+          "type": "collect_form",
+          "named": true
+        },
+        {
+          "type": "each_form",
+          "named": true
+        },
+        {
+          "type": "faccumulate_form",
+          "named": true
+        },
+        {
+          "type": "fcollect_form",
+          "named": true
+        },
+        {
           "type": "fn_form",
+          "named": true
+        },
+        {
+          "type": "for_form",
           "named": true
         },
         {
@@ -3219,6 +6473,10 @@
         },
         {
           "type": "hashfn_reader_macro",
+          "named": true
+        },
+        {
+          "type": "icollect_form",
           "named": true
         },
         {
@@ -3317,6 +6575,10 @@
         "required": true,
         "types": [
           {
+            "type": "accumulate_form",
+            "named": true
+          },
+          {
             "type": "boolean",
             "named": true
           },
@@ -3329,7 +6591,27 @@
             "named": true
           },
           {
+            "type": "collect_form",
+            "named": true
+          },
+          {
+            "type": "each_form",
+            "named": true
+          },
+          {
+            "type": "faccumulate_form",
+            "named": true
+          },
+          {
+            "type": "fcollect_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "for_form",
             "named": true
           },
           {
@@ -3342,6 +6624,10 @@
           },
           {
             "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "icollect_form",
             "named": true
           },
           {
@@ -3447,6 +6733,10 @@
         "required": true,
         "types": [
           {
+            "type": "accumulate_form",
+            "named": true
+          },
+          {
             "type": "boolean",
             "named": true
           },
@@ -3459,7 +6749,27 @@
             "named": true
           },
           {
+            "type": "collect_form",
+            "named": true
+          },
+          {
+            "type": "each_form",
+            "named": true
+          },
+          {
+            "type": "faccumulate_form",
+            "named": true
+          },
+          {
+            "type": "fcollect_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "for_form",
             "named": true
           },
           {
@@ -3472,6 +6782,10 @@
           },
           {
             "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "icollect_form",
             "named": true
           },
           {
@@ -3637,6 +6951,10 @@
         "required": false,
         "types": [
           {
+            "type": "accumulate_form",
+            "named": true
+          },
+          {
             "type": "boolean",
             "named": true
           },
@@ -3649,7 +6967,27 @@
             "named": true
           },
           {
+            "type": "collect_form",
+            "named": true
+          },
+          {
+            "type": "each_form",
+            "named": true
+          },
+          {
+            "type": "faccumulate_form",
+            "named": true
+          },
+          {
+            "type": "fcollect_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "for_form",
             "named": true
           },
           {
@@ -3662,6 +7000,10 @@
           },
           {
             "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "icollect_form",
             "named": true
           },
           {
@@ -3959,6 +7301,10 @@
         "required": false,
         "types": [
           {
+            "type": "accumulate_form",
+            "named": true
+          },
+          {
             "type": "boolean",
             "named": true
           },
@@ -3971,7 +7317,27 @@
             "named": true
           },
           {
+            "type": "collect_form",
+            "named": true
+          },
+          {
+            "type": "each_form",
+            "named": true
+          },
+          {
+            "type": "faccumulate_form",
+            "named": true
+          },
+          {
+            "type": "fcollect_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "for_form",
             "named": true
           },
           {
@@ -3984,6 +7350,10 @@
           },
           {
             "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "icollect_form",
             "named": true
           },
           {
@@ -4184,6 +7554,10 @@
         "required": false,
         "types": [
           {
+            "type": "accumulate_form",
+            "named": true
+          },
+          {
             "type": "boolean",
             "named": true
           },
@@ -4196,7 +7570,27 @@
             "named": true
           },
           {
+            "type": "collect_form",
+            "named": true
+          },
+          {
+            "type": "each_form",
+            "named": true
+          },
+          {
+            "type": "faccumulate_form",
+            "named": true
+          },
+          {
+            "type": "fcollect_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "for_form",
             "named": true
           },
           {
@@ -4209,6 +7603,10 @@
           },
           {
             "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "icollect_form",
             "named": true
           },
           {
@@ -4308,6 +7706,10 @@
         "required": false,
         "types": [
           {
+            "type": "accumulate_form",
+            "named": true
+          },
+          {
             "type": "boolean",
             "named": true
           },
@@ -4320,7 +7722,27 @@
             "named": true
           },
           {
+            "type": "collect_form",
+            "named": true
+          },
+          {
+            "type": "each_form",
+            "named": true
+          },
+          {
+            "type": "faccumulate_form",
+            "named": true
+          },
+          {
+            "type": "fcollect_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "for_form",
             "named": true
           },
           {
@@ -4333,6 +7755,10 @@
           },
           {
             "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "icollect_form",
             "named": true
           },
           {
@@ -4512,6 +7938,10 @@
         "required": false,
         "types": [
           {
+            "type": "accumulate_form",
+            "named": true
+          },
+          {
             "type": "boolean",
             "named": true
           },
@@ -4524,11 +7954,31 @@
             "named": true
           },
           {
+            "type": "collect_form",
+            "named": true
+          },
+          {
             "type": "docstring",
             "named": true
           },
           {
+            "type": "each_form",
+            "named": true
+          },
+          {
+            "type": "faccumulate_form",
+            "named": true
+          },
+          {
+            "type": "fcollect_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "for_form",
             "named": true
           },
           {
@@ -4541,6 +7991,10 @@
           },
           {
             "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "icollect_form",
             "named": true
           },
           {
@@ -4640,6 +8094,10 @@
         "required": true,
         "types": [
           {
+            "type": "accumulate_form",
+            "named": true
+          },
+          {
             "type": "boolean",
             "named": true
           },
@@ -4652,7 +8110,27 @@
             "named": true
           },
           {
+            "type": "collect_form",
+            "named": true
+          },
+          {
+            "type": "each_form",
+            "named": true
+          },
+          {
+            "type": "faccumulate_form",
+            "named": true
+          },
+          {
+            "type": "fcollect_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "for_form",
             "named": true
           },
           {
@@ -4665,6 +8143,10 @@
           },
           {
             "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "icollect_form",
             "named": true
           },
           {
@@ -4834,6 +8316,10 @@
         "required": false,
         "types": [
           {
+            "type": "accumulate_form",
+            "named": true
+          },
+          {
             "type": "boolean",
             "named": true
           },
@@ -4846,7 +8332,27 @@
             "named": true
           },
           {
+            "type": "collect_form",
+            "named": true
+          },
+          {
+            "type": "each_form",
+            "named": true
+          },
+          {
+            "type": "faccumulate_form",
+            "named": true
+          },
+          {
+            "type": "fcollect_form",
+            "named": true
+          },
+          {
             "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "for_form",
             "named": true
           },
           {
@@ -4859,6 +8365,10 @@
           },
           {
             "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "icollect_form",
             "named": true
           },
           {

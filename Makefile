@@ -13,7 +13,7 @@ fennel.so: $(OBJ)
 .c.o:
 	$(CC) -c $(TSCFLAGS) -o $@ $<
 
-src/parser.c: **/*.js *.js src/scanner.c
+src/parser.c: extensions/*.js *.js src/scanner.c
 	npx tree-sitter generate
 
 generate: src/parser.c

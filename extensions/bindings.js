@@ -5,6 +5,7 @@ const {
 	list,
 	sequence,
 	table,
+    PREC_SCENARIO_SPECIFIC,
 } = require('../utils.js');
 
 module.exports = {
@@ -17,13 +18,13 @@ module.exports = {
 	],
 
 	rules: {
-		_binding: $ => choice(
+		_binding: $ => prec(PREC_SCENARIO_SPECIFIC, choice(
 			$._symbol_binding,
 			$.list_binding,
 			$.sequence_binding,
 			$.table_binding,
 			$._literal_binding,
-		),
+		)),
 
 		_symbol_binding: $ => alias($.symbol, $.symbol_binding),
 
@@ -41,11 +42,11 @@ module.exports = {
 			optional(item($.rest_binding)),
 		),
 
-		_table_binding_key: $ => choice(
+		_table_binding_key: $ => prec(PREC_SCENARIO_SPECIFIC, choice(
 			alias(':', $.symbol_binding),
 			$._string_binding,
 			$.symbol_option,
-		),
+		)),
 
 		_table_binding_pair: $ => kv_pair($, { key: $._table_binding_key }, { value: $._symbol_binding }),
 

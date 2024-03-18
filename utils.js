@@ -179,8 +179,6 @@ function string($, content) {
 	)
 }
 
-const prec_default = node => prec(-50, node);
-
 module.exports = {
 	insert_between,
 	gseq,
@@ -195,10 +193,12 @@ module.exports = {
 	form,
 	SPECIAL_OVERRIDE_SYMBOLS,
 	colon_string,
-	prec_default,
 	double_quote_string,
 	string,
 	list,
 	sequence,
 	table,
+	PREC_LAST_RESORT: -50,
+	PREC_SCENARIO_SPECIFIC: -10,
+	PREC_PRIORITY: 10,
 };

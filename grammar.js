@@ -2,17 +2,23 @@ const fs = require('fs');
 const _ = require('lodash');
 const {
 	kv_pair,
-	open,
-	close,
 	item,
 	call,
 	SPECIAL_OVERRIDE_SYMBOLS,
 	colon_string,
 	double_quote_string,
+	list,
+	sequence,
+	table,
+	PREC_LAST_RESORT,
 } = require('./utils.js');
 
-const extensions = _.reduce(
+const extension_files = _.filter(
 	fs.readdirSync('./extensions/'),
+	filename => !filename.startsWith('_') && !fs.lstatSync(`./extensions/${filename}`).isDirectory(),
+);
+const extensions = _.reduce(
+	extension_files,
 	(extensions, filename) => _.mergeWith(
 		extensions,
 		require(`./extensions/${filename}`),
@@ -76,6 +82,7 @@ module.exports = grammar({
 			$._literal,
 		),
 
+		// FIXME: Refactor this mess
 		hashfn_reader_macro: $ => seq(
 			field('macro', alias($._hashfn_reader_macro_char, '#')),
 			field('expression', $._sexp),
@@ -105,32 +112,23 @@ module.exports = grammar({
 			repeat(item($._sexp)),
 		),
 
-		list: $ => seq(
-			open('('),
-			optional($._list_content),
-			close(')'),
-		),
+		list: $ => list(optional($._list_content)),
 
 		...extensions.rules,
 		...extensions.forms,
 
 		_form: $ => choice(...[...Object.keys(extensions.forms)].map(form => $[form])),
 
-		sequence: $ => seq(
-			open('['),
-			repeat(item($._sexp)),
-			close(']'),
-		),
+		sequence: $ => sequence(repeat(item($._sexp))),
 
 		_table_pair: $ => kv_pair($),
 
-		table: $ => seq(
-			open('{'),
-			repeat($._table_pair),
-			close('}'),
-		),
+		table: $ => table(repeat($._table_pair)),
 
-		_literal: $ => prec(-1, choice(
+		// NOTE: Last resort precedence here is nice to have for when forms define
+		// literal-specific syntax (mostly strings), like with metadata `:fnl/docstring`
+		// in a function form.
+		_literal: $ => prec(PREC_LAST_RESORT, choice(
 			$.string,
 			$.number,
 			$.boolean,
@@ -241,6 +239,9 @@ module.exports = grammar({
 		// symbols they may contain, which is why its regex is just a stripped down version of $.symbol.
 		_multi_symbol_fragment: $ => alias(token.immediate(/[^(){}\[\]"'~;,@`.:\s]+/), $.symbol_fragment),
 
-		_special_override_symbol: $ => alias(choice(...SPECIAL_OVERRIDE_SYMBOLS), $.symbol),
+		_special_override_symbol: $ => alias(
+			prec(PREC_LAST_RESORT, choice(...SPECIAL_OVERRIDE_SYMBOLS)),
+			$.symbol
+		),
 	},
 });
