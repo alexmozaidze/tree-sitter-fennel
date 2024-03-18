@@ -18,7 +18,6 @@ src/parser.c: extensions/*.js *.js src/scanner.c
 
 generate: src/parser.c
 
-# TODO: Improve incremental build of this
 tree-sitter-fennel.wasm: generate
 	npx tree-sitter build-wasm
 

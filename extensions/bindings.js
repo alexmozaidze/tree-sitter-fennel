@@ -65,6 +65,6 @@ module.exports = {
 		_string_binding: $ => alias($.string, $.string_binding),
 		_number_binding: $ => alias($.number, $.number_binding),
 		_boolean_binding: $ => alias($.boolean, $.boolean_binding),
-		_nil_binding: $ => alias($.number, $.number_binding),
+		_nil_binding: $ => alias($.nil, $.nil_binding),
 	}
 };

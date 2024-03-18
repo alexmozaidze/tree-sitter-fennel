@@ -81,7 +81,23 @@ forms['hashfn'] = $ => form($,
 );
 
 // TODO: Special binding for case/match to support `(where)` and `(= pin)`
-rules['_case_pair'] = $ => pair($, { lhs: $._binding });
+rules['case_guard_or_special'] = $ => form($,
+	'or',
+	repeat(item($._binding)),
+);
+rules['case_guard'] = $ => form($,
+	'where',
+	item(choice(
+		$.case_guard_or_special,
+		$._binding,
+	)),
+	repeat(field('guard', $._sexp))
+);
+rules['_case_lhs'] = $ => choice(
+	$.case_guard,
+	$._binding,
+);
+rules['_case_pair'] = $ => pair($, { lhs: $._case_lhs });
 [
 	'case',
 	'match',

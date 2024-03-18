@@ -2,11 +2,7 @@
 
 const _ = require('lodash');
 
-// NOTE: They are only used in $._sexp, which means that they will not
-// match if you just use $.symbol, you must explicitly specify
-// $._special_override_symbol. This also means that they cannot be a
-// part of multi-symbols.
-const SPECIAL_OVERRIDE_SYMBOLS = [
+const SPECIAL_STANDALONE_SYMBOLS = [
 	'#',
 	'?.',
 	'~=',
@@ -42,10 +38,8 @@ function get_literal(node) {
  */
 function apply_literal_recur($, node, func) {
 	switch (node.type) {
-		// TODO: Figure out a case for this
 		case 'SYMBOL':
-			// throw new Error(`No case for ${node.type} yet!`);
-			break;
+			throw new Error(`Impossible to deref a symbol for now`);
 		case 'ALIAS':
 		case 'FIELD':
 		case 'PREC':
@@ -191,7 +185,7 @@ module.exports = {
 	item,
 	call,
 	form,
-	SPECIAL_OVERRIDE_SYMBOLS,
+	SPECIAL_STANDALONE_SYMBOLS,
 	colon_string,
 	double_quote_string,
 	string,

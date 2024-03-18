@@ -4,7 +4,7 @@ const {
 	kv_pair,
 	item,
 	call,
-	SPECIAL_OVERRIDE_SYMBOLS,
+	SPECIAL_STANDALONE_SYMBOLS,
 	colon_string,
 	double_quote_string,
 	list,
@@ -154,7 +154,7 @@ module.exports = grammar({
 				'nil',
 				'true',
 				'false',
-				...SPECIAL_OVERRIDE_SYMBOLS,
+				...SPECIAL_STANDALONE_SYMBOLS,
 				/[^(){}\[\]"'~;,@`\s]+/,
 			].map(tk => token.immediate(tk))
 		)),
@@ -240,7 +240,7 @@ module.exports = grammar({
 		_multi_symbol_fragment: $ => alias(token.immediate(/[^(){}\[\]"'~;,@`.:\s]+/), $.symbol_fragment),
 
 		_special_override_symbol: $ => alias(
-			prec(PREC_LAST_RESORT, choice(...SPECIAL_OVERRIDE_SYMBOLS)),
+			prec(PREC_LAST_RESORT, choice(...SPECIAL_STANDALONE_SYMBOLS)),
 			$.symbol
 		),
 	},
