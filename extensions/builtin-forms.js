@@ -60,7 +60,7 @@ rules['_function_body'] = $ => seq(
 	field('args', $.sequence_arguments),
 	choice(
 		seq(
-			optional(field('docstring', prec(1, alias($.string, $.docstring)))),
+			optional(field('docstring', alias($.string, $.docstring))),
 			optional(field('metadata', $.table_metadata)),
 			repeat1(item($._sexp)),
 		),
@@ -70,10 +70,10 @@ rules['_function_body'] = $ => seq(
 [
 	'fn',
 	'lambda',
-].forEach(name => forms[name] = $ => prec(1, form($,
+].forEach(name => forms[name] = $ => form($,
 	name == 'lambda' ? choice(name, 'λ') : name,
 	$._function_body,
-)));
+));
 
 forms['hashfn'] = $ => form($,
 	'hashfn',
@@ -105,23 +105,23 @@ rules['case_catch'] = $ => form($,
 	optional(field('catch', $.case_catch)),
 ));
 
-rules['iter_option'] = $ => prec(1, pair($, { lhs: $.symbol_option, field: 'option' }, { field: 'value' }));
-rules['_iter_body'] = $ => prec.right(seq(
+rules['iter_option'] = $ => prec(PREC_PRIORITY, pair($, { lhs: $.symbol_option, field: 'option' }, { field: 'value' }));
+rules['_iter_body'] = $ => seq(
 	repeat1(field('binding', $._binding)),
 	field('iterator', $._sexp),
-	repeat($.iter_option),
-));
-rules['_each_iter_body'] = $ => alias(sequence($._iter_body), $.iter_body);
+	repeat(field('option', $.iter_option)),
+);
+rules['_each_iter_body'] = $ => sequence($._iter_body);
 forms['each'] = $ => form($,
 	'each',
-	$._each_iter_body,
+	field('iter_body', alias($._each_iter_body, $.iter_body)),
 	repeat(item($._sexp)),
 );
 
-rules['_collect_iter_body'] = $ => alias(sequence($._iter_body), $.iter_body);
+rules['_collect_iter_body'] = $ => sequence($._iter_body);
 forms['collect'] = $ => form($,
 	'collect',
-	$._collect_iter_body,
+	field('iter_body', alias($._collect_iter_body, $.iter_body) ),
 	item($._sexp),
 	item($._sexp),
 );
@@ -147,19 +147,19 @@ rules['_fiter_body'] = $ => prec.right(seq(
 	field('from', $._sexp),
 	field('to', $._sexp),
 	optional(field('step', $._sexp)),
-	repeat($.iter_option),
+	repeat(field('option', $.iter_option)),
 ));
 rules['_for_iter_body'] = $ => sequence($._fiter_body);
 forms['for'] = $ => form($,
 	'for',
-	alias($._fiter_body, $.for_iter_body),
+	field('iter_body', alias($._fiter_body, $.for_iter_body) ),
 	repeat(item($._sexp)),
 );
 
 rules['_fcollect_iter_body'] = $ => sequence($._fiter_body);
 forms['fcollect'] = $ => form($,
 	'fcollect',
-	alias($._fcollect_iter_body, $.for_iter_body),
+	field('iter_body', alias($._fcollect_iter_body, $.for_iter_body) ),
 	item($._sexp),
 );
 
@@ -169,7 +169,7 @@ rules['_faccumulate_iter_body'] = $ => sequence(
 );
 forms['faccumulate'] = $ => form($,
 	'faccumulate',
-	alias($._faccumulate_iter_body, $.for_iter_body),
+	field('iter_body', alias($._faccumulate_iter_body, $.for_iter_body) ),
 	item($._sexp),
 );
 

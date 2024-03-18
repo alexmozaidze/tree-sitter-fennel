@@ -534,17 +534,17 @@
             "named": false
           }
         ]
+      },
+      "option": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "iter_option",
+            "named": true
+          }
+        ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "iter_option",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -1502,16 +1502,12 @@
         ]
       },
       "close": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
             "type": ")",
             "named": false
-          },
-          {
-            "type": "iter_body",
-            "named": true
           }
         ]
       },
@@ -1657,30 +1653,26 @@
           }
         ]
       },
-      "open": {
-        "multiple": true,
+      "iter_body": {
+        "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": "(",
-            "named": false
-          },
           {
             "type": "iter_body",
             "named": true
           }
         ]
+      },
+      "open": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          }
+        ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "iter_body",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -1738,16 +1730,12 @@
         ]
       },
       "close": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
             "type": ")",
             "named": false
-          },
-          {
-            "type": "iter_body",
-            "named": true
           }
         ]
       },
@@ -1893,30 +1881,26 @@
           }
         ]
       },
-      "open": {
-        "multiple": true,
+      "iter_body": {
+        "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": "(",
-            "named": false
-          },
           {
             "type": "iter_body",
             "named": true
           }
         ]
+      },
+      "open": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          }
+        ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "iter_body",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -2085,6 +2069,16 @@
           }
         ]
       },
+      "iter_body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "for_iter_body",
+            "named": true
+          }
+        ]
+      },
       "open": {
         "multiple": false,
         "required": true,
@@ -2095,16 +2089,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "for_iter_body",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -2273,6 +2257,16 @@
           }
         ]
       },
+      "iter_body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "for_iter_body",
+            "named": true
+          }
+        ]
+      },
       "open": {
         "multiple": false,
         "required": true,
@@ -2283,16 +2277,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "for_iter_body",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -2683,6 +2667,16 @@
           }
         ]
       },
+      "iter_body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "for_iter_body",
+            "named": true
+          }
+        ]
+      },
       "open": {
         "multiple": false,
         "required": true,
@@ -2693,16 +2687,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "for_iter_body",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -3057,6 +3041,16 @@
           }
         ]
       },
+      "option": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "iter_option",
+            "named": true
+          }
+        ]
+      },
       "step": {
         "multiple": false,
         "required": false,
@@ -3341,16 +3335,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "iter_option",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -3905,6 +3889,40 @@
     "type": "icollect_form",
     "named": true,
     "fields": {
+      "binding": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "boolean_binding",
+            "named": true
+          },
+          {
+            "type": "list_binding",
+            "named": true
+          },
+          {
+            "type": "number_binding",
+            "named": true
+          },
+          {
+            "type": "sequence_binding",
+            "named": true
+          },
+          {
+            "type": "string_binding",
+            "named": true
+          },
+          {
+            "type": "symbol_binding",
+            "named": true
+          },
+          {
+            "type": "table_binding",
+            "named": true
+          }
+        ]
+      },
       "call": {
         "multiple": false,
         "required": true,
@@ -3924,12 +3942,154 @@
             "named": false
           },
           {
-            "type": "iter_body",
-            "named": true
+            "type": "]",
+            "named": false
           }
         ]
       },
       "item": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "accumulate_form",
+            "named": true
+          },
+          {
+            "type": "boolean",
+            "named": true
+          },
+          {
+            "type": "case_form",
+            "named": true
+          },
+          {
+            "type": "case_try_form",
+            "named": true
+          },
+          {
+            "type": "collect_form",
+            "named": true
+          },
+          {
+            "type": "each_form",
+            "named": true
+          },
+          {
+            "type": "faccumulate_form",
+            "named": true
+          },
+          {
+            "type": "fcollect_form",
+            "named": true
+          },
+          {
+            "type": "fn_form",
+            "named": true
+          },
+          {
+            "type": "for_form",
+            "named": true
+          },
+          {
+            "type": "global_form",
+            "named": true
+          },
+          {
+            "type": "hashfn_form",
+            "named": true
+          },
+          {
+            "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
+            "type": "icollect_form",
+            "named": true
+          },
+          {
+            "type": "lambda_form",
+            "named": true
+          },
+          {
+            "type": "let_form",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "local_form",
+            "named": true
+          },
+          {
+            "type": "match_form",
+            "named": true
+          },
+          {
+            "type": "match_try_form",
+            "named": true
+          },
+          {
+            "type": "multi_symbol",
+            "named": true
+          },
+          {
+            "type": "multi_symbol_method",
+            "named": true
+          },
+          {
+            "type": "nil",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "quasi_quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "sequence",
+            "named": true
+          },
+          {
+            "type": "set_form",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "symbol",
+            "named": true
+          },
+          {
+            "type": "symbol_option",
+            "named": true
+          },
+          {
+            "type": "table",
+            "named": true
+          },
+          {
+            "type": "unquote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "var_form",
+            "named": true
+          }
+        ]
+      },
+      "iterator": {
         "multiple": false,
         "required": true,
         "types": [
@@ -4080,21 +4240,21 @@
             "named": false
           },
           {
-            "type": "iter_body",
+            "type": "[",
+            "named": false
+          }
+        ]
+      },
+      "option": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "iter_option",
             "named": true
           }
         ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "iter_body",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -4103,7 +4263,7 @@
     "fields": {
       "binding": {
         "multiple": true,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "boolean_binding",
@@ -4135,9 +4295,19 @@
           }
         ]
       },
+      "close": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "]",
+            "named": false
+          }
+        ]
+      },
       "iterator": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "accumulate_form",
@@ -4276,17 +4446,27 @@
             "named": true
           }
         ]
+      },
+      "open": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "[",
+            "named": false
+          }
+        ]
+      },
+      "option": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "iter_option",
+            "named": true
+          }
+        ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "iter_option",
-          "named": true
-        }
-      ]
     }
   },
   {

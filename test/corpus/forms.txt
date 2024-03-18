@@ -525,10 +525,35 @@ each
   (print "executing key")
   (print (f value)))
 
+(each [42 nil abc])
+
 ---
 
 (program
   (each_form
-
-    )
-  )
+    call: (symbol)
+    iter_body: (iter_body
+                 binding: (symbol_binding)
+                 binding: (symbol_binding)
+                 iterator: (list
+                             call: (symbol)
+                             item: (symbol))
+                 option: (iter_option
+                           option: (symbol_option)
+                           value: (list
+                                    call: (symbol))))
+    item: (list
+            call: (symbol)
+            item: (string
+                    content: (string_content)))
+    item: (list
+            call: (symbol)
+            item: (list
+                    call: (symbol)
+                    item: (symbol))))
+  (each_form
+    call: (symbol)
+    iter_body: (iter_body
+                 binding: (number_binding)
+                 binding: (nil_binding)
+                 iterator: (nil))))
