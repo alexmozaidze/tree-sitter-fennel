@@ -1328,6 +1328,46 @@
         }
       ]
     },
+    "_iter_option_legacy": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "STRING",
+            "value": ":until"
+          },
+          "named": true,
+          "value": "string"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "STRING",
+            "value": ":into"
+          },
+          "named": true,
+          "value": "string"
+        }
+      ]
+    },
+    "_iter_option_lhs": {
+      "type": "PREC",
+      "value": 10,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "symbol_option"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_iter_option_legacy"
+          }
+        ]
+      }
+    },
     "iter_option": {
       "type": "PREC",
       "value": 10,
@@ -1342,7 +1382,7 @@
               "name": "option",
               "content": {
                 "type": "SYMBOL",
-                "name": "symbol_option"
+                "name": "_iter_option_lhs"
               }
             },
             {

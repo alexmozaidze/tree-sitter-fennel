@@ -5020,6 +5020,10 @@
         "required": true,
         "types": [
           {
+            "type": "string",
+            "named": true
+          },
+          {
             "type": "symbol_option",
             "named": true
           }
@@ -8546,7 +8550,7 @@
       },
       "open": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "\"",
