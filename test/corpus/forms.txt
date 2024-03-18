@@ -595,7 +595,7 @@ each
   (print "executing key")
   (print (f value)))
 
-(each [42 nil nil])
+(each [42 nil nil :until true])
 
 ---
 
@@ -626,4 +626,7 @@ each
     iter_body: (iter_body
                  binding: (number_binding)
                  binding: (nil_binding)
-                 iterator: (nil))))
+                 iterator: (nil)
+                 option: (iter_option
+                           option: (string)
+                           value: (boolean)))))

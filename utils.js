@@ -110,7 +110,11 @@ function kv_pair($, lhs, rhs, ...rest) {
 	lhs = lhs ?? {};
 	rhs = rhs ?? {};
 
-	return pair($, { lhs: lhs.key, field: 'key' }, { rhs: rhs.value, field: 'value' }, ...rest);
+	return pair($,
+		{ lhs: lhs.key, field: lhs.field ?? 'key' },
+		{ rhs: rhs.value, field: rhs.field ?? 'value' },
+		...rest
+	);
 }
 
 const open = $ => field('open', $);

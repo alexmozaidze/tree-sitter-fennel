@@ -2,6 +2,7 @@ const _ = require('lodash');
 const {
 	item,
 	form,
+	colon_string,
 	string,
 	pair,
 	kv_pair,
@@ -130,7 +131,19 @@ rules['case_catch'] = $ => form($,
 	optional(field('catch', $.case_catch)),
 ));
 
-rules['iter_option'] = $ => prec(PREC_PRIORITY, pair($, { lhs: $.symbol_option, field: 'option' }, { field: 'value' }));
+// HACK: Using `colon_string` does not work. It will match a colon string
+// from the core grammar as $._sexp instead of being $._iter_option_legacy.
+rules['_iter_option_legacy'] = $ => choice(
+	alias(':until', $.string),
+	alias(':into', $.string),
+);
+rules['_iter_option_lhs'] = $ => prec(PREC_PRIORITY, choice($.symbol_option, $._iter_option_legacy));
+rules['iter_option'] = $ => prec(PREC_PRIORITY,
+	pair($,
+		{ lhs: $._iter_option_lhs, field: 'option' },
+		{ field: 'value' }
+	)
+);
 rules['_iter_body'] = $ => seq(
 	repeat1(field('binding', $._binding)),
 	field('iterator', $._sexp),
