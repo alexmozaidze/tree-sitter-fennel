@@ -32,13 +32,7 @@ static const uchar READER_MACRO_CHARS[TK_READER_MACRO_COUNT] = {
 };
 
 inline static bool in_error_recovery(const bool *valid_symbols) {
-	for (size_t i = 0; i <= TK_COUNT; i++) {
-		if (!valid_symbols[i]) {
-			return false;
-		}
-	}
-
-	return true;
+	return valid_symbols[TK_COUNT];
 }
 
 inline static bool is_close_bracket(const uchar ch) {
