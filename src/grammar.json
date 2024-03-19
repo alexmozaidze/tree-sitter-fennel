@@ -1067,70 +1067,49 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "FIELD",
-                      "name": "docstring",
-                      "content": {
-                        "type": "ALIAS",
-                        "content": {
-                          "type": "SYMBOL",
-                          "name": "string"
-                        },
-                        "named": true,
-                        "value": "docstring"
-                      }
-                    },
-                    {
-                      "type": "BLANK"
-                    }
-                  ]
-                },
-                {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "FIELD",
-                      "name": "metadata",
-                      "content": {
-                        "type": "SYMBOL",
-                        "name": "table_metadata"
-                      }
-                    },
-                    {
-                      "type": "BLANK"
-                    }
-                  ]
-                },
-                {
-                  "type": "REPEAT1",
-                  "content": {
-                    "type": "FIELD",
-                    "name": "item",
-                    "content": {
-                      "type": "SYMBOL",
-                      "name": "_sexp"
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "REPEAT",
+              "type": "FIELD",
+              "name": "docstring",
               "content": {
-                "type": "FIELD",
-                "name": "item",
+                "type": "ALIAS",
                 "content": {
                   "type": "SYMBOL",
-                  "name": "_sexp"
-                }
+                  "name": "string"
+                },
+                "named": true,
+                "value": "docstring"
               }
+            },
+            {
+              "type": "BLANK"
             }
           ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "metadata",
+              "content": {
+                "type": "SYMBOL",
+                "name": "table_metadata"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "FIELD",
+            "name": "item",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_sexp"
+            }
+          }
         }
       ]
     },
