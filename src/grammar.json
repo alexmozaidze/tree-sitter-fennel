@@ -3631,6 +3631,10 @@
     {
       "type": "SYMBOL",
       "name": "shebang"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "__token_count"
     }
   ],
   "inline": [
