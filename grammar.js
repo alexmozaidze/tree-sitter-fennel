@@ -47,6 +47,8 @@ module.exports = grammar({
 		$.__colon_string_end_mark,
 
 		$.shebang,
+
+		$.__token_count,
 	],
 
 	inline: $ => [

@@ -45,43 +45,92 @@ inline static bool is_close_bracket(const uchar ch) {
 	return false;
 }
 
-void* tree_sitter_fennel_external_scanner_create(
-	void
-)
-{
+// SAFETY: Must only contain boolean values
+typedef enum ScanResult {
+	// Scanning should be stopped
+	SCAN_STOP = false,
+	// A particular token did not scan successfuly
+	SCAN_FAILURE = false,
+	// Token scanned successfuly
+	SCAN_SUCCESS = true,
+} ScanResult;
+
+static ScanResult scan_shebang(TSLexer *lexer, bool * const skipped_hashfn) {
+	lexer->mark_end(lexer);
+
+	if (lexer->lookahead != '#') {
+		return SCAN_FAILURE;
+	}
+	*skipped_hashfn = true;
+	lexer->advance(lexer, false);
+
+	if (lexer->lookahead != '!') {
+		return SCAN_FAILURE;
+	}
+	*skipped_hashfn = false;
+	lexer->advance(lexer, false);
+
+	while (lexer->lookahead != '\n' && !lexer->eof(lexer)) {
+		lexer->advance(lexer, false);
+	}
+	lexer->mark_end(lexer);
+	lexer->result_symbol = TK_SHEBANG;
+	return SCAN_SUCCESS;
+}
+
+static ScanResult scan_reader_macro(TSLexer *lexer, const bool skipped_hashfn) {
+	bool reader_macro_matched = false;
+	TokenType reader_macro;
+
+	if (skipped_hashfn) {
+		reader_macro_matched = true;
+		reader_macro = TK_HASHFN;
+	} else {
+		for (size_t tk = 0; tk < TK_READER_MACRO_COUNT; tk++) {
+			if (lexer->lookahead == READER_MACRO_CHARS[tk]) {
+				reader_macro_matched = true;
+				reader_macro = tk;
+				break;
+			}
+		}
+	}
+
+	if (!reader_macro_matched) {
+		return SCAN_FAILURE;
+	}
+
+	if (!skipped_hashfn) {
+		lexer->advance(lexer, false);
+	}
+
+	const bool is_valid_reader_macro_position = !iswspace(lexer->lookahead)
+		&& !is_close_bracket(lexer->lookahead)
+		&& !lexer->eof(lexer);
+
+	if (!is_valid_reader_macro_position) {
+		return SCAN_FAILURE;
+	}
+
+	lexer->mark_end(lexer);
+	lexer->result_symbol = reader_macro;
+	return SCAN_SUCCESS;
+}
+
+void* tree_sitter_fennel_external_scanner_create(void) {
 	return NULL;
 }
 
-void tree_sitter_fennel_external_scanner_destroy(
-	void* payload
-)
-{
-}
+void tree_sitter_fennel_external_scanner_destroy(void* payload) {}
 
-unsigned tree_sitter_fennel_external_scanner_serialize(
-	void* payload,
-	char* buffer
-)
-{
+unsigned tree_sitter_fennel_external_scanner_serialize(void* payload, char* buffer) {
 	return 0;
 }
 
-void tree_sitter_fennel_external_scanner_deserialize(
-	void *payload,
-	const char *buffer,
-	unsigned length
-)
-{
-}
+void tree_sitter_fennel_external_scanner_deserialize(void *payload, const char *buffer, unsigned length) {}
 
-bool tree_sitter_fennel_external_scanner_scan(
-	void *payload,
-	TSLexer *lexer,
-	const bool *valid_symbols
-)
-{
+ScanResult tree_sitter_fennel_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
 	if (in_error_recovery(valid_symbols)) {
-		return false;
+		return SCAN_STOP;
 	}
 
 	const bool skipped_whitespace = iswspace(lexer->lookahead);
@@ -91,67 +140,17 @@ bool tree_sitter_fennel_external_scanner_scan(
 
 	bool skipped_hashfn = false;
 	if (valid_symbols[TK_SHEBANG]) {
-		lexer->mark_end(lexer);
-
-		if (lexer->lookahead != '#') {
-			goto no_shebang;
+		if (scan_shebang(lexer, &skipped_hashfn) == SCAN_SUCCESS) {
+			return SCAN_SUCCESS;
 		}
-		skipped_hashfn = true;
-		lexer->advance(lexer, false);
-
-		if (lexer->lookahead != '!') {
-			goto no_shebang;
-		}
-		skipped_hashfn = false;
-		lexer->advance(lexer, false);
-
-		while (lexer->lookahead != '\n' && !lexer->eof(lexer)) {
-			lexer->advance(lexer, false);
-		}
-		lexer->mark_end(lexer);
-		lexer->result_symbol = TK_SHEBANG;
-		return true;
 	}
-no_shebang:;
-
-	const bool in_colon_string_context = valid_symbols[TK_COLON_STRING_START_MARK] && valid_symbols[TK_COLON_STRING_END_MARK];
 
 	// NOTE: If one reader macro is expected, then all of them are
 	if (valid_symbols[TK_HASHFN] && (skipped_whitespace || !valid_symbols[TK_COLON_STRING_START_MARK])) {
-		bool reader_macro_matched = false;
-		TokenType reader_macro;
-
-		if (skipped_hashfn) {
-			reader_macro_matched = true;
-			reader_macro = TK_HASHFN;
-			goto matched_reader_macro;
-		}
-		for (size_t tk = 0; tk < TK_READER_MACRO_COUNT; tk++) {
-			if (lexer->lookahead == READER_MACRO_CHARS[tk]) {
-				reader_macro_matched = true;
-				reader_macro = tk;
-				break;
-			}
-		}
-
-	matched_reader_macro:;
-
-		if (reader_macro_matched) {
-			if (!skipped_hashfn) {
-				lexer->advance(lexer, false);
-			}
-
-			const bool is_valid_reader_macro_position = !iswspace(lexer->lookahead)
-				&& !is_close_bracket(lexer->lookahead)
-				&& !lexer->eof(lexer);
-
-			if (is_valid_reader_macro_position) {
-				lexer->mark_end(lexer);
-				lexer->result_symbol = reader_macro;
-				return true;
-			}
+		if (scan_reader_macro(lexer, skipped_hashfn) == SCAN_SUCCESS) {
+			return SCAN_SUCCESS;
 		}
 	}
 
-	return false;
+	return SCAN_FAILURE;
 }
