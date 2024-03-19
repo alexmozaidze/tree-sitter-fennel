@@ -580,46 +580,6 @@
     }
   },
   {
-    "type": "boo",
-    "named": true,
-    "fields": {
-      "close": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "\"",
-            "named": false
-          }
-        ]
-      },
-      "content": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "string_content",
-            "named": true
-          }
-        ]
-      },
-      "open": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "\"",
-            "named": false
-          },
-          {
-            "type": ":",
-            "named": false
-          }
-        ]
-      }
-    }
-  },
-  {
     "type": "boolean",
     "named": true,
     "fields": {}
@@ -9062,10 +9022,6 @@
         "multiple": true,
         "required": false,
         "types": [
-          {
-            "type": "boo",
-            "named": true
-          },
           {
             "type": "string",
             "named": true

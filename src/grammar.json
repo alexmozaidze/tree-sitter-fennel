@@ -778,11 +778,8 @@
               "content": {
                 "type": "ALIAS",
                 "content": {
-                  "type": "IMMEDIATE_TOKEN",
-                  "content": {
-                    "type": "STRING",
-                    "value": "fnl/docstring"
-                  }
+                  "type": "STRING",
+                  "value": "fnl/docstring"
                 },
                 "named": true,
                 "value": "string_content"
@@ -873,11 +870,8 @@
               "content": {
                 "type": "ALIAS",
                 "content": {
-                  "type": "IMMEDIATE_TOKEN",
-                  "content": {
-                    "type": "STRING",
-                    "value": "fnl/arglist"
-                  }
+                  "type": "STRING",
+                  "value": "fnl/arglist"
                 },
                 "named": true,
                 "value": "string_content"
@@ -957,7 +951,7 @@
                     "name": "_table_metadata_key_arglist"
                   },
                   "named": true,
-                  "value": "boo"
+                  "value": "string"
                 }
               },
               {
@@ -1072,38 +1066,6 @@
         {
           "type": "CHOICE",
           "members": [
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "FIELD",
-                      "name": "metadata",
-                      "content": {
-                        "type": "SYMBOL",
-                        "name": "table_metadata"
-                      }
-                    },
-                    {
-                      "type": "BLANK"
-                    }
-                  ]
-                },
-                {
-                  "type": "REPEAT1",
-                  "content": {
-                    "type": "FIELD",
-                    "name": "item",
-                    "content": {
-                      "type": "SYMBOL",
-                      "name": "_sexp"
-                    }
-                  }
-                }
-              ]
-            },
             {
               "type": "SEQ",
               "members": [
