@@ -5605,7 +5605,7 @@
         "required": true,
         "types": [
           {
-            "type": "let_form_vars",
+            "type": "let_vars",
             "named": true
           }
         ]
@@ -5613,7 +5613,7 @@
     }
   },
   {
-    "type": "let_form_vars",
+    "type": "let_vars",
     "named": true,
     "fields": {
       "close": {

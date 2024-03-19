@@ -598,7 +598,7 @@
       "named": true,
       "value": "nil_binding"
     },
-    "let_form_vars": {
+    "let_vars": {
       "type": "SEQ",
       "members": [
         {
@@ -1935,7 +1935,7 @@
           "name": "vars",
           "content": {
             "type": "SYMBOL",
-            "name": "let_form_vars"
+            "name": "let_vars"
           }
         },
         {
