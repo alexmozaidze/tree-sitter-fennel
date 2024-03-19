@@ -153,13 +153,12 @@ rules['_collect_iter_body'] = $ => sequence($._iter_body);
 forms['collect'] = $ => form($,
 	'collect',
 	field('iter_body', alias($._collect_iter_body, $.iter_body) ),
-	item($._sexp),
-	item($._sexp),
+	repeat(item($._sexp)),
 );
 forms['icollect'] = $ => form($,
 	'icollect',
 	$._collect_iter_body,
-	item($._sexp),
+	repeat(item($._sexp)),
 );
 
 rules['_accumulator_pair'] = $ => pair($, { lhs: $._binding, field: 'accumulator_binding' }, { field: 'accumulator_value' });
@@ -170,7 +169,7 @@ rules['_accumulate_iter_body'] = $ => sequence(
 forms['accumulate'] = $ => form($,
 	'accumulate',
 	$._accumulate_iter_body,
-	item($._sexp),
+	repeat(item($._sexp)),
 );
 
 rules['_fiter_body'] = $ => prec.right(seq(
@@ -191,7 +190,7 @@ rules['_fcollect_iter_body'] = $ => sequence($._fiter_body);
 forms['fcollect'] = $ => form($,
 	'fcollect',
 	field('iter_body', alias($._fcollect_iter_body, $.for_iter_body) ),
-	item($._sexp),
+	repeat(item($._sexp)),
 );
 
 rules['_faccumulate_iter_body'] = $ => sequence(
@@ -200,8 +199,8 @@ rules['_faccumulate_iter_body'] = $ => sequence(
 );
 forms['faccumulate'] = $ => form($,
 	'faccumulate',
-	field('iter_body', alias($._faccumulate_iter_body, $.for_iter_body) ),
-	item($._sexp),
+	field('iter_body', alias($._faccumulate_iter_body, $.for_iter_body)),
+	repeat(item($._sexp)),
 );
 
 const processed_forms = _.mapKeys(forms, (_, name) => `${name}_form`);
