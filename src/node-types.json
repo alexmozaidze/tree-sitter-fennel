@@ -254,8 +254,8 @@
         ]
       },
       "item": {
-        "multiple": false,
-        "required": true,
+        "multiple": true,
+        "required": false,
         "types": [
           {
             "type": "accumulate_form",
@@ -1911,7 +1911,7 @@
       },
       "item": {
         "multiple": true,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "accumulate_form",
@@ -2347,8 +2347,8 @@
         ]
       },
       "item": {
-        "multiple": false,
-        "required": true,
+        "multiple": true,
+        "required": false,
         "types": [
           {
             "type": "accumulate_form",
@@ -2543,8 +2543,8 @@
         ]
       },
       "item": {
-        "multiple": false,
-        "required": true,
+        "multiple": true,
+        "required": false,
         "types": [
           {
             "type": "accumulate_form",
@@ -4467,8 +4467,8 @@
         ]
       },
       "item": {
-        "multiple": false,
-        "required": true,
+        "multiple": true,
+        "required": false,
         "types": [
           {
             "type": "accumulate_form",

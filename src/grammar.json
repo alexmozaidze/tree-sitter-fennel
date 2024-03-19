@@ -2410,19 +2410,14 @@
           }
         },
         {
-          "type": "FIELD",
-          "name": "item",
+          "type": "REPEAT",
           "content": {
-            "type": "SYMBOL",
-            "name": "_sexp"
-          }
-        },
-        {
-          "type": "FIELD",
-          "name": "item",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_sexp"
+            "type": "FIELD",
+            "name": "item",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_sexp"
+            }
           }
         },
         {
@@ -2464,11 +2459,14 @@
           "name": "_collect_iter_body"
         },
         {
-          "type": "FIELD",
-          "name": "item",
+          "type": "REPEAT",
           "content": {
-            "type": "SYMBOL",
-            "name": "_sexp"
+            "type": "FIELD",
+            "name": "item",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_sexp"
+            }
           }
         },
         {
@@ -2510,11 +2508,14 @@
           "name": "_accumulate_iter_body"
         },
         {
-          "type": "FIELD",
-          "name": "item",
+          "type": "REPEAT",
           "content": {
-            "type": "SYMBOL",
-            "name": "_sexp"
+            "type": "FIELD",
+            "name": "item",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_sexp"
+            }
           }
         },
         {
@@ -2623,11 +2624,14 @@
           }
         },
         {
-          "type": "FIELD",
-          "name": "item",
+          "type": "REPEAT",
           "content": {
-            "type": "SYMBOL",
-            "name": "_sexp"
+            "type": "FIELD",
+            "name": "item",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_sexp"
+            }
           }
         },
         {
@@ -2678,11 +2682,14 @@
           }
         },
         {
-          "type": "FIELD",
-          "name": "item",
+          "type": "REPEAT",
           "content": {
-            "type": "SYMBOL",
-            "name": "_sexp"
+            "type": "FIELD",
+            "name": "item",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_sexp"
+            }
           }
         },
         {
