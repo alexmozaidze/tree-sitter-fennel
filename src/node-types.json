@@ -580,6 +580,46 @@
     }
   },
   {
+    "type": "boo",
+    "named": true,
+    "fields": {
+      "close": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "\"",
+            "named": false
+          }
+        ]
+      },
+      "content": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "string_content",
+            "named": true
+          }
+        ]
+      },
+      "open": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\"",
+            "named": false
+          },
+          {
+            "type": ":",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "boolean",
     "named": true,
     "fields": {}
@@ -2080,6 +2120,11 @@
         ]
       }
     }
+  },
+  {
+    "type": "comment",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "docstring",
@@ -9018,6 +9063,10 @@
         "required": false,
         "types": [
           {
+            "type": "boo",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           }
@@ -9812,10 +9861,6 @@
   {
     "type": "`",
     "named": false
-  },
-  {
-    "type": "comment",
-    "named": true
   },
   {
     "type": "escape_sequence",
