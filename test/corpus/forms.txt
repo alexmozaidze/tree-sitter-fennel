@@ -84,7 +84,7 @@ let
 (program
   (let_form
     call: (symbol)
-    vars: (let_form_vars
+    vars: (let_vars
             lhs: (symbol_binding)
             rhs: (symbol)
             lhs: (list_binding

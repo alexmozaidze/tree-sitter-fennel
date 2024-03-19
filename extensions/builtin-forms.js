@@ -34,12 +34,12 @@ forms['unquote'] = $ => form($,
 	)
 );
 
-rules['let_form_vars'] = $ => sequence(
+rules['let_vars'] = $ => sequence(
 	repeat($._binding_pair),
 );
 forms['let'] = $ => form($,
 	'let',
-	field('vars', $.let_form_vars),
+	field('vars', $.let_vars),
 	repeat(item($._sexp)),
 );
 
