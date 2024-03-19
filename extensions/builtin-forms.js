@@ -62,17 +62,13 @@ rules['_table_metadata_pair'] = $ => choice(
 	kv_pair($, { key: $.string }),
 );
 rules['table_metadata'] = $ => table(repeat($._table_metadata_pair));
+// BUG: Parses docstring/metadata when it shouldn't.
 rules['_function_body'] = $ => seq(
 	optional(field('name', $._function_identifier)),
 	field('args', $.sequence_arguments),
-	choice(
-		seq(
-			optional(field('docstring', alias($.string, $.docstring))),
-			optional(field('metadata', $.table_metadata)),
-			repeat1(item($._sexp)),
-		),
-		repeat(item($._sexp)),
-	),
+	optional(field('docstring', alias($.string, $.docstring))),
+	optional(field('metadata', $.table_metadata)),
+	repeat(item($._sexp)),
 );
 [
 	'fn',
