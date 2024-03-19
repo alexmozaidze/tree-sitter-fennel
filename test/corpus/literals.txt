@@ -43,6 +43,8 @@ numbers
 double quote strings
 ===
 
+"nil"
+";onettwothree"
 "string"
 "string\""
 "string\\"
@@ -52,6 +54,10 @@ double quote strings
 ---
 
 (program
+  (string
+    (string_content))
+  (string
+    (string_content))
   (string
     (string_content))
   (string

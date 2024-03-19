@@ -158,6 +158,8 @@ function colon_string($, content) {
 	);
 };
 
+// BUG: Doesn't work for custom strings. Only the default definition of
+// $._double_quote_string takes priority.
 function double_quote_string($, content) {
 	if (content == null) {
 		throw new Error('String must contain *something*');
@@ -197,6 +199,7 @@ module.exports = {
 	sequence,
 	table,
 	PREC_LAST_RESORT: -50,
-	PREC_SCENARIO_SPECIFIC: -10,
-	PREC_PRIORITY: 10,
+	PREC_SCENARIO_SPECIFIC: -20,
+	PREC_IMPORTANT: 20,
+	PREC_PRIORITY: 50,
 };

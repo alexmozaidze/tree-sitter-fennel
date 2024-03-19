@@ -11,6 +11,7 @@ const {
 	sequence,
 	table,
 	PREC_LAST_RESORT,
+	PREC_IMPORTANT,
 } = require('./utils.js');
 
 const extension_files = _.filter(
@@ -66,7 +67,7 @@ module.exports = grammar({
 
 		// TODO: Separate comment semicolon and body.
 		// NOTE: Should I separate comment semicolon from body?
-		comment: $ => /;.*\n?/,
+		comment: $ => prec(PREC_LAST_RESORT, /;.*\n?/),
 
 		_sexp: $ => choice(
 			$._reader_macro,
@@ -123,12 +124,12 @@ module.exports = grammar({
 
 		_table_pair: $ => kv_pair($),
 
-		table: $ => table(repeat($._table_pair)),
+		table: $ => prec(PREC_LAST_RESORT, table(repeat($._table_pair))),
 
 		// NOTE: Last resort precedence here is nice to have for when forms define
 		// literal-specific syntax (mostly strings), like with metadata `:fnl/docstring`
 		// in a function form.
-		_literal: $ => prec(PREC_LAST_RESORT, choice(
+		_literal: $ => prec.right(PREC_LAST_RESORT, choice(
 			$.string,
 			$.number,
 			$.boolean,
@@ -159,12 +160,12 @@ module.exports = grammar({
 			].map(tk => token.immediate(tk))
 		)),
 
-		_double_quote_string: $ => double_quote_string($,
+		_double_quote_string: $ => prec.right(double_quote_string($,
 			repeat(choice(
-				/[^"\\]+/,
+				token.immediate(prec(PREC_IMPORTANT, /[^"\\]+/)),
 				$.escape_sequence,
 			))
-		),
+		)),
 
 		string: $ => choice(
 			$._colon_string,

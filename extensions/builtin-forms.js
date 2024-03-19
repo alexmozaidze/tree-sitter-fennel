@@ -2,7 +2,6 @@ const _ = require('lodash');
 const {
 	item,
 	form,
-	colon_string,
 	string,
 	pair,
 	kv_pair,
@@ -62,9 +61,7 @@ rules['_table_metadata_pair'] = $ => choice(
 	kv_pair($, { key: alias($._table_metadata_key_arglist, $.string) }, { value: $.sequence_arguments }),
 	kv_pair($, { key: $.string }),
 );
-rules['table_metadata'] = $ => prec(PREC_PRIORITY, table(
-	repeat($._table_metadata_pair),
-));
+rules['table_metadata'] = $ => table(repeat($._table_metadata_pair));
 rules['_function_body'] = $ => seq(
 	optional(field('name', $._function_identifier)),
 	field('args', $.sequence_arguments),
