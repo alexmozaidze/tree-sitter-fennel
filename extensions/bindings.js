@@ -48,13 +48,13 @@ module.exports = {
 			$.symbol_option,
 		)),
 
-		_table_binding_pair: $ => kv_pair($, { key: $._table_binding_key }, { value: $._symbol_binding }),
+		table_binding_pair: $ => kv_pair($, { key: $._table_binding_key }, { value: $._symbol_binding }),
 
 		table_binding: $ => table(
-			repeat1($._table_binding_pair),
+			repeat1($.table_binding_pair),
 		),
 
-		_binding_pair: $ => pair($, { lhs: $._binding }, { rhs: $._sexp }),
+		binding_pair: $ => pair($, { lhs: $._binding }, { rhs: $._sexp }),
 
 		_literal_binding: $ => choice(
 			$._string_binding,

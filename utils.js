@@ -1,4 +1,4 @@
-//! TODO: Split this file into logical components
+// TODO: Split this file into logical components
 
 const _ = require('lodash');
 
@@ -158,11 +158,13 @@ function colon_string($, content) {
 	);
 };
 
-// BUG: Doesn't work for custom strings. Only the default definition of
-// $._double_quote_string takes priority.
 function double_quote_string($, content) {
 	if (content == null) {
 		throw new Error('String must contain *something*');
+	}
+
+	if (is_literal(content)) {
+		content = token.immediate(content);
 	}
 
 	return seq(

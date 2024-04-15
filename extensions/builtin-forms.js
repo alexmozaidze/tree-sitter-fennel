@@ -1,3 +1,5 @@
+// TODO: Sort forms into sub-modules for better readability
+
 const _ = require('lodash');
 const {
 	item,
@@ -5,10 +7,10 @@ const {
 	string,
 	pair,
 	kv_pair,
-	list,
 	sequence,
 	table,
 	PREC_PRIORITY,
+    PREC_LAST_RESORT,
 } = require('../utils.js');
 
 const rules = {};
@@ -30,12 +32,12 @@ forms['unquote'] = $ => form($,
 	'global',
 ].forEach(name => forms[name] = $ => form($,
 		name,
-		$._binding_pair,
+		$.binding_pair,
 	)
 );
 
 rules['let_vars'] = $ => sequence(
-	repeat($._binding_pair),
+	repeat($.binding_pair),
 );
 forms['let'] = $ => form($,
 	'let',
@@ -55,20 +57,40 @@ rules['sequence_arguments'] = $ => sequence(
 	)),
 );
 rules['_table_metadata_key_docstring'] = $ => string($, 'fnl/docstring');
+rules['_table_metadata_docstring'] = $ => kv_pair($, { key: alias($._table_metadata_key_docstring, $.string) }, { value: alias($.string, $.docstring) });
 rules['_table_metadata_key_arglist'] = $ => string($, 'fnl/arglist');
-rules['_table_metadata_pair'] = $ => choice(
-	kv_pair($, { key: alias($._table_metadata_key_docstring, $.string) }, { value: alias($.string, $.docstring) }),
-	kv_pair($, { key: alias($._table_metadata_key_arglist, $.string) }, { value: $.sequence_arguments }),
-	kv_pair($, { key: $.string }),
+rules['_table_metadata_arglist'] = $ => kv_pair($, { key: alias($._table_metadata_key_arglist, $.string) }, { value: $.sequence_arguments });
+rules['_table_metadata_generic'] = $ => prec.right(PREC_LAST_RESORT + 1, kv_pair($, { key: $.string }));
+rules['table_metadata_pair'] = $ => choice(
+	$._table_metadata_docstring,
+	$._table_metadata_arglist,
+	$._table_metadata_generic,
 );
-rules['table_metadata'] = $ => table(repeat($._table_metadata_pair));
-// BUG: Parses docstring/metadata when it shouldn't.
+rules['table_metadata'] = $ => table(repeat($.table_metadata_pair));
+rules['_function_inner_body_all'] = $ => seq(
+	field('docstring', alias($.string, $.docstring)),
+	field('metadata', $.table_metadata),
+	repeat1(item($._sexp)),
+);
+rules['_function_inner_body_docstring'] = $ => seq(
+	field('docstring', alias($.string, $.docstring)),
+	repeat1(item($._sexp)),
+);
+rules['_function_inner_body_metadata'] = $ => seq(
+	field('metadata', $.table_metadata),
+	repeat1(item($._sexp)),
+);
+rules['_function_inner_body_generic'] = $ => prec(1, repeat1(item($._sexp)));
+rules['_function_inner_body'] = $ => choice(
+	$._function_inner_body_all,
+	$._function_inner_body_docstring,
+	$._function_inner_body_metadata,
+	$._function_inner_body_generic,
+);
 rules['_function_body'] = $ => seq(
 	optional(field('name', $._function_identifier)),
 	field('args', $.sequence_arguments),
-	optional(field('docstring', alias($.string, $.docstring))),
-	optional(field('metadata', $.table_metadata)),
-	repeat(item($._sexp)),
+	optional($._function_inner_body),
 );
 [
 	'fn',
@@ -83,7 +105,6 @@ forms['hashfn'] = $ => form($,
 	item($._sexp),
 );
 
-// TODO: Special binding for case/match to support `(= pin)`.
 rules['case_guard_or_special'] = $ => form($,
 	'or',
 	repeat(item($._binding)),
@@ -100,19 +121,19 @@ rules['_case_lhs'] = $ => choice(
 	$.case_guard,
 	$._binding,
 );
-rules['_case_pair'] = $ => pair($, { lhs: $._case_lhs });
+rules['case_pair'] = $ => pair($, { lhs: $._case_lhs });
 [
 	'case',
 	'match',
 ].forEach(name => forms[name] = $ => form($,
 	name,
 	item($._sexp),
-	repeat($._case_pair),
+	repeat($.case_pair),
 ));
 
 rules['case_catch'] = $ => form($,
 	'catch',
-	repeat($._case_pair),
+	repeat($.case_pair),
 );
 [
 	'case-try',
@@ -120,23 +141,19 @@ rules['case_catch'] = $ => form($,
 ].forEach(name => forms[_.snakeCase(name)] = $ => form($,
 	name,
 	item($._sexp),
-	repeat($._case_pair),
+	repeat($.case_pair),
 	optional(field('catch', $.case_catch)),
 ));
 
-// HACK: Using `colon_string` does not work. It will match a colon string
-// from the core grammar as $._sexp instead of being $._iter_option_legacy.
 rules['_iter_option_legacy'] = $ => choice(
-	alias(':until', $.string),
-	alias(':into', $.string),
+	alias(':until', $.symbol_option),
+	alias(':into', $.symbol_option),
 );
 rules['_iter_option_lhs'] = $ => prec(PREC_PRIORITY, choice($.symbol_option, $._iter_option_legacy));
-rules['iter_option'] = $ => prec(PREC_PRIORITY,
-	pair($,
-		{ lhs: $._iter_option_lhs, field: 'option' },
-		{ field: 'value' }
-	)
-);
+rules['iter_option'] = $ => prec(PREC_PRIORITY, pair($,
+	{ lhs: $._iter_option_lhs, field: 'option' },
+	{ field: 'value' }
+));
 rules['_iter_body'] = $ => seq(
 	repeat1(field('binding', $._binding)),
 	field('iterator', $._sexp),
@@ -161,9 +178,9 @@ forms['icollect'] = $ => form($,
 	repeat(item($._sexp)),
 );
 
-rules['_accumulator_pair'] = $ => pair($, { lhs: $._binding, field: 'accumulator_binding' }, { field: 'accumulator_value' });
+rules['accumulator_pair'] = $ => pair($, { lhs: $._binding, field: 'accumulator_binding' }, { field: 'accumulator_value' });
 rules['_accumulate_iter_body'] = $ => sequence(
-	$._accumulator_pair,
+	$.accumulator_pair,
 	$._iter_body,
 );
 forms['accumulate'] = $ => form($,
@@ -194,7 +211,7 @@ forms['fcollect'] = $ => form($,
 );
 
 rules['_faccumulate_iter_body'] = $ => sequence(
-	$._accumulator_pair,
+	$.accumulator_pair,
 	$._fiter_body,
 );
 forms['faccumulate'] = $ => form($,

@@ -28,6 +28,13 @@ const extensions = _.reduce(
 	{ rules: {}, forms: {}, inline: [], conflicts: [] },
 );
 
+const READER_MACROS = [
+	['hashfn', '#'],
+	['quote', '\''],
+	['quasi_quote', '`'],
+	['unquote', ','],
+];
+
 module.exports = grammar({
 	name: 'fennel',
 
@@ -37,10 +44,7 @@ module.exports = grammar({
 	],
 
 	externals: $ => [
-		$._hashfn_reader_macro_char,
-		$._quote_reader_macro_char,
-		$._quasi_quote_reader_macro_char,
-		$._unquote_reader_macro_char,
+		...[...READER_MACROS].map(([name, _char]) => $[`_${name}_reader_macro_char`]),
 		$.__reader_macro_count,
 
 		$.__colon_string_start_mark,
@@ -67,9 +71,10 @@ module.exports = grammar({
 			repeat($._sexp),
 		),
 
-		// TODO: Separate comment semicolon and body.
-		// NOTE: Should I separate comment semicolon from body?
-		comment: $ => prec(PREC_LAST_RESORT, /;.*\n?/),
+		comment: $ => prec(PREC_LAST_RESORT, seq(
+			field('colon', alias(/;+/, ';')),
+			field('body', alias(/.*/, $.comment_body)),
+		)),
 
 		_sexp: $ => choice(
 			$._reader_macro,
@@ -85,29 +90,18 @@ module.exports = grammar({
 			$._literal,
 		),
 
-		// FIXME: Refactor this mess
-		hashfn_reader_macro: $ => seq(
-			field('macro', alias($._hashfn_reader_macro_char, '#')),
-			field('expression', $._sexp),
-		),
-		quote_reader_macro: $ => seq(
-			field('macro', alias($._quote_reader_macro_char, '\'')),
-			field('expression', $._sexp),
-		),
-		quasi_quote_reader_macro: $ => seq(
-			field('macro', alias($._quasi_quote_reader_macro_char, '`')),
-			field('expression', $._sexp),
-		),
-		unquote_reader_macro: $ => seq(
-			field('macro', alias($._unquote_reader_macro_char, ',')),
-			field('expression', $._sexp),
+		...Object.fromEntries(
+			[...READER_MACROS].map(([name, char]) => [
+				`${name}_reader_macro`,
+				$ => seq(
+					field('macro', alias($[`_${name}_reader_macro_char`], char)),
+					field('expression', $._sexp),
+				),
+			])
 		),
 
 		_reader_macro: $ => choice(
-			$.hashfn_reader_macro,
-			$.quote_reader_macro,
-			$.quasi_quote_reader_macro,
-			$.unquote_reader_macro,
+			...[...READER_MACROS].map(([name, char]) => $[`${name}_reader_macro`]),
 		),
 
 		_list_content: $ => seq(
@@ -124,9 +118,9 @@ module.exports = grammar({
 
 		sequence: $ => sequence(repeat(item($._sexp))),
 
-		_table_pair: $ => kv_pair($),
+		table_pair: $ => kv_pair($),
 
-		table: $ => prec(PREC_LAST_RESORT, table(repeat($._table_pair))),
+		table: $ => prec(PREC_LAST_RESORT, table(repeat($.table_pair))),
 
 		// NOTE: Last resort precedence here is nice to have for when forms define
 		// literal-specific syntax (mostly strings), like with metadata `:fnl/docstring`
@@ -154,20 +148,21 @@ module.exports = grammar({
 				// I would prefer to stray away from it.
 				//
 				// TODO: Find a way to get rid of this HACK.
+				...SPECIAL_STANDALONE_SYMBOLS,
 				'nil',
 				'true',
 				'false',
-				...SPECIAL_STANDALONE_SYMBOLS,
 				/[^(){}\[\]"'~;,@`\s]+/,
 			].map(tk => token.immediate(tk))
 		)),
 
-		_double_quote_string: $ => prec.right(double_quote_string($,
+		_double_quote_string_content: $ => prec.right(PREC_IMPORTANT, token.immediate(/[^"\\]+/)),
+		_double_quote_string: $ => double_quote_string($,
 			repeat(choice(
-				token.immediate(prec(PREC_IMPORTANT, /[^"\\]+/)),
+				$._double_quote_string_content,
 				$.escape_sequence,
-			))
-		)),
+			)),
+		),
 
 		string: $ => choice(
 			$._colon_string,

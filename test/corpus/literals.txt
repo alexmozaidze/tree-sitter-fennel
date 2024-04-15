@@ -243,28 +243,35 @@ tables
 
 (program
   (table
-    key: (symbol)
-    value: (symbol)
-    key: (list
-           call: (symbol)
-           item: (number)
-           item: (number))
-    value: (hashfn_reader_macro
-             expression: (nil))
-    key: (string
-           content: (string_content))
-    value: (symbol)
-    key: (string
-           content: (string_content))
-    value: (string
+    (table_pair
+      key: (symbol)
+      value: (symbol))
+    (table_pair
+      key: (list
+             call: (symbol)
+             item: (number)
+             item: (number))
+      value: (hashfn_reader_macro
+               expression: (nil)))
+    (table_pair
+      key: (string
              content: (string_content))
-    key: (number)
-    value: (number)
-    key: (symbol)
-    value: (symbol))
+      value: (symbol))
+    (table_pair
+      key: (string
+             content: (string_content))
+      value: (string
+               content: (string_content)))
+    (table_pair
+      key: (number)
+      value: (number))
+    (table_pair
+      key: (symbol)
+      value: (symbol)))
   (table
-    key: (symbol)
-    value: (symbol)))
+    (table_pair
+      key: (symbol)
+      value: (symbol))))
 
 ===
 sequences / sequential tables
@@ -309,16 +316,33 @@ comments
 ---
 
 (program
-  (comment)
-  (comment)
-  (comment)
+  (comment
+    body: (comment_body))
+  (comment
+    body: (comment_body))
+  (comment
+    body: (comment_body))
   (list
-    (comment)
-    call: (symbol) (comment)
-    item: (symbol) (comment)
-    item: (sequence (comment)
-            item: (symbol) (comment)) (comment)
-    item: (symbol) (comment)) (comment))
+    (comment
+      body: (comment_body))
+    call: (symbol)
+    (comment
+      body: (comment_body)) item: (symbol)
+    (comment
+      body: (comment_body))
+    item: (sequence
+            (comment
+              body: (comment_body))
+            item: (symbol)
+            (comment
+              body: (comment_body)))
+    (comment
+      body: (comment_body))
+    item: (symbol)
+    (comment
+      body: (comment_body)))
+  (comment
+    body: (comment_body)))
 
 ===
 reader macros
@@ -374,7 +398,9 @@ reader macros
     expression: (symbol))
   (hashfn_reader_macro
     expression: (table
-                  key: (symbol)
-                  value: (symbol)
-                  key: (symbol)
-                  value: (symbol))))
+                  (table_pair
+                    key: (symbol)
+                    value: (symbol))
+                  (table_pair
+                    key: (symbol)
+                    value: (symbol)))))

@@ -32,42 +32,50 @@ bindings + variable forms
 (program
   (local_form
     call: (symbol)
-    lhs: (symbol_binding)
-    rhs: (number))
+    (binding_pair
+      lhs: (symbol_binding)
+      rhs: (number)))
   (var_form
     call: (symbol)
-    lhs: (list_binding
-           item: (symbol_binding)
-           item: (symbol_binding)
-           item: (symbol_binding))
-    rhs: (number))
+    (binding_pair
+      lhs: (list_binding
+             item: (symbol_binding)
+             item: (symbol_binding)
+             item: (symbol_binding))
+      rhs: (number)))
   (set_form
     call: (symbol)
-    lhs: (sequence_binding
-           item: (symbol_binding)
-           item: (symbol_binding)
-           item: (symbol_binding))
-    rhs: (number))
+    (binding_pair
+      lhs: (sequence_binding
+             item: (symbol_binding)
+             item: (symbol_binding)
+             item: (symbol_binding))
+      rhs: (number)))
   (global_form
     call: (symbol)
-    lhs: (sequence_binding
-           item: (symbol_binding)
-           item: (symbol_binding)
-           item: (rest_binding
-                   lhs: (symbol_option)
-                   rhs: (symbol_binding)))
-    rhs: (number))
+    (binding_pair
+      lhs: (sequence_binding
+            item: (symbol_binding)
+            item: (symbol_binding)
+            item: (rest_binding
+                    lhs: (symbol_option)
+                    rhs: (symbol_binding)))
+          rhs: (number)))
   (local_form
     call: (symbol)
-    lhs: (table_binding
-           key: (string_binding
-                  content: (string_content))
-           value: (symbol_binding)
-           key: (symbol_binding)
-           value: (symbol_binding)
-           key: (symbol_option)
-           value: (symbol_binding))
-    rhs: (number)))
+    (binding_pair
+      lhs: (table_binding
+             (table_binding_pair
+               key: (string_binding
+                      content: (string_content))
+               value: (symbol_binding))
+             (table_binding_pair
+               key: (symbol_binding)
+               value: (symbol_binding))
+             (table_binding_pair
+               key: (symbol_option)
+               value: (symbol_binding)))
+      rhs: (number))))
 
 ===
 let
@@ -85,27 +93,30 @@ let
   (let_form
     call: (symbol)
     vars: (let_vars
-            lhs: (symbol_binding)
-            rhs: (symbol)
-            lhs: (list_binding
-                   item: (symbol_binding)
-                   item: (symbol_binding)
-                   item: (symbol_binding))
-            rhs: (list
-                   call: (symbol)
-                   item: (number)
-                   item: (number)
-                   item: (number))
-            lhs: (sequence_binding
-                   item: (symbol_binding)
-                   item: (rest_binding
-                           lhs: (symbol_option)
-                           rhs: (symbol_binding)))
-            rhs: (sequence
-                   item: (number)
-                   item: (number)
-                   item: (number)
-                   item: (number)))
+            (binding_pair
+              lhs: (symbol_binding)
+              rhs: (symbol))
+            (binding_pair
+              lhs: (list_binding
+                     item: (symbol_binding)
+                     item: (symbol_binding)
+                     item: (symbol_binding))
+              rhs: (list
+                     call: (symbol)
+                     item: (number)
+                     item: (number)
+                     item: (number)))
+            (binding_pair
+              lhs: (sequence_binding
+                     item: (symbol_binding)
+                     item: (rest_binding
+                             lhs: (symbol_option)
+                             rhs: (symbol_binding)))
+              rhs: (sequence
+                     item: (number)
+                     item: (number)
+                     item: (number)
+                     item: (number))))
     item: (list
             call: (symbol)
             item: (string
@@ -121,6 +132,7 @@ function definition
 
 (fn abcs [a b c] {: a : b : c})
 (fn abcs-but-with-varargs [a b ...] [...])
+(fn nobody [])
 
 (lambda ab.cs [a b & cs]
   (print a)
@@ -138,12 +150,15 @@ function definition
             item: (symbol_binding)
             item: (symbol_binding))
     item: (table
-            key: (symbol)
-            value: (symbol)
-            key: (symbol)
-            value: (symbol)
-            key: (symbol)
-            value: (symbol)))
+            (table_pair
+              key: (symbol)
+              value: (symbol))
+            (table_pair
+              key: (symbol)
+              value: (symbol))
+            (table_pair
+              key: (symbol)
+              value: (symbol))))
   (fn_form
     call: (symbol)
     name: (symbol)
@@ -153,6 +168,10 @@ function definition
             item: (symbol_binding))
     item: (sequence
             item: (symbol)))
+  (fn_form
+    call: (symbol)
+    name: (symbol)
+    args: (sequence_arguments))
   (lambda_form
     call: (symbol)
     name: (multi_symbol
@@ -220,22 +239,25 @@ function metadata
     docstring: (docstring
                  content: (string_content))
     metadata: (table_metadata
-                key: (string
-                       content: (string_content))
-                value: (sequence_arguments
-                         item: (symbol_binding)
-                         item: (symbol_binding)
-                         item: (rest_binding
-                                 lhs: (symbol_option)
-                                 rhs: (symbol_binding)))
-                key: (string
-                       content: (string_content))
-                value: (docstring
+                (table_metadata_pair
+                  key: (string
                          content: (string_content))
-                key: (string
-                       content: (string_content))
-                value: (string
-                         content: (string_content)))
+                  value: (sequence_arguments
+                           item: (symbol_binding)
+                           item: (symbol_binding)
+                           item: (rest_binding
+                                   lhs: (symbol_option)
+                                   rhs: (symbol_binding))))
+                (table_metadata_pair
+                  key: (string
+                         content: (string_content))
+                  value: (docstring
+                           content: (string_content)))
+                (table_metadata_pair
+                  key: (string
+                         content: (string_content))
+                  value: (string
+                           content: (string_content))))
     item: (symbol))
   (lambda_form
     call: (symbol)
@@ -245,10 +267,11 @@ function metadata
             item: (symbol_binding)
             item: (symbol_binding))
     metadata: (table_metadata
-                key: (string
-                       content: (string_content))
-                value: (string
-                         content: (string_content)))
+                (table_metadata_pair
+                  key: (string
+                         content: (string_content))
+                  value: (string
+                           content: (string_content))))
     item: (symbol)))
 
 ===
@@ -298,103 +321,121 @@ case & match
   (case_form
     call: (symbol)
     item: (symbol)
-    lhs: (list_binding
-           item: (symbol_binding)
-           item: (symbol_binding))
-    rhs: (number)
-    lhs: (list_binding
-           item: (symbol_binding)
-           item: (symbol_binding)
-           item: (symbol_binding))
-    rhs: (list
-           call: (symbol)
-           item: (number)
-           item: (number)
-           item: (number))
-    lhs: (sequence_binding
-           item: (symbol_binding)
-           item: (symbol_binding)
-           item: (symbol_binding))
-    rhs: (sequence
-           item: (number)
-           item: (number)
-           item: (number))
-    lhs: (sequence_binding
-           item: (symbol_binding)
-           item: (symbol_binding)
-           item: (rest_binding
-                   lhs: (symbol_option)
-                   rhs: (symbol_binding)))
-    rhs: (sequence
-           item: (number)
-           item: (number)
-           item: (number)
-           item: (number)
-           item: (number)
-           item: (number))
-    lhs: (table_binding
-           key: (symbol_binding)
-           value: (symbol_binding)
-           key: (string_binding
-                  content: (string_content))
-           value: (symbol_binding))
-    rhs: (table
-           key: (string
-                  content: (string_content))
-           value: (number)
-           key: (string
-                  content: (string_content))
-           value: (number)))
+    (case_pair
+      lhs: (list_binding
+             item: (symbol_binding)
+             item: (symbol_binding))
+      rhs: (number))
+    (case_pair
+      lhs: (list_binding
+             item: (symbol_binding)
+             item: (symbol_binding)
+             item: (symbol_binding))
+      rhs: (list
+             call: (symbol)
+             item: (number)
+             item: (number)
+             item: (number)))
+    (case_pair
+      lhs: (sequence_binding
+             item: (symbol_binding)
+             item: (symbol_binding)
+             item: (symbol_binding))
+      rhs: (sequence
+             item: (number)
+             item: (number)
+             item: (number)))
+    (case_pair
+      lhs: (sequence_binding
+             item: (symbol_binding)
+             item: (symbol_binding)
+             item: (rest_binding
+                     lhs: (symbol_option)
+                     rhs: (symbol_binding)))
+      rhs: (sequence
+             item: (number)
+             item: (number)
+             item: (number)
+             item: (number)
+             item: (number)
+             item: (number)))
+    (case_pair
+      lhs: (table_binding
+             (table_binding_pair
+               key: (symbol_binding)
+               value: (symbol_binding))
+             (table_binding_pair
+               key: (string_binding
+                      content: (string_content))
+               value: (symbol_binding)))
+      rhs: (table
+             (table_pair
+               key: (string
+                      content: (string_content))
+               value: (number))
+             (table_pair
+               key: (string
+                      content: (string_content))
+               value: (number)))))
   (match_form
     call: (symbol)
     item: (symbol)
-    lhs: (list_binding
-           item: (symbol_binding)
-           item: (symbol_binding))
-    rhs: (number)
-    lhs: (list_binding
-           item: (symbol_binding)
-           item: (symbol_binding)
-           item: (symbol_binding))
-    rhs: (list
-           call: (symbol)
-           item: (number)
-           item: (number)
-           item: (number))
-    lhs: (sequence_binding
-           item: (symbol_binding)
-           item: (symbol_binding)
-           item: (symbol_binding))
-    rhs: (sequence
-           item: (number)
-           item: (number)
-           item: (number))
-    lhs: (sequence_binding
-           item: (symbol_binding)
-           item: (symbol_binding)
-           item: (rest_binding
-                   lhs: (symbol_option)
-                   rhs: (symbol_binding)))
-    rhs: (sequence
-           item: (number)
-           item: (number)
-           item: (number)
-           item: (number)
-           item: (number)
-           item: (number))
-    lhs: (table_binding
-           key: (symbol_binding)
-           value: (symbol_binding)
-           key: (string_binding
-                  content: (string_content))
-           value: (symbol_binding))
-    rhs: (table
-           key: (string
-                  content: (string_content))
-           value: (number)
-           key: (string
-                  content: (string_content))
-           value: (number))))
+    (case_pair
+      lhs: (list_binding
+             item: (symbol_binding)
+             item: (symbol_binding))
+      rhs: (number))
+    (case_pair
+      lhs: (list_binding
+             item: (symbol_binding)
+             item: (symbol_binding)
+             item: (symbol_binding))
+      rhs: (list
+             call: (symbol)
+             item: (number)
+             item: (number)
+             item: (number)))
+    (case_pair
+      lhs: (sequence_binding
+             item: (symbol_binding)
+             item: (symbol_binding)
+             item: (symbol_binding))
+      rhs: (sequence
+             item: (number)
+             item: (number)
+             item: (number)))
+    (case_pair
+      lhs: (sequence_binding
+             item: (symbol_binding)
+             item: (symbol_binding)
+             item: (rest_binding
+                     lhs: (symbol_option)
+                     rhs: (symbol_binding)))
+      rhs: (sequence
+             item: (number)
+             item: (number)
+             item: (number)
+             item: (number)
+             item: (number)
+             item: (number)))
+    (case_pair
+      lhs: (table_binding
+             (table_binding_pair
+               key: (symbol_binding)
+               value: (symbol_binding))
+             (table_binding_pair
+               key: (string_binding
+                      content: (string_content))
+               value: (symbol_binding)))
+      rhs: (table
+             (table_pair
+               key: (string
+                      content: (string_content))
+               value: (number))
+             (table_pair
+               key: (string
+                      content: (string_content))
+               value: (number))))))
 
 ===
 case-try & match-try
@@ -428,55 +469,61 @@ case-try & match-try
                     method: (symbol_fragment))
             item: (string
                     content: (string_content)))
-    lhs: (symbol_binding)
-    rhs: (list
-           call: (symbol)
-           item: (symbol))
-    lhs: (list_binding
-           item: (symbol_binding)
-           item: (symbol_binding)
-           item: (list_binding
-                   item: (symbol_binding)
-                   item: (symbol_binding)))
-    rhs: (list
-           call: (multi_symbol
-                   base: (symbol_fragment)
-                   member: (symbol_fragment))
-           item: (symbol))
-    lhs: (symbol_binding)
-    rhs: (list
-           call: (symbol)
-           item: (symbol)
-           item: (list
-                   call: (multi_symbol
-                           base: (symbol_fragment)
-                           member: (symbol_fragment))
-                   item: (symbol)))
+    (case_pair
+      lhs: (symbol_binding)
+      rhs: (list
+             call: (symbol)
+             item: (symbol)))
+    (case_pair
+      lhs: (list_binding
+             item: (symbol_binding)
+             item: (symbol_binding)
+             item: (list_binding
+                     item: (symbol_binding)
+                     item: (symbol_binding)))
+      rhs: (list
+             call: (multi_symbol
+                     base: (symbol_fragment)
+                     member: (symbol_fragment))
+             item: (symbol)))
+    (case_pair
+      lhs: (symbol_binding)
+      rhs: (list
+             call: (symbol)
+             item: (symbol)
+             item: (list
+                     call: (multi_symbol
+                             base: (symbol_fragment)
+                             member: (symbol_fragment))
+                     item: (symbol))))
     catch: (case_catch
              call: (symbol)
-             lhs: (list_binding
-                    item: (symbol_binding)
-                    item: (string_binding
-                            content: (string_content)))
-             rhs: (nil)
-             lhs: (list_binding
-                    item: (symbol_binding)
-                    item: (string_binding
-                            content: (string_content)))
-             rhs: (list
-                    call: (symbol)
-                    item: (symbol)
-                    item: (symbol)
-                    item: (string
-                            content: (string_content)))
-             lhs: (list_binding
-                    item: (symbol_binding)
-                    item: (symbol_binding))
-             rhs: (list
-                    call: (symbol)
-                    item: (string
-                            content: (string_content))
-                    item: (symbol))))
+             (case_pair
+               lhs: (list_binding
+                      item: (symbol_binding)
+                      item: (string_binding
+                              content: (string_content)))
+               rhs: (nil))
+             (case_pair
+               lhs: (list_binding
+                      item: (symbol_binding)
+                      item: (string_binding
+                              content: (string_content)))
+               rhs: (list
+                      call: (symbol)
+                      item: (symbol)
+                      item: (symbol)
+                      item: (string
+                              content: (string_content))))
+             (case_pair
+               lhs: (list_binding
+                      item: (symbol_binding)
+                      item: (symbol_binding))
+               rhs: (list
+                      call: (symbol)
+                      item: (string
+                              content: (string_content))
+                      item: (symbol)))))
   (match_try_form
     call: (symbol)
     item: (list
@@ -485,55 +532,61 @@ case-try & match-try
                     method: (symbol_fragment))
             item: (string
                     content: (string_content)))
-    lhs: (symbol_binding)
-    rhs: (list
-           call: (symbol)
-           item: (symbol))
-    lhs: (list_binding
-           item: (symbol_binding)
-           item: (symbol_binding)
-           item: (list_binding
-                   item: (symbol_binding)
-                   item: (symbol_binding)))
-    rhs: (list
-           call: (multi_symbol
-                   base: (symbol_fragment)
-                   member: (symbol_fragment))
-           item: (symbol))
-    lhs: (symbol_binding)
-    rhs: (list
-           call: (symbol)
-           item: (symbol)
-           item: (list
-                   call: (multi_symbol
-                           base: (symbol_fragment)
-                           member: (symbol_fragment))
-                   item: (symbol)))
+    (case_pair
+      lhs: (symbol_binding)
+      rhs: (list
+             call: (symbol)
+             item: (symbol)))
+    (case_pair
+      lhs: (list_binding
+             item: (symbol_binding)
+             item: (symbol_binding)
+             item: (list_binding
+                     item: (symbol_binding)
+                     item: (symbol_binding)))
+      rhs: (list
+             call: (multi_symbol
+                     base: (symbol_fragment)
+                     member: (symbol_fragment))
+             item: (symbol)))
+    (case_pair
+      lhs: (symbol_binding)
+      rhs: (list
+             call: (symbol)
+             item: (symbol)
+             item: (list
+                     call: (multi_symbol
+                             base: (symbol_fragment)
+                             member: (symbol_fragment))
+                     item: (symbol))))
     catch: (case_catch
              call: (symbol)
-             lhs: (list_binding
-                    item: (symbol_binding)
-                    item: (string_binding
-                            content: (string_content)))
-             rhs: (nil)
-             lhs: (list_binding
-                    item: (symbol_binding)
-                    item: (string_binding
-                            content: (string_content)))
-             rhs: (list
-                    call: (symbol)
-                    item: (symbol)
-                    item: (symbol)
-                    item: (string
-                            content: (string_content)))
-             lhs: (list_binding
-                    item: (symbol_binding)
-                    item: (symbol_binding))
-             rhs: (list
-                    call: (symbol)
-                    item: (string
-                            content: (string_content))
-                    item: (symbol)))))
+             (case_pair
+               lhs: (list_binding
+                      item: (symbol_binding)
+                      item: (string_binding
+                              content: (string_content)))
+               rhs: (nil))
+             (case_pair
+               lhs: (list_binding
+                      item: (symbol_binding)
+                      item: (string_binding
+                              content: (string_content)))
+               rhs: (list
+                      call: (symbol)
+                      item: (symbol)
+                      item: (symbol)
+                      item: (string
+                              content: (string_content))))
+             (case_pair
+               lhs: (list_binding
+                      item: (symbol_binding)
+                      item: (symbol_binding))
+               rhs: (list
+                      call: (symbol)
+                      item: (string
+                              content: (string_content))
+                      item: (symbol))))))
 
 ===
 case guard
@@ -550,41 +603,44 @@ case guard
   (case_form
     call: (symbol)
     item: (number)
-    lhs: (case_guard
-           call: (symbol)
-           item: (symbol_binding)
-           guard: (list
-                    call: (symbol)
-                    item: (number)
-                    item: (symbol)))
-    rhs: (string
-           content: (string_content))
-    lhs: (case_guard
-           call: (symbol)
-           item: (sequence_binding
-                   item: (symbol_binding)
-                   item: (symbol_binding))
-           guard: (list
-                    call: (symbol)
-                    item: (number)
-                    item: (symbol))
-           guard: (list
-                    call: (symbol)
-                    item: (string
-                            content: (string_content))
-                    item: (symbol)))
-    rhs: (string
-           content: (string_content))
-    lhs: (case_guard
-           call: (symbol)
-           item: (case_guard_or_special
-                   call: (symbol)
-                   item: (list_binding
-                           item: (symbol_binding)
-                           item: (symbol_binding))
-                   item: (sequence_binding
-                           item: (symbol_binding)
-                           item: (symbol_binding))))))
+    (case_pair
+      lhs: (case_guard
+             call: (symbol)
+             item: (symbol_binding)
+             guard: (list
+                      call: (symbol)
+                      item: (number)
+                      item: (symbol)))
+      rhs: (string
+             content: (string_content)))
+    (case_pair
+      lhs: (case_guard
+             call: (symbol)
+             item: (sequence_binding
+                     item: (symbol_binding)
+                     item: (symbol_binding))
+             guard: (list
+                      call: (symbol)
+                      item: (number)
+                      item: (symbol))
+             guard: (list
+                      call: (symbol)
+                      item: (string
+                              content: (string_content))
+                      item: (symbol)))
+      rhs: (string
+             content: (string_content)))
+    (case_pair
+      lhs: (case_guard
+             call: (symbol)
+             item: (case_guard_or_special
+                     call: (symbol)
+                     item: (list_binding
+                             item: (symbol_binding)
+                             item: (symbol_binding))
+                     item: (sequence_binding
+                             item: (symbol_binding)
+                             item: (symbol_binding)))))))
 
 ===
 each
@@ -628,5 +684,5 @@ each
                  binding: (nil_binding)
                  iterator: (nil)
                  option: (iter_option
-                           option: (string)
+                           option: (symbol_option)
                            value: (boolean)))))
