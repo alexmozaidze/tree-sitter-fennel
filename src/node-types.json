@@ -7263,6 +7263,16 @@
           }
         ]
       },
+      "item": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "table_pair",
+            "named": true
+          }
+        ]
+      },
       "open": {
         "multiple": false,
         "required": true,
@@ -7273,16 +7283,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "table_pair",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -7299,6 +7299,16 @@
           }
         ]
       },
+      "item": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "table_binding_pair",
+            "named": true
+          }
+        ]
+      },
       "open": {
         "multiple": false,
         "required": true,
@@ -7309,16 +7319,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "table_binding_pair",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -7369,6 +7369,16 @@
           }
         ]
       },
+      "item": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "table_metadata_pair",
+            "named": true
+          }
+        ]
+      },
       "open": {
         "multiple": false,
         "required": true,
@@ -7379,16 +7389,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "table_metadata_pair",
-          "named": true
-        }
-      ]
     }
   },
   {
