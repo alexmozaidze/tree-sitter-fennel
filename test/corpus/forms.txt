@@ -199,6 +199,7 @@ function metadata
 
 (λ ooo-docstring [] :docstring a)
 (λ booo-no-docstring [] :not-docstring)
+(λ booo-no-docstring [] {:fnl/docstring "not-docstring"})
 
 (fn ayo-some-metadata-over-here [a b & cs]
   "This function does something..."
@@ -227,6 +228,16 @@ function metadata
     args: (sequence_arguments)
     item: (string
             content: (string_content)))
+  (lambda_form
+    call: (symbol)
+    name: (symbol)
+    args: (sequence_arguments)
+    item: (table
+            (table_pair
+              key: (string
+                     content: (string_content))
+              value: (string
+                     content: (string_content)))))
   (fn_form
     call: (symbol)
     name: (symbol)
