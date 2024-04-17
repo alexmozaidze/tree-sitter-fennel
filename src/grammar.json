@@ -1817,6 +1817,31 @@
         }
       ]
     },
+    "if_pair": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "condition",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_sexp"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "expression",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_sexp"
+            }
+          }
+        ]
+      }
+    },
     "quote_form": {
       "type": "SEQ",
       "members": [
@@ -2172,6 +2197,44 @@
                   "value": "λ"
                 }
               ]
+            },
+            "named": true,
+            "value": "symbol"
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_function_body"
+        },
+        {
+          "type": "FIELD",
+          "name": "close",
+          "content": {
+            "type": "STRING",
+            "value": ")"
+          }
+        }
+      ]
+    },
+    "macro_form": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "open",
+          "content": {
+            "type": "STRING",
+            "value": "("
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "call",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "STRING",
+              "value": "macro"
             },
             "named": true,
             "value": "symbol"
@@ -2849,6 +2912,113 @@
         }
       ]
     },
+    "if_form": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "open",
+          "content": {
+            "type": "STRING",
+            "value": "("
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "call",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "STRING",
+              "value": "if"
+            },
+            "named": true,
+            "value": "symbol"
+          }
+        },
+        {
+          "type": "REPEAT1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "if_pair"
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "else",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_sexp"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "FIELD",
+          "name": "close",
+          "content": {
+            "type": "STRING",
+            "value": ")"
+          }
+        }
+      ]
+    },
+    "import_macros_form": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "open",
+          "content": {
+            "type": "STRING",
+            "value": "("
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "call",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "STRING",
+              "value": "import-macros"
+            },
+            "named": true,
+            "value": "symbol"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "imports",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_binding"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "module",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_sexp"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "close",
+          "content": {
+            "type": "STRING",
+            "value": ")"
+          }
+        }
+      ]
+    },
     "_form": {
       "type": "CHOICE",
       "members": [
@@ -2887,6 +3057,10 @@
         {
           "type": "SYMBOL",
           "name": "lambda_form"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "macro_form"
         },
         {
           "type": "SYMBOL",
@@ -2935,6 +3109,14 @@
         {
           "type": "SYMBOL",
           "name": "faccumulate_form"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "if_form"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "import_macros_form"
         }
       ]
     },
