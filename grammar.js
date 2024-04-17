@@ -120,7 +120,7 @@ module.exports = grammar({
 
 		table_pair: $ => kv_pair($),
 
-		table: $ => prec(PREC_LAST_RESORT, table(repeat($.table_pair))),
+		table: $ => prec(PREC_LAST_RESORT, table(repeat(item($.table_pair)))),
 
 		// NOTE: Last resort precedence here is nice to have for when forms define
 		// literal-specific syntax (mostly strings), like with metadata `:fnl/docstring`

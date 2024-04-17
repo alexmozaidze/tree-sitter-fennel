@@ -65,16 +65,16 @@ bindings + variable forms
     call: (symbol)
     (binding_pair
       lhs: (table_binding
-             (table_binding_pair
-               key: (string_binding
-                      content: (string_content))
-               value: (symbol_binding))
-             (table_binding_pair
-               key: (symbol_binding)
-               value: (symbol_binding))
-             (table_binding_pair
-               key: (symbol_option)
-               value: (symbol_binding)))
+             item: (table_binding_pair
+                     key: (string_binding
+                            content: (string_content))
+                     value: (symbol_binding))
+             item: (table_binding_pair
+                     key: (symbol_binding)
+                     value: (symbol_binding))
+             item: (table_binding_pair
+                     key: (symbol_option)
+                     value: (symbol_binding)))
       rhs: (number))))
 
 ===
@@ -150,15 +150,15 @@ function definition
             item: (symbol_binding)
             item: (symbol_binding))
     item: (table
-            (table_pair
-              key: (symbol)
-              value: (symbol))
-            (table_pair
-              key: (symbol)
-              value: (symbol))
-            (table_pair
-              key: (symbol)
-              value: (symbol))))
+            item: (table_pair
+                    key: (symbol)
+                    value: (symbol))
+            item: (table_pair
+                    key: (symbol)
+                    value: (symbol))
+            item: (table_pair
+                    key: (symbol)
+                    value: (symbol))))
   (fn_form
     call: (symbol)
     name: (symbol)
@@ -233,11 +233,11 @@ function metadata
     name: (symbol)
     args: (sequence_arguments)
     item: (table
-            (table_pair
-              key: (string
-                     content: (string_content))
-              value: (string
-                     content: (string_content)))))
+            item: (table_pair
+                    key: (string
+                           content: (string_content))
+                    value: (string
+                             content: (string_content)))))
   (fn_form
     call: (symbol)
     name: (symbol)
@@ -250,25 +250,25 @@ function metadata
     docstring: (docstring
                  content: (string_content))
     metadata: (table_metadata
-                (table_metadata_pair
-                  key: (string
-                         content: (string_content))
-                  value: (sequence_arguments
-                           item: (symbol_binding)
-                           item: (symbol_binding)
-                           item: (rest_binding
-                                   lhs: (symbol_option)
-                                   rhs: (symbol_binding))))
-                (table_metadata_pair
-                  key: (string
-                         content: (string_content))
-                  value: (docstring
-                           content: (string_content)))
-                (table_metadata_pair
-                  key: (string
-                         content: (string_content))
-                  value: (string
-                           content: (string_content))))
+                item: (table_metadata_pair
+                        key: (string
+                               content: (string_content))
+                        value: (sequence_arguments
+                                 item: (symbol_binding)
+                                 item: (symbol_binding)
+                                 item: (rest_binding
+                                         lhs: (symbol_option)
+                                         rhs: (symbol_binding))))
+                item: (table_metadata_pair
+                        key: (string
+                               content: (string_content))
+                        value: (docstring
+                                 content: (string_content)))
+                item: (table_metadata_pair
+                        key: (string
+                               content: (string_content))
+                        value: (string
+                                 content: (string_content))))
     item: (symbol))
   (lambda_form
     call: (symbol)
@@ -278,11 +278,11 @@ function metadata
             item: (symbol_binding)
             item: (symbol_binding))
     metadata: (table_metadata
-                (table_metadata_pair
-                  key: (string
-                         content: (string_content))
-                  value: (string
-                           content: (string_content))))
+                item: (table_metadata_pair
+                        key: (string
+                               content: (string_content))
+                        value: (string
+                                 content: (string_content))))
     item: (symbol)))
 
 ===
@@ -372,22 +372,22 @@ case & match
              item: (number)))
     (case_pair
       lhs: (table_binding
-             (table_binding_pair
-               key: (symbol_binding)
-               value: (symbol_binding))
-             (table_binding_pair
-               key: (string_binding
-                      content: (string_content))
-               value: (symbol_binding)))
+             item: (table_binding_pair
+                     key: (symbol_binding)
+                     value: (symbol_binding))
+             item: (table_binding_pair
+                     key: (string_binding
+                            content: (string_content))
+                     value: (symbol_binding)))
       rhs: (table
-             (table_pair
-               key: (string
-                      content: (string_content))
-               value: (number))
-             (table_pair
-               key: (string
-                      content: (string_content))
-               value: (number)))))
+             item: (table_pair
+                     key: (string
+                            content: (string_content))
+                     value: (number))
+             item: (table_pair
+                     key: (string
+                            content: (string_content))
+                     value: (number)))))
   (match_form
     call: (symbol)
     item: (symbol)
@@ -431,22 +431,22 @@ case & match
              item: (number)))
     (case_pair
       lhs: (table_binding
-             (table_binding_pair
-               key: (symbol_binding)
-               value: (symbol_binding))
-             (table_binding_pair
-               key: (string_binding
-                      content: (string_content))
-               value: (symbol_binding)))
+             item: (table_binding_pair
+                     key: (symbol_binding)
+                     value: (symbol_binding))
+             item: (table_binding_pair
+                     key: (string_binding
+                            content: (string_content))
+                     value: (symbol_binding)))
       rhs: (table
-             (table_pair
-               key: (string
-                      content: (string_content))
-               value: (number))
-             (table_pair
-               key: (string
-                      content: (string_content))
-               value: (number))))))
+             item: (table_pair
+                     key: (string
+                            content: (string_content))
+                     value: (number))
+             item: (table_pair
+                     key: (string
+                            content: (string_content))
+                     value: (number))))))
 
 ===
 case-try & match-try

@@ -243,35 +243,35 @@ tables
 
 (program
   (table
-    (table_pair
-      key: (symbol)
-      value: (symbol))
-    (table_pair
-      key: (list
-             call: (symbol)
-             item: (number)
-             item: (number))
-      value: (hashfn_reader_macro
-               expression: (nil)))
-    (table_pair
-      key: (string
-             content: (string_content))
-      value: (symbol))
-    (table_pair
-      key: (string
-             content: (string_content))
-      value: (string
-               content: (string_content)))
-    (table_pair
-      key: (number)
-      value: (number))
-    (table_pair
-      key: (symbol)
-      value: (symbol)))
+    item: (table_pair
+            key: (symbol)
+            value: (symbol))
+    item: (table_pair
+            key: (list
+                   call: (symbol)
+                   item: (number)
+                   item: (number))
+            value: (hashfn_reader_macro
+                     expression: (nil)))
+    item: (table_pair
+            key: (string
+                   content: (string_content))
+            value: (symbol))
+    item: (table_pair
+            key: (string
+                   content: (string_content))
+            value: (string
+                     content: (string_content)))
+    item: (table_pair
+            key: (number)
+            value: (number))
+    item: (table_pair
+            key: (symbol)
+            value: (symbol)))
   (table
-    (table_pair
-      key: (symbol)
-      value: (symbol))))
+    item: (table_pair
+            key: (symbol)
+            value: (symbol))))
 
 ===
 sequences / sequential tables
@@ -398,9 +398,9 @@ reader macros
     expression: (symbol))
   (hashfn_reader_macro
     expression: (table
-                  (table_pair
-                    key: (symbol)
-                    value: (symbol))
-                  (table_pair
-                    key: (symbol)
-                    value: (symbol)))))
+                  item: (table_pair
+                          key: (symbol)
+                          value: (symbol))
+                  item: (table_pair
+                          key: (symbol)
+                          value: (symbol)))))

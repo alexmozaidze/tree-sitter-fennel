@@ -11,18 +11,18 @@ unfinished tables
 
 (program
   (table
-    (table_pair
-      key: (symbol_option)))
+    item: (table_pair
+            key: (symbol_option)))
   (table
-    (table_pair
-      key: (symbol)))
+    item: (table_pair
+            key: (symbol)))
   (table
-    (table_pair
-      key: (string
-             content: (string_content))
-      value: (symbol))
-    (table_pair
-      key: (symbol))))
+    item: (table_pair
+            key: (string
+                   content: (string_content))
+            value: (symbol))
+    item: (table_pair
+            key: (symbol))))
 
 ===
 colon string + reader macros

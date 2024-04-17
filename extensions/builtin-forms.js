@@ -66,7 +66,7 @@ rules['table_metadata_pair'] = $ => choice(
 	$._table_metadata_arglist,
 	$._table_metadata_generic,
 );
-rules['table_metadata'] = $ => table(repeat($.table_metadata_pair));
+rules['table_metadata'] = $ => table(repeat(item($.table_metadata_pair)));
 rules['_function_inner_body_all'] = $ => seq(
 	field('docstring', alias($.string, $.docstring)),
 	field('metadata', $.table_metadata),
