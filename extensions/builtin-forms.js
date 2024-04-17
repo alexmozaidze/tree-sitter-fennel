@@ -95,6 +95,7 @@ rules['_function_body'] = $ => seq(
 [
 	'fn',
 	'lambda',
+	'macro'
 ].forEach(name => forms[name] = $ => form($,
 	name == 'lambda' ? choice(name, 'λ') : name,
 	$._function_body,
@@ -218,6 +219,19 @@ forms['faccumulate'] = $ => form($,
 	'faccumulate',
 	field('iter_body', alias($._faccumulate_iter_body, $.for_iter_body)),
 	repeat(item($._sexp)),
+);
+
+rules['if_pair'] = $ => pair($, { field: 'condition' }, { field: 'expression', optional: false });
+forms['if'] = $ => form($,
+	'if',
+	repeat1($.if_pair),
+	optional(field('else', $._sexp)),
+);
+
+forms['import_macros'] = $ => form($,
+	'import-macros',
+	field('imports', $._binding),
+	field('module', $._sexp),
 );
 
 const processed_forms = _.mapKeys(forms, (_, name) => `${name}_form`);

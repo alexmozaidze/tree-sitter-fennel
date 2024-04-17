@@ -697,3 +697,59 @@ each
                  option: (iter_option
                            option: (symbol_option)
                            value: (boolean)))))
+
+===
+if
+===
+
+(if cond
+  then
+  else)
+
+---
+
+(program
+  (if_form
+    call: (symbol)
+    (if_pair
+      condition: (symbol)
+      expression: (symbol))
+    else: (symbol)))
+
+===
+import-macros
+===
+
+(import-macros {: some : thting} :globgobgabgalab)
+
+---
+
+(program
+  (import_macros_form
+    call: (symbol)
+    imports: (table_binding
+               item: (table_binding_pair
+                       key: (symbol_binding)
+                       value: (symbol_binding))
+               item: (table_binding_pair
+                       key: (symbol_binding)
+                       value: (symbol_binding)))
+    module: (string
+              content: (string_content))))
+
+===
+macro
+===
+
+(macro abc [lol]
+  ting)
+
+---
+
+(program
+  (macro_form
+    call: (symbol)
+    name: (symbol)
+    args: (sequence_arguments
+            item: (symbol_binding))
+    item: (symbol)))
