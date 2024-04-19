@@ -5,8 +5,10 @@ const {
 	list,
 	sequence,
 	table,
+} = require('../grammar-lib/dsl.js');
+const {
     PREC_SCENARIO_SPECIFIC,
-} = require('../utils.js');
+} = require('../grammar-lib/prec.js');
 
 module.exports = {
 	inline: $ => [

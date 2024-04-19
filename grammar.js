@@ -1,32 +1,35 @@
-const fs = require('fs');
 const _ = require('lodash');
 const {
 	kv_pair,
 	item,
 	call,
-	SPECIAL_STANDALONE_SYMBOLS,
 	colon_string,
 	double_quote_string,
 	list,
 	sequence,
 	table,
+} = require('./grammar-lib/dsl.js');
+const {
+	require_dir,
+	flatten_extensions,
+} = require('./grammar-lib/fs.js');
+const {
 	PREC_LAST_RESORT,
 	PREC_IMPORTANT,
-} = require('./utils.js');
+} = require('./grammar-lib/prec.js');
 
-const extension_files = _.filter(
-	fs.readdirSync('./extensions/'),
-	filename => !filename.startsWith('_') && !fs.lstatSync(`./extensions/${filename}`).isDirectory(),
-);
-const extensions = _.reduce(
-	extension_files,
-	(extensions, filename) => _.mergeWith(
-		extensions,
-		require(`./extensions/${filename}`),
-		(base, extension) => Array.isArray(base) ? [...base, extension] : undefined,
-	),
-	{ rules: {}, forms: {}, inline: [], conflicts: [] },
-);
+const SPECIAL_STANDALONE_SYMBOLS = [
+	'#',
+	'?.',
+	'~=',
+	':',
+	'$...',
+	'...',
+	'..',
+	'.',
+];
+
+const extensions = flatten_extensions(require_dir('extensions'));
 
 const READER_MACROS = [
 	['hashfn', '#'],
@@ -101,7 +104,7 @@ module.exports = grammar({
 		),
 
 		_reader_macro: $ => choice(
-			...[...READER_MACROS].map(([name, char]) => $[`${name}_reader_macro`]),
+			...[...READER_MACROS].map(([name, _char]) => $[`${name}_reader_macro`]),
 		),
 
 		_list_content: $ => seq(

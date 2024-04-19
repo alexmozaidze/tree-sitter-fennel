@@ -1,9 +1,11 @@
-SRC = src/parser.c
-OBJ = $(SRC:.c=.o)
+SRC := src/parser.c
+OBJ := $(SRC:.c=.o)
 
-INCS = -Isrc/
-TSCFLAGS = $(CPPFLAGS) $(CFLAGS) -fPIC
-TSLDFLAGS = $(LDFLAGS) --shared
+INCS := -Isrc/
+TSCFLAGS := $(CPPFLAGS) $(CFLAGS) -fPIC
+TSLDFLAGS := $(LDFLAGS) --shared
+
+JS_SRC := $(shell find extensions -type f -name '*.js')
 
 default: generate
 
@@ -13,7 +15,7 @@ fennel.so: $(OBJ)
 .c.o:
 	$(CC) -c $(TSCFLAGS) -o $@ $<
 
-src/parser.c: extensions/*.js *.js src/scanner.c
+src/parser.c: $(JS_SRC) src/scanner.c
 	npx tree-sitter generate
 
 generate: src/parser.c
