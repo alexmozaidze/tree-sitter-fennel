@@ -5,7 +5,8 @@ INCS := -Isrc/
 TSCFLAGS := $(CPPFLAGS) $(CFLAGS) -fPIC
 TSLDFLAGS := $(LDFLAGS) --shared
 
-JS_SRC := $(shell find extensions -type f -name '*.js')
+JS_DIRS := extensions grammar-lib
+JS_SRC := grammar.js $(shell find $(JS_DIRS) -type f -name '*.js')
 
 default: generate
 
