@@ -41,7 +41,7 @@ forms['collect'] = $ => form($,
 );
 forms['icollect'] = $ => form($,
 	'icollect',
-	$._collect_iter_body,
+	field('iter_body', $._collect_iter_body),
 	repeat(item($._sexp)),
 );
 
@@ -52,7 +52,7 @@ rules['_accumulate_iter_body'] = $ => sequence(
 );
 forms['accumulate'] = $ => form($,
 	'accumulate',
-	$._accumulate_iter_body,
+	field('iter_body', $._accumulate_iter_body),
 	repeat(item($._sexp)),
 );
 
