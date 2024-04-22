@@ -2479,8 +2479,12 @@
           }
         },
         {
-          "type": "SYMBOL",
-          "name": "_collect_iter_body"
+          "type": "FIELD",
+          "name": "iter_body",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_collect_iter_body"
+          }
         },
         {
           "type": "REPEAT",
@@ -2528,8 +2532,12 @@
           }
         },
         {
-          "type": "SYMBOL",
-          "name": "_accumulate_iter_body"
+          "type": "FIELD",
+          "name": "iter_body",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_accumulate_iter_body"
+          }
         },
         {
           "type": "REPEAT",
