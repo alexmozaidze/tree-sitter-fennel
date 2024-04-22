@@ -648,6 +648,10 @@
             "named": true
           },
           {
+            "type": "multi_symbol",
+            "named": true
+          },
+          {
             "type": "nil_binding",
             "named": true
           },
