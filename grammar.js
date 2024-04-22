@@ -178,7 +178,7 @@ module.exports = grammar({
 				/[^xu\d]/,
 				/\d{1,3}/,
 				/x[\da-fA-F]{2}/,
-				/u{[\da-fA-F]+}/,
+				/u\{[\da-fA-F]+\}/,
 			),
 		)),
 

@@ -3,15 +3,44 @@
   "version": "1.0.0",
   "description": "tree-sitter grammar for Fennel",
   "main": "bindings/node",
+  "types": "bindings/node",
   "author": "",
   "type": "commonjs",
   "repository": "https://github.com/TravonteD/tree-sitter-fennel",
   "license": "ISC",
   "dependencies": {
     "lodash": "^4.17.21",
-    "nan": "^2.14.0"
+    "node-addon-api": "^7.1.0",
+    "node-gyp-build": "^4.8.0"
+  },
+  "peerDependencies": {
+    "tree-sitter": "^0.21.0"
+  },
+  "peerDependenciesMeta": {
+    "tree_sitter": {
+      "optional": true
+    }
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.21.0"
-  }
+    "tree-sitter-cli": "^0.22.5",
+    "prebuildify": "^6.0.0"
+  },
+  "scripts": {
+    "install": "node-gyp-build",
+    "prebuildify": "prebuildify --napi --strip"
+  },
+  "files": [
+    "grammar.js",
+    "binding.gyp",
+    "prebuilds/**",
+    "bindings/node/*",
+    "queries/*",
+    "src/**"
+  ],
+  "tree-sitter": [
+    {
+      "scope": "source.fennel",
+      "injection-regex": "^fennel$"
+    }
+  ]
 }
