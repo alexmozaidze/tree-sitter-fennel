@@ -24,6 +24,7 @@ bindings + variable forms
 (local lol 42)
 (var (a b c) 42)
 (set [a b c] 42)
+(set vim.notify #nil)
 (global [a b & cs] 42)
 (local {:A a : b &as cs} 42)
 
@@ -51,6 +52,14 @@ bindings + variable forms
              item: (symbol_binding)
              item: (symbol_binding))
       rhs: (number)))
+  (set_form
+    call: (symbol)
+    (binding_pair
+      lhs: (multi_symbol
+             base: (symbol_fragment)
+             member: (symbol_fragment))
+      rhs: (hashfn_reader_macro
+             expression: (nil))))
   (global_form
     call: (symbol)
     (binding_pair
