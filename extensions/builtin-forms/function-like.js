@@ -75,6 +75,7 @@ rules['_function_body'] = $ => seq(
 	$._function_body,
 ));
 
+// TODO: Move to simple-scope.js
 forms['hashfn'] = $ => form($,
 	'hashfn',
 	item($._sexp),

@@ -8,6 +8,222 @@ Fennel built-in forms.
 
 This is a list of all the forms supported by the parser.
 
-This list contains explicit queries that describe the general structure of the various forms.
+This list contains general structure of forms represented with queries.
+
+All forms are suffixed with `_form` in order to distinguish them from regular nodes.\
+So `lambda` becomes `lambda_form` in the parse tree.
+
+> [!NOTE]\
+> <span>1.</span> `_binding` represents a wildcard for binding nodes\
+> <span>2.</span> `_` represents a wildcard with non-binding nodes
+
+## Symply Scoped forms
+
+- `local`/`var`/`global` :: simple variable definition
+```racket
+([
+  local_form
+  var_form
+  global_form
+]
+  call: (symbol)
+  (binding_pair
+    lhs: (_binding)
+    rhs: (_)))
+```
+- `set` :: variable mutation
+```racket
+(set_form
+  call: (symbol)
+  (binding_pair
+    lhs: [
+      (multi_symbol)
+      (_binding)
+    ]
+    rhs: (_)))
+```
+- `let_vars` :: variables portion of the `let` form
+```racket
+(let_vars
+  (binding_pair)*)
+```
+- `let` :: let form
+```racket
+(let_form
+  call: (symbol)
+  vars: (let_vars)
+  item: (_)*)
+```
+- `import_macros` :: `import-macros` form
+```racket
+(import_macros_form
+  call: (symbol)
+  imports: (_binding)
+  module: (_))
+```
+- `hashfn` :: `hashfn` form
+```racket
+(hashfn_form
+  call: (symbol)
+  item: (_))
+```
+- `quote` :: `quote` form
+```racket
+(quote_form
+  call: (symbol)
+  item: (_))
+```
+- `unquote` :: `unquote` form
+```racket
+(unquote_form
+  call: (symbol)
+  item: (_))
+```
+
+## Function-like forms
+
+- `sequence_arguments` :: an arguments portion `[arg1 arg2 ...]`
+```racket
+(sequence_arguments
+  item: (_binding)*
+  item: [
+    (rest_binding)
+    ((symbol_binding) @_vararg
+      (#eq? @_vararg "..."))
+  ])
+```
+- `docstring` :: aliased `string`
+```racket
+;; colon docstring
+(docstring
+  open: ":"
+  content: (string_content))
+
+;; double quote docstring
+(docstring
+  open: "\""
+  content: (string_content
+             (escape_sequence)*)
+  close: "\"")
+```
+- `table_metadata_pair` :: metadata table pair
+```racket
+;; generic metadata pair
+(table_metadata_pair
+  key: (_)
+  value: (_))
+
+;; docstring metadata pair
+(table_metadata_pair
+  key: (string
+         content: (string_content) @_str
+         (#eq? @_str "fnl/docstring"))
+  value: (docstring))
+
+;; arglist metadata pair
+(table_metadata_pair
+  key: (string
+         content: (string_content) @_str
+         (#eq? @_str "fnl/arglist"))
+  value: (sequence_arguments))
+```
+- `table_metadata` :: table metadata
+```racket
+(table_metadata
+  item: (table_metadata_pair)*)
+```
+- `fn`/`lambda`/`macro` :: function-like forms
+```racket
+([
+  fn_form
+  lambda_form
+  macro_form
+]
+  call: (symbol)
+  name: [
+    (symbol)
+    (multi_symbol)
+  ]
+  args: (sequence_arguments)
+  docstring: (docstring)?
+  metadata: (table_metadata)?
+  item: (_)*)
+```
+
+## Conditional forms
+
+### `case`/`match`
+
+- `case_guard_or_special` :: the `(or)` special used in `(where)` specials inside `case` expressions
+```racket
+(case_guard_or_special
+  call: (symbol)
+  item: (_binding)*)
+```
+- `case_guard` :: the `(where)` special inside `case` expressions
+```racket
+(case_guard
+  call: (symbol)
+  item: [
+    (_binding)
+    (case_guard_or_special)
+  ]
+  guard: (_)*)
+```
+- `case_pair` :: a pair in `case` expressions
+```racket
+(case_pair
+  lhs: [
+    (case_guard)
+    (_binding)
+  ]
+  rhs: (_))
+```
+- `case`/`match` :: `case`/`match` form
+```racket
+([
+  case_form
+  match_form
+]
+  call: (symbol)
+  item: (_)
+  (case_pair)*)
+```
+
+### `case-try`/`match-try`
+
+- `case_catch` :: `(catch)` case in `case-try`/`match-try`
+```racket
+(case_catch
+  (case_pair)*)
+```
+- `case_try`/`match_try` :: `case-try`/`match-try` form
+```racket
+([
+  case_try
+  match_try
+]
+  call: (symbol)
+  item: (_)
+  (case_pair)*
+  (case_catch)? .)
+```
+
+### `if`
+
+- `if_pair` :: `condition => expression` pair
+```racket
+(if_pair
+  condition: (_)
+  expression: (_))
+```
+- `if` :: `if` form
+```racket
+(if_form
+  (if_pair)*
+  else: (_))
+```
+
+## Iterator nodes
 
 > TODO
