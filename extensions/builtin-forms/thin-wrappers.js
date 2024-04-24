@@ -1,3 +1,5 @@
+//! TODO: Merge with simple-scope.js
+
 const {
 	item,
 	form,

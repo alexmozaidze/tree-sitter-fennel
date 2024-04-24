@@ -1,105 +1,148 @@
+<div align="center">
+
 # Core Fennel Syntax
 
 This is a list of all the most important core syntax items this parser produces.
 
-This list contains explicit queries that describe where a syntax item may be used and also example queries.
+</div>
+
+This list contains general structure of the nodes represented with queries.
 
 > [!NOTE]\
-> Some of the unimportant nodes were omitted for clarity purposes. Some nodes are also implied.
+> Some of the nodes were omitted for clarity purposes.
 
 ## Compounds
 
-- `(list)` :: list literal `()`
+- `list` :: list literal `()`
 ```racket
 (list
-  item: (_)*)
+  open: "("
+  call: (_)?
+  item: (_)*
+  close: ")")
 ```
-- `(sequence)` :: sequence literal, otherwise known as sequential table `[]`
+- `sequence` :: sequence literal, otherwise known as sequential table `[]`
 ```racket
 (sequence
-  item: (_)*)
+  open: "["
+  item: (_)*
+  close: "]")
 ```
-- `(table)` :: table literal `{}`
+- `table` :: table literal `{}`
 ```racket
 (table
-  (table_pair
-    key: (_)
-    value: (_))*)
+  open: "{"
+  item: (table_pair
+          key: (_)
+          value: (_))*
+  close: "}")
 ```
 
 ## Primitives
 
-- `(string)` :: either colon string `:abc` or double quote string `"abc"`
+- `string` :: either colon string `:abc` or double quote string `"abc"`
 ```racket
 ;; colon string
 (string
-  ":"
-  (string_content))
+  open: ":"
+  content: (string_content))
 
 ;; double quote string
 (string
-  "\""
-  (string_content
-    (escape_sequence)*)
-  "\"")
+  open: "\""
+  content: (string_content
+             (escape_sequence)*)
+  close: "\"")
 ```
-- `(number)` :: any valid number
+- `number` :: any valid number
 ```racket
 (number)
 ```
-- `(nil)` :: just `nil`
+- `nil` :: just `nil`
 ```racket
 (nil)
 ```
-- `(boolean)` :: either `true` or `false`
+- `boolean` :: either `true` or `false`
 ```racket
-(boolean)
+(boolean
+  "true")
+
+(boolean
+  "false")
 ```
 
 ## Symbols
 
-- `(symbol)` :: anything that's not explicitly defined in the grammar is a symbol
+- `symbol` :: anything that's not explicitly defined in the grammar is a symbol
 ```racket
 (symbol)
 ```
-- `(symbol_fragment)` :: same as `(symbol)`, but only used in multi-symbols
-- `(multi_symbol)` :: a comma separated mush of symbols `a.b.c.d`
+- `symbol_option` :: a symbol that starts with `&`
+```racket
+(symbol_option)
+```
+
+### Multi-symbols
+
+- `symbol_fragment` :: same as `symbol`, but only used in multi-symbols
+```racket
+(symbol_fragment)
+```
+- `multi_symbol` :: a comma separated mush of symbols `a.b.c.d`
 ```racket
 (multi_symbol
   base: (symbol_fragment)
-  member: (symbol_fragment)+)
+  ("."
+   .
+   member: (symbol_fragment))+)
 ```
-- `(multi_symbol_method)` :: method call `a.b.c:deeznuts`, note that it's only allowed to appear as the first item of `(list)`
+- `multi_symbol_method` :: method call `a.b.c:deeznuts`
 ```racket
-(list
-  .
-  (multi_symbol_method
-    base: (multi_symbol
-            base: (symbol_fragment)
-            member: (symbol_fragment)+)
-    method: (symbol_fragment))
-  (_)*)
+(multi_symbol_method
+  base: [
+    (symbol_fragment)
+    (multi_symbol)
+  ]
+  ":"
+  method: (symbol_fragment))
 ```
 
 ## Reader macros
 
-Every reader macro is to be queried like so:
+All reader macros do is wrap an S-expression, so their structure is identical.
+
+- `hashfn_reader_macro` :: `#expr`
 ```racket
-(reader_macro
-  macro: "#" ; put any other reader macro character here
+(hashfn_reader_macro
+  macro: "#"
+  expression: (_))
+```
+- `quote_reader_macro` :: `'expr`
+```racket
+(quote_reader_macro
+  macro: "'"
+  expression: (_))
+```
+- `quasi_quote_reader_macro` :: <code>`expr</code>
+```racket
+(quasi_quote_reader_macro
+  macro: "`"
+  expression: (_))
+```
+- `unquote_reader_macro` :: `,expr`
+```racket
+(unquote_reader_macro
+  macro: ","
   expression: (_))
 ```
 
-For a full list of valid reader macros see [`READER_MACRO_CHARS`](/grammar.js#L27-L32) in the grammar file.
-
 ## Misc
 
-- `(shebang)` :: if the very first line starts with `#!`, it matches that line
+- `shebang` :: matches `#!` if it's the very first parsed node
 ```racket
 (shebang)
 ```
-
-- `(comment)` :: comment node with distinct `colons` and `body` fields
+- `comment` :: a comment `; comment`
 ```racket
 (comment
   colons: ";"
@@ -117,6 +160,6 @@ For a full list of valid reader macros see [`READER_MACRO_CHARS`](/grammar.js#L2
 
 ;; (# my-table)
 (list
-  (symbol)
-  (symbol))
+  call: (symbol)
+  item: (symbol))
 ```
