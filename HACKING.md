@@ -94,8 +94,8 @@ The return type of modules is `TSExtension`
 ```
 
 `TSExtension` contains some fields, but we're currently interested in 2 of them:
-- `rules` :: defines rules that are not used or post-processed in any way
-- `forms` :: defines rules that are to be used as forms. The rules inside are renamed to be suffixed with `_form`, so `let` becomes `let_form`
+- `rules` :: defines rules that are not used directly
+- `forms` :: defines rules that are to be used as forms
 
 ### Toolkit
 
