@@ -1,5 +1,3 @@
-// TODO: Sort forms into sub-modules for better readability
-
 const _ = require('lodash');
 const {
 	require_dir,
