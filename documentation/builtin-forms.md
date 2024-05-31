@@ -224,6 +224,43 @@ So `lambda` becomes `lambda_form` in the parse tree.
   else: (_))
 ```
 
-## Iterator nodes
+## Iterator forms
 
-> TODO
+> [!NOTE]\
+> Some iterator forms support legacy colon option syntax `:option value`. It was replaced with the new syntax `&option value`, however the old syntax is still parsed and supported, it just parses `:until`/`:into` as `(symbol_option)`.
+
+- `iter_option` :: `&option value` inside `(iter_body)`
+```racket
+(iter_option
+  option: (symbol_option)
+  value: (_))
+```
+- Regular iterators
+```racket
+([
+  each
+  collect
+  icollect
+  accumulate
+]
+  iter_body: (iter_body
+               binding: (_binding)+
+               iterator: (_)
+               option: (iter_option)*)
+  item: (_)*)
+```
+- For iterators
+```racket
+([
+  for
+  fcollect
+  faccumulate
+]
+  iter_body: (for_iter_body
+               index: (_binding)
+               from: (_)
+               to: (_)
+               step: (_)?
+               option: (iter_option)*)
+  item: (_)*)
+```
