@@ -22,7 +22,7 @@ src/parser.c: $(JS_SRC) src/scanner.c
 generate: src/parser.c
 
 tree-sitter-fennel.wasm: generate
-	npx tree-sitter build-wasm
+	npx tree-sitter build --wasm
 
 playground: tree-sitter-fennel.wasm
 	npx tree-sitter playground
