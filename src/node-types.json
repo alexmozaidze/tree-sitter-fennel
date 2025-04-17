@@ -8360,7 +8360,35 @@
         "required": false,
         "types": [
           {
+            "type": "boolean_binding",
+            "named": true
+          },
+          {
+            "type": "list_binding",
+            "named": true
+          },
+          {
+            "type": "nil_binding",
+            "named": true
+          },
+          {
+            "type": "number_binding",
+            "named": true
+          },
+          {
+            "type": "sequence_binding",
+            "named": true
+          },
+          {
+            "type": "string_binding",
+            "named": true
+          },
+          {
             "type": "symbol_binding",
+            "named": true
+          },
+          {
+            "type": "table_binding",
             "named": true
           }
         ]

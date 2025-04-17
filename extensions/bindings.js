@@ -50,7 +50,7 @@ module.exports = {
 			$.symbol_option,
 		)),
 
-		table_binding_pair: $ => kv_pair($, { key: $._table_binding_key }, { value: $._symbol_binding }),
+		table_binding_pair: $ => kv_pair($, { key: $._table_binding_key }, { value: $._binding }),
 
 		table_binding: $ => table(repeat1(item($.table_binding_pair))),
 

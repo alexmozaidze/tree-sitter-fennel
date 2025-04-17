@@ -327,12 +327,14 @@ case & match
   (a b c) (values 1 2 3)
   [a b c] [1 2 3]
   [a b & cs] [1 2 3 4 5 6]
+  {:one {: two}} le-two
   {: lol :mama mia} {:lol 42 :mama 69})
 (match lol
   (= boogy) 253
   (a b c) (values 1 2 3)
   [a b c] [1 2 3]
   [a b & cs] [1 2 3 4 5 6]
+  {:one {: two}} le-two
   {: lol :mama mia} {:lol 42 :mama 69})
 
 ---
@@ -379,6 +381,16 @@ case & match
              item: (number)
              item: (number)
              item: (number)))
+    (case_pair
+      lhs: (table_binding
+             item: (table_binding_pair
+                     key: (string_binding
+                            content: (string_content))
+                     value: (table_binding
+                              item: (table_binding_pair
+                                      key: (symbol_binding)
+                                      value: (symbol_binding)))))
+      rhs: (symbol))
     (case_pair
       lhs: (table_binding
              item: (table_binding_pair
@@ -438,6 +450,16 @@ case & match
              item: (number)
              item: (number)
              item: (number)))
+    (case_pair
+      lhs: (table_binding
+             item: (table_binding_pair
+                     key: (string_binding
+                            content: (string_content))
+                     value: (table_binding
+                              item: (table_binding_pair
+                                      key: (symbol_binding)
+                                      value: (symbol_binding)))))
+      rhs: (symbol))
     (case_pair
       lhs: (table_binding
              item: (table_binding_pair
