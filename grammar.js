@@ -103,9 +103,9 @@ module.exports = grammar({
 			])
 		),
 
-		_reader_macro: $ => choice(
+		_reader_macro: $ => prec(1, choice(
 			...[...READER_MACROS].map(([name, _char]) => $[`${name}_reader_macro`]),
-		),
+		)),
 
 		_list_content: $ => seq(
 			call($._sexp),
