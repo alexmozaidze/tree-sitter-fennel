@@ -89,19 +89,19 @@ bindings + variable forms
       rhs: (number)))
   (local_form
     call: (symbol)
-	(binding_pair
-	  lhs: (unquote_macro_binding
-	       	 expression: (symbol))
-	  rhs: (number)))
+    (binding_pair
+      lhs: (unquote_macro_binding
+             expression: (symbol))
+      rhs: (number)))
   (local_form
     call: (symbol)
-	(binding_pair
-	  lhs: (unquote_macro_binding
-	         expression: (list
-		                   call: (symbol)
-		                   item: (string
-						           content: (string_content))))
-	  rhs: (number))))
+    (binding_pair
+      lhs: (unquote_macro_binding
+             expression: (list
+                           call: (symbol)
+                           item: (string
+                                   content: (string_content))))
+      rhs: (number))))
 
 ===
 let
