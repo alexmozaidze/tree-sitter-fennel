@@ -88,6 +88,15 @@ The binding syntax items are just slightly more restricted/specialized ones that
 (nil_binding)
 ```
 
+## Macros
+
+- `unquote_macro_binding` :: an aliased `unquote_reader_macro`
+```racket
+(unquote_macro_binding
+  macro: ","
+  expression: (_)) ; exception: this match any node
+```
+
 ## Misc
 
 - `binding_pair` :: a pair of `binding => value`, mainly used by forms
