@@ -32,10 +32,10 @@ module.exports = {
 		_symbol_binding: $ => alias($.symbol, $.symbol_binding),
 
 		// TODO: find a way to use unquote_reader_macro rather than implementing it from scratch
-		unquote_macro_binding: $ => seq(
+		unquote_macro_binding: $ => prec(-1, seq(
 			field('macro', ','),
 			field('expression', $._sexp),
-		),
+		)),
 
 		list_binding: $ => list(
 			repeat1(item($._binding))
