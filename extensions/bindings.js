@@ -22,6 +22,7 @@ module.exports = {
 	rules: {
 		_binding: $ => prec(PREC_SCENARIO_SPECIFIC, choice(
 			$._symbol_binding,
+			$.unquote_macro_binding,
 			$.list_binding,
 			$.sequence_binding,
 			$.table_binding,
@@ -29,6 +30,12 @@ module.exports = {
 		)),
 
 		_symbol_binding: $ => alias($.symbol, $.symbol_binding),
+
+		// TODO: find a way to use unquote_reader_macro rather than implementing it from scratch
+		unquote_macro_binding: $ => prec(-1, seq(
+			field('macro', ','),
+			field('expression', $._sexp),
+		)),
 
 		list_binding: $ => list(
 			repeat1(item($._binding))
@@ -51,7 +58,7 @@ module.exports = {
 		)),
 
 		table_binding_pair: $ => kv_pair($, { key: $._table_binding_key }, { value: $._binding }),
-
+		
 		table_binding: $ => table(repeat1(item($.table_binding_pair))),
 
 		binding_pair: $ => pair($, { lhs: $._binding }, { rhs: $._sexp }),

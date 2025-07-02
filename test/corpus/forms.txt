@@ -27,6 +27,8 @@ bindings + variable forms
 (set vim.notify #nil)
 (global [a b & cs] 42)
 (local {:A a : b &as cs} 42)
+(local ,a 42)
+(local ,(sym "a") 42)
 
 ---
 
@@ -84,6 +86,21 @@ bindings + variable forms
              item: (table_binding_pair
                      key: (symbol_option)
                      value: (symbol_binding)))
+      rhs: (number)))
+  (local_form
+    call: (symbol)
+    (binding_pair
+      lhs: (unquote_macro_binding
+             expression: (symbol))
+      rhs: (number)))
+  (local_form
+    call: (symbol)
+    (binding_pair
+      lhs: (unquote_macro_binding
+             expression: (list
+                           call: (symbol)
+                           item: (string
+                                   content: (string_content))))
       rhs: (number))))
 
 ===
