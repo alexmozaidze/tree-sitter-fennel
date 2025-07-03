@@ -210,10 +210,21 @@ module.exports = grammar({
 				optional(hex_exponent),
 			);
 
-			return token(choice(
+			const special = choice('inf', 'nan');
+			const special_literal = seq(
+				optional(sign),
+				'.',
+				special,
+			);
+
+			/* HACK: mark number rule precedence as important, because special_literal is
+							 misparsed as multi_symbol
+			*/
+			return prec(PREC_IMPORTANT, token(choice(
 				decimal_literal,
 				hexadecimal_literal,
-			));
+				special_literal,
+			)));
 		},
 
 		multi_symbol: $ => seq(
