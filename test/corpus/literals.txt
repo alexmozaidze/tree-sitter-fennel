@@ -9,6 +9,12 @@ numbers
 -1.0
 .1
 +.1
+.nan
+.inf
++.nan
++.inf
+-.nan
+-.inf
 1e1
 1e-1
 1_0.1_0
@@ -22,6 +28,12 @@ numbers
 ---
 
 (program
+  (number)
+  (number)
+  (number)
+  (number)
+  (number)
+  (number)
   (number)
   (number)
   (number)

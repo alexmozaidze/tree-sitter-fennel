@@ -7018,8 +7018,19 @@
     }
   },
   {
+    "type": "number",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "number_binding",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "program",
     "named": true,
+    "root": true,
     "fields": {},
     "children": {
       "multiple": true,
@@ -9435,14 +9446,6 @@
   },
   {
     "type": "nil_binding",
-    "named": true
-  },
-  {
-    "type": "number",
-    "named": true
-  },
-  {
-    "type": "number_binding",
     "named": true
   },
   {
