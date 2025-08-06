@@ -46,20 +46,18 @@ bindings + variable forms
       rhs: (number)))
   (set_form
     call: (symbol)
-    (binding_pair
-      lhs: (sequence
-             item: (symbol)
-             item: (symbol)
-             item: (symbol))
-      rhs: (number)))
+    lhs: (sequence
+           item: (symbol)
+           item: (symbol)
+           item: (symbol))
+    rhs: (number))
   (set_form
     call: (symbol)
-    (binding_pair
-      lhs: (multi_symbol
-             base: (symbol_fragment)
-             member: (symbol_fragment))
-      rhs: (hashfn_reader_macro
-             expression: (nil))))
+    lhs: (multi_symbol
+           base: (symbol_fragment)
+           member: (symbol_fragment))
+    rhs: (hashfn_reader_macro
+           expression: (nil)))
   (global_form
     call: (symbol)
     (binding_pair

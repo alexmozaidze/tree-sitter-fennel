@@ -22,7 +22,7 @@ rules['_set_binding_pair_key'] = $ => $._sexp;
 rules['_set_binding_pair'] = $ => pair($, { lhs: $._set_binding_pair_key }, { rhs: $._sexp });
 forms['set'] = $ => form($,
 	'set',
-	alias($._set_binding_pair, $.binding_pair),
+	$._set_binding_pair,
 );
 
 rules['let_vars'] = $ => sequence(repeat($.binding_pair));
