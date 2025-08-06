@@ -1815,17 +1815,8 @@
       ]
     },
     "_set_binding_pair_key": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_binding"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "multi_symbol"
-        }
-      ]
+      "type": "SYMBOL",
+      "name": "_sexp"
     },
     "_set_binding_pair": {
       "type": "PREC_RIGHT",
