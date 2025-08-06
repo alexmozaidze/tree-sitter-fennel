@@ -18,10 +18,7 @@ const forms = {};
 	)
 );
 
-rules['_set_binding_pair_key'] = $ => choice(
-	$._binding,
-	$.multi_symbol,
-);
+rules['_set_binding_pair_key'] = $ => $._sexp;
 rules['_set_binding_pair'] = $ => pair($, { lhs: $._set_binding_pair_key }, { rhs: $._sexp });
 forms['set'] = $ => form($,
 	'set',

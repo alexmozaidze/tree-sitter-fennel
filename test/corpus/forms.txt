@@ -47,10 +47,10 @@ bindings + variable forms
   (set_form
     call: (symbol)
     (binding_pair
-      lhs: (sequence_binding
-             item: (symbol_binding)
-             item: (symbol_binding)
-             item: (symbol_binding))
+      lhs: (sequence
+             item: (symbol)
+             item: (symbol)
+             item: (symbol))
       rhs: (number)))
   (set_form
     call: (symbol)
