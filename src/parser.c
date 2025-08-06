@@ -352,7 +352,7 @@ static const char * const ts_symbol_names[] = {
   [sym__fcollect_iter_body] = "for_iter_body",
   [sym__faccumulate_iter_body] = "for_iter_body",
   [sym__set_binding_pair_key] = "_set_binding_pair_key",
-  [sym__set_binding_pair] = "binding_pair",
+  [sym__set_binding_pair] = "_set_binding_pair",
   [sym_let_vars] = "let_vars",
   [sym_case_form] = "case_form",
   [sym_match_form] = "match_form",
@@ -548,7 +548,7 @@ static const TSSymbol ts_symbol_map[] = {
   [sym__fcollect_iter_body] = sym__fcollect_iter_body,
   [sym__faccumulate_iter_body] = sym__fcollect_iter_body,
   [sym__set_binding_pair_key] = sym__set_binding_pair_key,
-  [sym__set_binding_pair] = sym_binding_pair,
+  [sym__set_binding_pair] = sym__set_binding_pair,
   [sym_let_vars] = sym_let_vars,
   [sym_case_form] = sym_case_form,
   [sym_match_form] = sym_match_form,
@@ -1144,7 +1144,7 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
     .named = true,
   },
   [sym__set_binding_pair] = {
-    .visible = true,
+    .visible = false,
     .named = true,
   },
   [sym_let_vars] = {

@@ -2874,13 +2874,8 @@
           }
         },
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_set_binding_pair"
-          },
-          "named": true,
-          "value": "binding_pair"
+          "type": "SYMBOL",
+          "name": "_set_binding_pair"
         },
         {
           "type": "FIELD",
