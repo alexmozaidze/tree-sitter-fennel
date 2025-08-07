@@ -1,0 +1,40 @@
+{
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/config.schema.json",
+  "grammars": [
+    {
+      "name": "fennel",
+      "camelcase": "Fennel",
+      "title": "Fennel",
+      "scope": "source.fennel",
+      "file-types": [
+        "fnl"
+      ],
+      "injection-regex": "^fennel$",
+      "class-name": "TreeSitterFennel"
+    }
+  ],
+  "metadata": {
+    "version": "0.1.0",
+    "license": "MIT",
+    "description": "Fennel grammar for tree-sitter focused on simplicity and modularity.",
+    "authors": [
+      {
+        "name": "alexmozaidze",
+        "email": "lexerpexer@proton.me",
+        "url": "https://alexmozaidze.gitlab.io/"
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/alexmozaidze/tree-sitter-fennel"
+    }
+  },
+  "bindings": {
+    "c": true,
+    "go": true,
+    "node": true,
+    "python": true,
+    "rust": true,
+    "swift": true,
+    "zig": false
+  }
+}
