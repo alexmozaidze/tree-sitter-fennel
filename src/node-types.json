@@ -1836,6 +1836,7 @@
   {
     "type": "comment",
     "named": true,
+    "extra": true,
     "fields": {
       "body": {
         "multiple": false,
@@ -7026,6 +7027,7 @@
   {
     "type": "program",
     "named": true,
+    "root": true,
     "fields": {},
     "children": {
       "multiple": true,
