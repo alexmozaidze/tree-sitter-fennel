@@ -15,7 +15,7 @@
   ],
   "metadata": {
     "version": "0.1.0",
-    "license": "MIT",
+    "license": "CC0",
     "description": "Fennel grammar for tree-sitter focused on simplicity and modularity.",
     "authors": [
       {
