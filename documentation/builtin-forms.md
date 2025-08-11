@@ -35,12 +35,8 @@ So `lambda` becomes `lambda_form` in the parse tree.
 ```racket
 (set_form
   call: (symbol)
-  (binding_pair
-    lhs: [
-      (multi_symbol)
-      (_binding)
-    ]
-    rhs: (_)))
+  lhs: (_)
+  rhs: (_))
 ```
 - `let_vars` :: variables portion of the `let` form
 ```racket
