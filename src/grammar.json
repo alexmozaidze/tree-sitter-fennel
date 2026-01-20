@@ -305,6 +305,10 @@
           },
           {
             "type": "SYMBOL",
+            "name": "unquote_macro_binding"
+          },
+          {
+            "type": "SYMBOL",
             "name": "list_binding"
           },
           {
@@ -330,6 +334,31 @@
       },
       "named": true,
       "value": "symbol_binding"
+    },
+    "unquote_macro_binding": {
+      "type": "PREC",
+      "value": -1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "macro",
+            "content": {
+              "type": "STRING",
+              "value": ","
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "expression",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_sexp"
+            }
+          }
+        ]
+      }
     },
     "list_binding": {
       "type": "SEQ",
