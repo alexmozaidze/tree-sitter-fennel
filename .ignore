@@ -1,0 +1,13 @@
+bindings/
+src/tree_sitter/
+src/grammar.json
+src/node-types.json
+src/parser.c
+CMakeLists.txt
+Cargo.toml
+Package.swift
+binding.gyp
+go.mod
+pyproject.toml
+setup.py
+tree-sitter.json

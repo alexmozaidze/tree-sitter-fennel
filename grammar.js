@@ -17,26 +17,12 @@ const {
 	PREC_LAST_RESORT,
 	PREC_IMPORTANT,
 } = require('./grammar-lib/prec.js');
-
-const SPECIAL_STANDALONE_SYMBOLS = [
-	'#',
-	'?.',
-	'~=',
-	':',
-	'$...',
-	'...',
-	'..',
-	'.',
-];
+const {
+	READER_MACROS,
+	SPECIAL_STANDALONE_SYMBOLS,
+} = require('./grammar-lib/constants.js');
 
 const extensions = flatten_extensions(require_dir('extensions'));
-
-const READER_MACROS = [
-	['hashfn', '#'],
-	['quote', '\''],
-	['quasi_quote', '`'],
-	['unquote', ','],
-];
 
 module.exports = grammar({
 	name: 'fennel',
@@ -147,10 +133,9 @@ module.exports = grammar({
 				// `:$...`
 				//
 				// and so on, being parsed as 2 separate tokens.
-				// Dynamic precedence could eliminate this HACK, but
-				// I would prefer to stray away from it.
 				//
-				// TODO: Find a way to get rid of this HACK.
+				// Dynamic precedence could probably eliminate this HACK, but
+				// I would prefer to stray away from it.
 				...SPECIAL_STANDALONE_SYMBOLS,
 				'nil',
 				'true',
@@ -217,9 +202,8 @@ module.exports = grammar({
 				special,
 			);
 
-			/* HACK: mark number rule precedence as important, because special_literal is
-							 misparsed as multi_symbol
-			*/
+			// HACK: Mark number rule precedence as important,
+			// because special_literal is misparsed as multi_symbol
 			return prec(PREC_IMPORTANT, token(choice(
 				decimal_literal,
 				hexadecimal_literal,
