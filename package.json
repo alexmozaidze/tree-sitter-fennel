@@ -9,7 +9,6 @@
   "repository": "https://github.com/TravonteD/tree-sitter-fennel",
   "license": "ISC",
   "dependencies": {
-    "lodash": "^4.17.21",
     "node-addon-api": "^7.1.0",
     "node-gyp-build": "^4.8.0"
   },
@@ -22,7 +21,8 @@
     }
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.25.0",
+    "lodash": "^4.17.21",
+    "tree-sitter-cli": "^0.26.0",
     "prebuildify": "^6.0.0"
   },
   "scripts": {
