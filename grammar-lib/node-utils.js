@@ -1,5 +1,47 @@
 const _ = require('lodash');
+const {
+	READER_MACROS
+} = require('./constants');
 
+/**
+ * @param {string=} namespace Postfix that should be added to the base name.
+ * @returns {Object}
+ */
+function nodify_reader_macros(namespace) {
+	// TODO: Implement proper error-handling
+	if (typeof namespace === 'string' && namespace !== '') {
+		namespace = `_${namespace}`;
+	}
+	// null and undefined are not '' when expanded in a string. We're forcing it to nothing.
+	if (namespace == null) {
+		namespace = '';
+	}
+	if (typeof namespace !== 'string') {
+		throw new Error(`Namespace must be of type string. Instead got: ${typeof namespace}`);
+	}
+
+	const nodify = ([name, char]) => [
+		`${name}_reader_macro${namespace}`,
+		$ => prec(-1, seq(
+			field('macro', alias($[`_${name}_reader_macro_char`], char)),
+			field('expression', $._sexp),
+		)),
+	];
+
+	return {
+		reader_macro_nodes: Object.fromEntries([...READER_MACROS].map(nodify)),
+		reader_macro_group: $ => choice(
+			...[...READER_MACROS].map(([name, _char]) => $[`${name}_reader_macro${namespace}`]),
+		),
+	}
+}
+
+/**
+ * Returns whether a node is a string or a regex (aka, not a node).
+ *
+ * @param {any} node
+ * @returns {boolean}
+ */
 function is_literal(node) {
 	return typeof node === 'string' || node instanceof RegExp;
 }
@@ -62,6 +104,7 @@ function insert_between(array, element) {
 }
 
 module.exports = {
+	nodify_reader_macros,
 	is_literal,
 	get_literal,
 	apply_literal_recur,

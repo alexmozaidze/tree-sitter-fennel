@@ -4,6 +4,8 @@ quote & unquote
 
 (quote expr)
 (unquote (quote expr))
+(let [(quote a) lol])
+(local (unquote a) lol)
 
 ---
 
@@ -15,8 +17,22 @@ quote & unquote
     call: (symbol)
     item: (quote_form
             call: (symbol)
-            item: (symbol))))
-
+            item: (symbol)))
+  (let_form
+      call: (symbol)
+      vars: (let_vars
+        (binding_pair
+          lhs: (quote_form
+            call: (symbol)
+            item: (symbol))
+          rhs: (symbol))))
+  (local_form
+    call: (symbol)
+    (binding_pair
+      lhs: (unquote_form
+        call: (symbol)
+        item: (symbol))
+      rhs: (symbol))))
 ===
 bindings + variable forms
 ===
@@ -88,13 +104,13 @@ bindings + variable forms
   (local_form
     call: (symbol)
     (binding_pair
-      lhs: (unquote_macro_binding
+      lhs: (unquote_reader_macro
              expression: (symbol))
       rhs: (number)))
   (local_form
     call: (symbol)
     (binding_pair
-      lhs: (unquote_macro_binding
+      lhs: (unquote_reader_macro
              expression: (list
                            call: (symbol)
                            item: (string

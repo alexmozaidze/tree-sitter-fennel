@@ -21,6 +21,10 @@ const {
 	READER_MACROS,
 	SPECIAL_STANDALONE_SYMBOLS,
 } = require('./grammar-lib/constants.js');
+const {
+	reader_macro_nodes,
+	reader_macro_group,
+} = require('./grammar-lib/node-utils.js').nodify_reader_macros();
 
 const extensions = flatten_extensions(require_dir('extensions'));
 
@@ -79,19 +83,8 @@ module.exports = grammar({
 			$._literal,
 		),
 
-		...Object.fromEntries(
-			[...READER_MACROS].map(([name, char]) => [
-				`${name}_reader_macro`,
-				$ => seq(
-					field('macro', alias($[`_${name}_reader_macro_char`], char)),
-					field('expression', $._sexp),
-				),
-			])
-		),
-
-		_reader_macro: $ => choice(
-			...[...READER_MACROS].map(([name, _char]) => $[`${name}_reader_macro`]),
-		),
+		...reader_macro_nodes,
+		_reader_macro: reader_macro_group,
 
 		_list_content: $ => seq(
 			call($._sexp),

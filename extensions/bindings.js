@@ -7,7 +7,8 @@ const {
 	table,
 } = require('../grammar-lib/dsl.js');
 const {
-    PREC_SCENARIO_SPECIFIC,
+	PREC_SCENARIO_SPECIFIC,
+    PREC_PRIORITY,
 } = require('../grammar-lib/prec.js');
 
 module.exports = {
@@ -21,21 +22,21 @@ module.exports = {
 
 	rules: {
 		_binding: $ => prec(PREC_SCENARIO_SPECIFIC, choice(
+			$._reader_macro,
 			$._symbol_binding,
-			$.unquote_macro_binding,
+			$._quoting_macro,
 			$.list_binding,
 			$.sequence_binding,
 			$.table_binding,
 			$._literal_binding,
 		)),
 
-		_symbol_binding: $ => alias($.symbol, $.symbol_binding),
-
-		// TODO: find a way to use unquote_reader_macro rather than implementing it from scratch
-		unquote_macro_binding: $ => prec(-1, seq(
-			field('macro', ','),
-			field('expression', $._sexp),
+		_quoting_macro: $ => prec(PREC_PRIORITY, choice(
+			$.quote_form,
+			$.unquote_form,
 		)),
+
+		_symbol_binding: $ => alias($.symbol, $.symbol_binding),
 
 		list_binding: $ => list(
 			repeat1(item($._binding))
@@ -58,7 +59,7 @@ module.exports = {
 		)),
 
 		table_binding_pair: $ => kv_pair($, { key: $._table_binding_key }, { value: $._binding }),
-		
+
 		table_binding: $ => table(repeat1(item($.table_binding_pair))),
 
 		binding_pair: $ => pair($, { lhs: $._binding }, { rhs: $._sexp }),
