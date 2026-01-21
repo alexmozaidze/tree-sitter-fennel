@@ -220,6 +220,10 @@
             "named": true
           },
           {
+            "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
             "type": "list_binding",
             "named": true
           },
@@ -229,6 +233,18 @@
           },
           {
             "type": "number_binding",
+            "named": true
+          },
+          {
+            "type": "quasi_quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "quote_form",
+            "named": true
+          },
+          {
+            "type": "quote_reader_macro",
             "named": true
           },
           {
@@ -248,7 +264,11 @@
             "named": true
           },
           {
-            "type": "unquote_macro_binding",
+            "type": "unquote_form",
+            "named": true
+          },
+          {
+            "type": "unquote_reader_macro",
             "named": true
           }
         ]
@@ -430,6 +450,10 @@
             "named": true
           },
           {
+            "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
             "type": "list_binding",
             "named": true
           },
@@ -439,6 +463,18 @@
           },
           {
             "type": "number_binding",
+            "named": true
+          },
+          {
+            "type": "quasi_quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "quote_form",
+            "named": true
+          },
+          {
+            "type": "quote_reader_macro",
             "named": true
           },
           {
@@ -458,7 +494,11 @@
             "named": true
           },
           {
-            "type": "unquote_macro_binding",
+            "type": "unquote_form",
+            "named": true
+          },
+          {
+            "type": "unquote_reader_macro",
             "named": true
           }
         ]
@@ -1090,6 +1130,10 @@
             "named": true
           },
           {
+            "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
             "type": "list_binding",
             "named": true
           },
@@ -1099,6 +1143,18 @@
           },
           {
             "type": "number_binding",
+            "named": true
+          },
+          {
+            "type": "quasi_quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "quote_form",
+            "named": true
+          },
+          {
+            "type": "quote_reader_macro",
             "named": true
           },
           {
@@ -1118,7 +1174,11 @@
             "named": true
           },
           {
-            "type": "unquote_macro_binding",
+            "type": "unquote_form",
+            "named": true
+          },
+          {
+            "type": "unquote_reader_macro",
             "named": true
           }
         ]
@@ -1168,6 +1228,10 @@
             "named": true
           },
           {
+            "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
             "type": "list_binding",
             "named": true
           },
@@ -1177,6 +1241,18 @@
           },
           {
             "type": "number_binding",
+            "named": true
+          },
+          {
+            "type": "quasi_quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "quote_form",
+            "named": true
+          },
+          {
+            "type": "quote_reader_macro",
             "named": true
           },
           {
@@ -1196,7 +1272,11 @@
             "named": true
           },
           {
-            "type": "unquote_macro_binding",
+            "type": "unquote_form",
+            "named": true
+          },
+          {
+            "type": "unquote_reader_macro",
             "named": true
           }
         ]
@@ -1230,6 +1310,10 @@
             "named": true
           },
           {
+            "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
             "type": "list_binding",
             "named": true
           },
@@ -1239,6 +1323,18 @@
           },
           {
             "type": "number_binding",
+            "named": true
+          },
+          {
+            "type": "quasi_quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "quote_form",
+            "named": true
+          },
+          {
+            "type": "quote_reader_macro",
             "named": true
           },
           {
@@ -1258,7 +1354,11 @@
             "named": true
           },
           {
-            "type": "unquote_macro_binding",
+            "type": "unquote_form",
+            "named": true
+          },
+          {
+            "type": "unquote_reader_macro",
             "named": true
           }
         ]
@@ -4737,6 +4837,10 @@
             "named": true
           },
           {
+            "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
             "type": "list_binding",
             "named": true
           },
@@ -4746,6 +4850,18 @@
           },
           {
             "type": "number_binding",
+            "named": true
+          },
+          {
+            "type": "quasi_quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "quote_form",
+            "named": true
+          },
+          {
+            "type": "quote_reader_macro",
             "named": true
           },
           {
@@ -4765,7 +4881,11 @@
             "named": true
           },
           {
-            "type": "unquote_macro_binding",
+            "type": "unquote_form",
+            "named": true
+          },
+          {
+            "type": "unquote_reader_macro",
             "named": true
           }
         ]
@@ -4957,6 +5077,10 @@
             "named": true
           },
           {
+            "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
             "type": "list_binding",
             "named": true
           },
@@ -4966,6 +5090,18 @@
           },
           {
             "type": "number_binding",
+            "named": true
+          },
+          {
+            "type": "quasi_quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "quote_form",
+            "named": true
+          },
+          {
+            "type": "quote_reader_macro",
             "named": true
           },
           {
@@ -4985,7 +5121,11 @@
             "named": true
           },
           {
-            "type": "unquote_macro_binding",
+            "type": "unquote_form",
+            "named": true
+          },
+          {
+            "type": "unquote_reader_macro",
             "named": true
           }
         ]
@@ -6231,6 +6371,10 @@
             "named": true
           },
           {
+            "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
             "type": "list_binding",
             "named": true
           },
@@ -6240,6 +6384,18 @@
           },
           {
             "type": "number_binding",
+            "named": true
+          },
+          {
+            "type": "quasi_quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "quote_form",
+            "named": true
+          },
+          {
+            "type": "quote_reader_macro",
             "named": true
           },
           {
@@ -6259,7 +6415,11 @@
             "named": true
           },
           {
-            "type": "unquote_macro_binding",
+            "type": "unquote_form",
+            "named": true
+          },
+          {
+            "type": "unquote_reader_macro",
             "named": true
           }
         ]
@@ -7805,6 +7965,10 @@
             "named": true
           },
           {
+            "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
             "type": "list_binding",
             "named": true
           },
@@ -7814,6 +7978,18 @@
           },
           {
             "type": "number_binding",
+            "named": true
+          },
+          {
+            "type": "quasi_quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "quote_form",
+            "named": true
+          },
+          {
+            "type": "quote_reader_macro",
             "named": true
           },
           {
@@ -7833,7 +8009,11 @@
             "named": true
           },
           {
-            "type": "unquote_macro_binding",
+            "type": "unquote_form",
+            "named": true
+          },
+          {
+            "type": "unquote_reader_macro",
             "named": true
           }
         ]
@@ -8051,6 +8231,10 @@
             "named": true
           },
           {
+            "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
             "type": "list_binding",
             "named": true
           },
@@ -8060,6 +8244,18 @@
           },
           {
             "type": "number_binding",
+            "named": true
+          },
+          {
+            "type": "quasi_quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "quote_form",
+            "named": true
+          },
+          {
+            "type": "quote_reader_macro",
             "named": true
           },
           {
@@ -8083,7 +8279,11 @@
             "named": true
           },
           {
-            "type": "unquote_macro_binding",
+            "type": "unquote_form",
+            "named": true
+          },
+          {
+            "type": "unquote_reader_macro",
             "named": true
           }
         ]
@@ -8123,6 +8323,10 @@
             "named": true
           },
           {
+            "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
             "type": "list_binding",
             "named": true
           },
@@ -8132,6 +8336,18 @@
           },
           {
             "type": "number_binding",
+            "named": true
+          },
+          {
+            "type": "quasi_quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "quote_form",
+            "named": true
+          },
+          {
+            "type": "quote_reader_macro",
             "named": true
           },
           {
@@ -8155,7 +8371,11 @@
             "named": true
           },
           {
-            "type": "unquote_macro_binding",
+            "type": "unquote_form",
+            "named": true
+          },
+          {
+            "type": "unquote_reader_macro",
             "named": true
           }
         ]
@@ -8730,6 +8950,10 @@
             "named": true
           },
           {
+            "type": "hashfn_reader_macro",
+            "named": true
+          },
+          {
             "type": "list_binding",
             "named": true
           },
@@ -8739,6 +8963,18 @@
           },
           {
             "type": "number_binding",
+            "named": true
+          },
+          {
+            "type": "quasi_quote_reader_macro",
+            "named": true
+          },
+          {
+            "type": "quote_form",
+            "named": true
+          },
+          {
+            "type": "quote_reader_macro",
             "named": true
           },
           {
@@ -8758,7 +8994,11 @@
             "named": true
           },
           {
-            "type": "unquote_macro_binding",
+            "type": "unquote_form",
+            "named": true
+          },
+          {
+            "type": "unquote_reader_macro",
             "named": true
           }
         ]
@@ -9509,184 +9749,6 @@
         "types": [
           {
             "type": "(",
-            "named": false
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "unquote_macro_binding",
-    "named": true,
-    "fields": {
-      "expression": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "accumulate_form",
-            "named": true
-          },
-          {
-            "type": "boolean",
-            "named": true
-          },
-          {
-            "type": "case_form",
-            "named": true
-          },
-          {
-            "type": "case_try_form",
-            "named": true
-          },
-          {
-            "type": "collect_form",
-            "named": true
-          },
-          {
-            "type": "each_form",
-            "named": true
-          },
-          {
-            "type": "faccumulate_form",
-            "named": true
-          },
-          {
-            "type": "fcollect_form",
-            "named": true
-          },
-          {
-            "type": "fn_form",
-            "named": true
-          },
-          {
-            "type": "for_form",
-            "named": true
-          },
-          {
-            "type": "global_form",
-            "named": true
-          },
-          {
-            "type": "hashfn_form",
-            "named": true
-          },
-          {
-            "type": "hashfn_reader_macro",
-            "named": true
-          },
-          {
-            "type": "icollect_form",
-            "named": true
-          },
-          {
-            "type": "if_form",
-            "named": true
-          },
-          {
-            "type": "import_macros_form",
-            "named": true
-          },
-          {
-            "type": "lambda_form",
-            "named": true
-          },
-          {
-            "type": "let_form",
-            "named": true
-          },
-          {
-            "type": "list",
-            "named": true
-          },
-          {
-            "type": "local_form",
-            "named": true
-          },
-          {
-            "type": "macro_form",
-            "named": true
-          },
-          {
-            "type": "match_form",
-            "named": true
-          },
-          {
-            "type": "match_try_form",
-            "named": true
-          },
-          {
-            "type": "multi_symbol",
-            "named": true
-          },
-          {
-            "type": "multi_symbol_method",
-            "named": true
-          },
-          {
-            "type": "nil",
-            "named": true
-          },
-          {
-            "type": "number",
-            "named": true
-          },
-          {
-            "type": "quasi_quote_reader_macro",
-            "named": true
-          },
-          {
-            "type": "quote_form",
-            "named": true
-          },
-          {
-            "type": "quote_reader_macro",
-            "named": true
-          },
-          {
-            "type": "sequence",
-            "named": true
-          },
-          {
-            "type": "set_form",
-            "named": true
-          },
-          {
-            "type": "string",
-            "named": true
-          },
-          {
-            "type": "symbol",
-            "named": true
-          },
-          {
-            "type": "symbol_option",
-            "named": true
-          },
-          {
-            "type": "table",
-            "named": true
-          },
-          {
-            "type": "unquote_form",
-            "named": true
-          },
-          {
-            "type": "unquote_reader_macro",
-            "named": true
-          },
-          {
-            "type": "var_form",
-            "named": true
-          }
-        ]
-      },
-      "macro": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": ",",
             "named": false
           }
         ]
