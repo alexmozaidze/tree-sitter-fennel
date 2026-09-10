@@ -224,6 +224,102 @@ $bl>/?.asd
     (symbol_fragment)))
 
 ===
+special literals inside multi symbols
+===
+
+t.info
+t.nano
+t.inf
+t.nan
+t.infinity
+t.nanosecond
+a.b.inf
+a.b.nan
+'x.nan
+a1.5
+[x.nan y.info]
+(print t.info)
+
+---
+
+(program
+  (multi_symbol
+    base: (symbol_fragment)
+    member: (symbol_fragment))
+  (multi_symbol
+    base: (symbol_fragment)
+    member: (symbol_fragment))
+  (multi_symbol
+    base: (symbol_fragment)
+    member: (symbol_fragment))
+  (multi_symbol
+    base: (symbol_fragment)
+    member: (symbol_fragment))
+  (multi_symbol
+    base: (symbol_fragment)
+    member: (symbol_fragment))
+  (multi_symbol
+    base: (symbol_fragment)
+    member: (symbol_fragment))
+  (multi_symbol
+    base: (symbol_fragment)
+    member: (symbol_fragment)
+    member: (symbol_fragment))
+  (multi_symbol
+    base: (symbol_fragment)
+    member: (symbol_fragment)
+    member: (symbol_fragment))
+  (quote_reader_macro
+    expression: (multi_symbol
+      base: (symbol_fragment)
+      member: (symbol_fragment)))
+  (multi_symbol
+    base: (symbol_fragment)
+    member: (symbol_fragment))
+  (sequence
+    item: (multi_symbol
+      base: (symbol_fragment)
+      member: (symbol_fragment))
+    item: (multi_symbol
+      base: (symbol_fragment)
+      member: (symbol_fragment)))
+  (list
+    call: (symbol)
+    item: (multi_symbol
+      base: (symbol_fragment)
+      member: (symbol_fragment))))
+
+===
+standalone special literals
+===
+
+.inf
+.nan
++.inf
+-.nan
+a .inf
+[x .nan]
+{:a .inf}
+
+---
+
+(program
+  (number)
+  (number)
+  (number)
+  (number)
+  (symbol)
+  (number)
+  (sequence
+    item: (symbol)
+    item: (number))
+  (table
+    item: (table_pair
+      key: (string
+        content: (string_content))
+      value: (number))))
+
+===
 booleans + nil
 ===
 

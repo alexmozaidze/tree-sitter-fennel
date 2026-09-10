@@ -57,3 +57,35 @@ incorrect shebang
   (symbol)
   (hashfn_reader_macro
     (symbol)))
+
+===
+inf/nan in multi symbols
+===
+
+(let [t {:a 1}]
+  (print t.info)
+  (print t.nano))
+
+---
+
+(program
+  (let_form
+    call: (symbol)
+    vars: (let_vars
+            (binding_pair
+              lhs: (symbol_binding)
+              rhs: (table
+                    item: (table_pair
+                            key: (string
+                                   content: (string_content))
+                            value: (number)))))
+    item: (list
+            call: (symbol)
+            item: (multi_symbol
+                    base: (symbol_fragment)
+                    member: (symbol_fragment)))
+    item: (list
+            call: (symbol)
+            item: (multi_symbol
+                    base: (symbol_fragment)
+                    member: (symbol_fragment)))))

@@ -195,19 +195,21 @@ module.exports = grammar({
 				special,
 			);
 
-			// HACK: Mark number rule precedence as important,
-			// because special_literal is misparsed as multi_symbol
-			return prec(PREC_IMPORTANT, token(choice(
+			return token(choice(
 				decimal_literal,
 				hexadecimal_literal,
 				special_literal,
-			)));
+			));
 		},
 
 		multi_symbol: $ => seq(
 			field('base', alias($.symbol, $.symbol_fragment)),
 			repeat1(seq(
-				token.immediate('.'),
+				// NOTE: Lexical precedence is required here, otherwise
+				// `.inf`/`.nan` special literals are lexed as numbers even
+				// when they are a member of a multi-symbol (e.g. `t.info`),
+				// since the number token is a longer match than a lone `.`.
+				token.immediate(prec(PREC_IMPORTANT, '.')),
 				field('member', $._multi_symbol_fragment),
 			)),
 		),
