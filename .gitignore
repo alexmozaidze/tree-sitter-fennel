@@ -2,3 +2,4 @@ node_modules/
 build/
 *.wasm
 parser.so
+AGENTS.override.md
