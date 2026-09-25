@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const {
 	kv_pair,
+	pair,
 	item,
 	call,
 	colon_string,
@@ -20,6 +21,7 @@ const {
 const {
 	READER_MACROS,
 	SPECIAL_STANDALONE_SYMBOLS,
+	TABLE_METADATA_KEYS,
 } = require('./grammar-lib/constants.js');
 const {
 	reader_macro_nodes,
@@ -42,6 +44,8 @@ module.exports = grammar({
 
 		$.__colon_string_start_mark,
 		$.__colon_string_end_mark,
+
+		$.__form_follows,
 
 		$.shebang,
 
@@ -100,9 +104,32 @@ module.exports = grammar({
 
 		sequence: $ => sequence(repeat(item($._sexp))),
 
-		table_pair: $ => kv_pair($),
+		// NOTE: A string key is its own production, so that a table and a metadata table parse alike.
+		_non_string_sexp: $ => choice(
+			$._reader_macro,
+			$._special_override_symbol,
+			$.symbol_option,
+			$.symbol,
+			$.multi_symbol,
+			$.multi_symbol_method,
+			$._form,
+			$.list,
+			$.sequence,
+			$.table,
+			prec.right(PREC_LAST_RESORT, choice($.number, $.boolean, $.nil)),
+		),
 
-		table: $ => prec(PREC_LAST_RESORT, table(repeat(item($.table_pair)))),
+		table_pair: $ => choice(
+			prec.right(pair($, { lhs: $.string, field: 'key' }, { rhs: $._sexp, field: 'value', optional: false })),
+			prec.right(pair($, { lhs: $._non_string_sexp, field: 'key' }, { rhs: $._sexp, field: 'value' })),
+		),
+
+		_table_dangling_pair: $ => prec(PREC_LAST_RESORT, field('key', $.string)),
+
+		table: $ => prec(PREC_LAST_RESORT, table(
+			repeat(item($.table_pair)),
+			optional(item(alias($._table_dangling_pair, $.table_pair))),
+		)),
 
 		// NOTE: Last resort precedence here is nice to have for when forms define
 		// literal-specific syntax (mostly strings), like with metadata `:fnl/docstring`
@@ -130,6 +157,8 @@ module.exports = grammar({
 				// Dynamic precedence could probably eliminate this HACK, but
 				// I would prefer to stray away from it.
 				...SPECIAL_STANDALONE_SYMBOLS,
+				// NOTE: Metadata table keys, which have to be lexable as a plain string as well.
+				...Object.values(TABLE_METADATA_KEYS),
 				'nil',
 				'true',
 				'false',
@@ -137,7 +166,10 @@ module.exports = grammar({
 			].map(tk => token.immediate(tk))
 		)),
 
-		_double_quote_string_content: $ => prec.right(PREC_IMPORTANT, token.immediate(/[^"\\]+/)),
+		_double_quote_string_content: $ => choice(
+			prec.right(PREC_IMPORTANT, token.immediate(/[^"\\]+/)),
+			...Object.values(TABLE_METADATA_KEYS).map(tk => token.immediate(tk)),
+		),
 		_double_quote_string: $ => double_quote_string($,
 			repeat(choice(
 				$._double_quote_string_content,

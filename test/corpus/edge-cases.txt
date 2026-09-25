@@ -6,6 +6,8 @@ unfinished tables
 {lmao}
 {:k v
  lmao-no}
+{"key"}
+{:value}
 
 ---
 
@@ -22,7 +24,15 @@ unfinished tables
                    content: (string_content))
             value: (symbol))
     item: (table_pair
-            key: (symbol))))
+            key: (symbol)))
+  (table
+    item: (table_pair
+      key: (string
+        content: (string_content))))
+  (table
+    item: (table_pair
+      key: (string
+        content: (string_content)))))
 
 ===
 colon string + reader macros

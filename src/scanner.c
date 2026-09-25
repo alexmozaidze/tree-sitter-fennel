@@ -17,6 +17,8 @@ typedef enum TokenType {
 	TK_COLON_STRING_START_MARK,
 	TK_COLON_STRING_END_MARK,
 
+	TK_FORM_FOLLOWS,
+
 	TK_SHEBANG,
 
 	TK_COUNT,
@@ -116,6 +118,38 @@ static ScanResult scan_reader_macro(TSLexer *lexer, const bool skipped_hashfn) {
 	return SCAN_SUCCESS;
 }
 
+static ScanResult scan_form_follows(TSLexer *lexer) {
+	if (lexer->lookahead != '}') {
+		return SCAN_FAILURE;
+	}
+
+	lexer->advance(lexer, false);
+	lexer->mark_end(lexer);
+
+	while (!lexer->eof(lexer)) {
+		if (iswspace(lexer->lookahead)) {
+			lexer->advance(lexer, false);
+			continue;
+		}
+
+		if (lexer->lookahead == ';') {
+			while (!lexer->eof(lexer) && lexer->lookahead != '\n') {
+				lexer->advance(lexer, false);
+			}
+			continue;
+		}
+
+		break;
+	}
+
+	if (lexer->eof(lexer) || is_close_bracket(lexer->lookahead)) {
+		return SCAN_FAILURE;
+	}
+
+	lexer->result_symbol = TK_FORM_FOLLOWS;
+	return SCAN_SUCCESS;
+}
+
 void* tree_sitter_fennel_external_scanner_create(void) {
 	return NULL;
 }
@@ -148,6 +182,12 @@ ScanResult tree_sitter_fennel_external_scanner_scan(void *payload, TSLexer *lexe
 	// NOTE: If one reader macro is expected, then all of them are
 	if (valid_symbols[TK_HASHFN] && (skipped_whitespace || !valid_symbols[TK_COLON_STRING_START_MARK])) {
 		if (scan_reader_macro(lexer, skipped_hashfn) == SCAN_SUCCESS) {
+			return SCAN_SUCCESS;
+		}
+	}
+
+	if (valid_symbols[TK_FORM_FOLLOWS]) {
+		if (scan_form_follows(lexer) == SCAN_SUCCESS) {
 			return SCAN_SUCCESS;
 		}
 	}

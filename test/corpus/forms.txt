@@ -239,8 +239,9 @@ function metadata
 
 (λ ooo-docstring [] :docstring a)
 (λ booo-no-docstring [] :not-docstring)
-;; BUG: This is parsed as a docstring even though it's not. See #1
-;; (λ booo-no-docstring [] {:fnl/docstring "not-docstring"})
+;; NOTE: A table is only metadata when a body form follows it, so this one is
+;; the body of the function rather than a metadata table.
+(λ booo-no-docstring [] {:fnl/docstring "not-docstring"})
 
 (fn ayo-some-metadata-over-here [a b & cs]
   "This function does something..."
@@ -273,16 +274,16 @@ function metadata
     body: (comment_body))
   (comment
     body: (comment_body))
-;;  (lambda_form
-;;    call: (symbol)
-;;    name: (symbol)
-;;    args: (sequence_arguments)
-;;    item: (table
-;;            item: (table_pair
-;;                    key: (string
-;;                           content: (string_content))
-;;                    value: (string
-;;                             content: (string_content)))))
+  (lambda_form
+    call: (symbol)
+    name: (symbol)
+    args: (sequence_arguments)
+    item: (table
+      item: (table_pair
+        key: (string
+          content: (string_content))
+        value: (string
+          content: (string_content)))))
   (fn_form
     call: (symbol)
     name: (symbol)
@@ -820,3 +821,74 @@ macro
     args: (sequence_arguments
             item: (symbol_binding))
     item: (symbol)))
+
+===
+tables in a function body
+===
+
+(fn [] {:a 1})
+(fn [] {:a 1 :b 2})
+(fn [] {:fnl/docstring "x"})
+(fn [] {"a" 1})
+(fn [] {1 2} :body)
+(fn [] {:a 1} :body)
+
+---
+
+(program
+  (fn_form
+    call: (symbol)
+    args: (sequence_arguments)
+    item: (table
+      item: (table_pair
+        key: (string
+          content: (string_content))
+        value: (number))))
+  (fn_form
+    call: (symbol)
+    args: (sequence_arguments)
+    item: (table
+      item: (table_pair
+        key: (string
+          content: (string_content))
+        value: (number))
+      item: (table_pair
+        key: (string
+          content: (string_content))
+        value: (number))))
+  (fn_form
+    call: (symbol)
+    args: (sequence_arguments)
+    item: (table
+      item: (table_pair
+        key: (string
+          content: (string_content))
+        value: (string
+          content: (string_content)))))
+  (fn_form
+    call: (symbol)
+    args: (sequence_arguments)
+    item: (table
+      item: (table_pair
+        key: (string
+          content: (string_content))
+        value: (number))))
+  (fn_form
+    call: (symbol)
+    args: (sequence_arguments)
+    item: (table
+      item: (table_pair
+        key: (number)
+        value: (number)))
+    item: (string
+      content: (string_content)))
+  (fn_form
+    call: (symbol)
+    args: (sequence_arguments)
+    metadata: (table_metadata
+      item: (table_metadata_pair
+        key: (string
+          content: (string_content))
+        value: (number)))
+    item: (string
+      content: (string_content))))

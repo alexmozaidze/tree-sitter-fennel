@@ -10030,6 +10030,14 @@
     "named": false
   },
   {
+    "type": "fnl/arglist",
+    "named": false
+  },
+  {
+    "type": "fnl/docstring",
+    "named": false
+  },
+  {
     "type": "nil",
     "named": true
   },

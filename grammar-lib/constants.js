@@ -16,4 +16,9 @@ module.exports = {
 		'..',
 		'.',
 	],
+
+	TABLE_METADATA_KEYS: {
+		DOCSTRING: 'fnl/docstring',
+		ARGLIST: 'fnl/arglist',
+	},
 }
