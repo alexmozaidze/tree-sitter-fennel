@@ -969,6 +969,72 @@
         }
       ]
     },
+    "_non_string_sexp": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_reader_macro"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_special_override_symbol"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "symbol_option"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "symbol"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "multi_symbol"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "multi_symbol_method"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_form"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "list"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "sequence"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "table"
+        },
+        {
+          "type": "PREC_RIGHT",
+          "value": -50,
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "number"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "boolean"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "nil"
+              }
+            ]
+          }
+        }
+      ]
+    },
     "_table_metadata_key_docstring": {
       "type": "CHOICE",
       "members": [
@@ -3262,92 +3328,35 @@
         }
       ]
     },
-    "_non_string_sexp": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_reader_macro"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_special_override_symbol"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "symbol_option"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "symbol"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "multi_symbol"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "multi_symbol_method"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_form"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "list"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "sequence"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "table"
-        },
-        {
-          "type": "PREC_RIGHT",
-          "value": -50,
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "number"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "boolean"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "nil"
-              }
-            ]
-          }
-        }
-      ]
-    },
     "table_pair": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "PREC_RIGHT",
-          "value": 0,
-          "content": {
-            "type": "PREC_RIGHT",
-            "value": 0,
-            "content": {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "FIELD",
-                  "name": "key",
-                  "content": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "PREC_RIGHT",
+        "value": 0,
+        "content": {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "key",
+              "content": {
+                "type": "CHOICE",
+                "members": [
+                  {
                     "type": "SYMBOL",
                     "name": "string"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "_non_string_sexp"
                   }
-                },
+                ]
+              }
+            },
+            {
+              "type": "CHOICE",
+              "members": [
                 {
                   "type": "FIELD",
                   "name": "value",
@@ -3355,59 +3364,13 @@
                     "type": "SYMBOL",
                     "name": "_sexp"
                   }
-                }
-              ]
-            }
-          }
-        },
-        {
-          "type": "PREC_RIGHT",
-          "value": 0,
-          "content": {
-            "type": "PREC_RIGHT",
-            "value": 0,
-            "content": {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "FIELD",
-                  "name": "key",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "_non_string_sexp"
-                  }
                 },
                 {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "FIELD",
-                      "name": "value",
-                      "content": {
-                        "type": "SYMBOL",
-                        "name": "_sexp"
-                      }
-                    },
-                    {
-                      "type": "BLANK"
-                    }
-                  ]
+                  "type": "BLANK"
                 }
               ]
             }
-          }
-        }
-      ]
-    },
-    "_table_dangling_pair": {
-      "type": "PREC",
-      "value": -50,
-      "content": {
-        "type": "FIELD",
-        "name": "key",
-        "content": {
-          "type": "SYMBOL",
-          "name": "string"
+          ]
         }
       }
     },
@@ -3435,27 +3398,6 @@
                 "name": "table_pair"
               }
             }
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "FIELD",
-                "name": "item",
-                "content": {
-                  "type": "ALIAS",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "_table_dangling_pair"
-                  },
-                  "named": true,
-                  "value": "table_pair"
-                }
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
           },
           {
             "type": "FIELD",
