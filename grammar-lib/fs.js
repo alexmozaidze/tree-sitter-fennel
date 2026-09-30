@@ -65,7 +65,6 @@ function flatten_extensions(extensions) {
 		(acc, extension) => _.mergeWith(
 			acc,
 			extension,
-			// NOTE: `inline`/`conflicts` may be an array too, when a module re-exports flattened extensions.
 			(base, extension) => Array.isArray(base)
 				? [...base, ...(Array.isArray(extension) ? extension : [extension])]
 				: undefined,

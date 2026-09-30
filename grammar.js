@@ -9,6 +9,8 @@ const {
 	list,
 	sequence,
 	table,
+	sexp_members,
+	literal_members,
 } = require('./grammar-lib/dsl.js');
 const {
 	require_dir,
@@ -74,16 +76,7 @@ module.exports = grammar({
 		)),
 
 		_sexp: $ => choice(
-			$._reader_macro,
-			$._special_override_symbol,
-			$.symbol_option,
-			$.symbol,
-			$.multi_symbol,
-			$.multi_symbol_method,
-			$._form,
-			$.list,
-			$.sequence,
-			$.table,
+			...sexp_members($),
 			$._literal,
 		),
 
@@ -104,41 +97,15 @@ module.exports = grammar({
 
 		sequence: $ => sequence(repeat(item($._sexp))),
 
-		// NOTE: A string key is its own production, so that a table and a metadata table parse alike.
-		_non_string_sexp: $ => choice(
-			$._reader_macro,
-			$._special_override_symbol,
-			$.symbol_option,
-			$.symbol,
-			$.multi_symbol,
-			$.multi_symbol_method,
-			$._form,
-			$.list,
-			$.sequence,
-			$.table,
-			prec.right(PREC_LAST_RESORT, choice($.number, $.boolean, $.nil)),
-		),
+		table_pair: $ => prec.right(pair($, { lhs: choice($.string, $._non_string_sexp), field: 'key' }, { rhs: $._sexp, field: 'value' })),
 
-		table_pair: $ => choice(
-			prec.right(pair($, { lhs: $.string, field: 'key' }, { rhs: $._sexp, field: 'value', optional: false })),
-			prec.right(pair($, { lhs: $._non_string_sexp, field: 'key' }, { rhs: $._sexp, field: 'value' })),
-		),
-
-		_table_dangling_pair: $ => prec(PREC_LAST_RESORT, field('key', $.string)),
-
-		table: $ => prec(PREC_LAST_RESORT, table(
-			repeat(item($.table_pair)),
-			optional(item(alias($._table_dangling_pair, $.table_pair))),
-		)),
+		table: $ => prec(PREC_LAST_RESORT, table(repeat(item($.table_pair)))),
 
 		// NOTE: Last resort precedence here is nice to have for when forms define
 		// literal-specific syntax (mostly strings), like with metadata `:fnl/docstring`
 		// in a function form.
 		_literal: $ => prec.right(PREC_LAST_RESORT, choice(
-			$.string,
-			$.number,
-			$.boolean,
-			$.nil,
+			...Object.values(literal_members($)),
 		)),
 
 		nil: $ => 'nil',
@@ -157,7 +124,6 @@ module.exports = grammar({
 				// Dynamic precedence could probably eliminate this HACK, but
 				// I would prefer to stray away from it.
 				...SPECIAL_STANDALONE_SYMBOLS,
-				// NOTE: Metadata table keys, which have to be lexable as a plain string as well.
 				...Object.values(TABLE_METADATA_KEYS),
 				'nil',
 				'true',

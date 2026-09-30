@@ -6,12 +6,12 @@ const { is_literal } = require('./node-utils.js');
  */
 function pair($, lhs, rhs, precedence) {
 	lhs = lhs ?? {};
-	lhs_field = lhs.field ?? 'lhs';
+	const lhs_field = lhs.field ?? 'lhs';
 	lhs = lhs.lhs ?? $._sexp;
 
 	rhs = rhs ?? {};
-	rhs_field = rhs.field ?? 'rhs';
-	rhs_optional = rhs.optional ?? true;
+	const rhs_field = rhs.field ?? 'rhs';
+	const rhs_optional = rhs.optional ?? true;
 	rhs = rhs.rhs ?? $._sexp;
 
 	const prec_right = precedence == null ?  node => prec.right(node) : node => prec.right(precedence, node);
@@ -102,6 +102,26 @@ function string($, content) {
 	)
 }
 
+const sexp_members = $ => [
+	$._reader_macro,
+	$._special_override_symbol,
+	$.symbol_option,
+	$.symbol,
+	$.multi_symbol,
+	$.multi_symbol_method,
+	$._form,
+	$.list,
+	$.sequence,
+	$.table,
+];
+
+const literal_members = $ => ({ string: $.string, number: $.number, boolean: $.boolean, nil: $.nil });
+
+const non_string_literal_members = $ => {
+	const { string: _, ...rest } = literal_members($);
+	return Object.values(rest);
+};
+
 module.exports = {
 	kv_pair,
 	pair,
@@ -116,4 +136,7 @@ module.exports = {
 	list,
 	sequence,
 	table,
+	sexp_members,
+	literal_members,
+	non_string_literal_members,
 };

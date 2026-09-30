@@ -6,7 +6,12 @@ const {
 	close,
 	sequence,
 	string,
+	sexp_members,
+	non_string_literal_members,
 } = require('../../grammar-lib/dsl.js');
+const {
+	PREC_LAST_RESORT,
+} = require('../../grammar-lib/prec.js');
 const {
 	TABLE_METADATA_KEYS,
 } = require('../../grammar-lib/constants.js');
@@ -27,6 +32,14 @@ rules['sequence_arguments'] = $ => sequence(
 	)),
 );
 
+// HACK(alexmozaidze): Necessary so a string key is matched by name in `$.table_pair`, instead
+// of through `$._literal` at `PREC_LAST_RESORT`, which inside a function body closes the pair
+// on the key alone -- `(fn [] {:a 1})` loses its `1` into an `ERROR` node.
+rules['_non_string_sexp'] = $ => choice(
+	...sexp_members($),
+	prec.right(PREC_LAST_RESORT, choice(...non_string_literal_members($))),
+);
+
 rules['_table_metadata_key_docstring'] = $ => string($, TABLE_METADATA_KEYS.DOCSTRING);
 rules['_table_metadata_docstring'] = $ => prec.dynamic(2, kv_pair($, { key: alias($._table_metadata_key_docstring, $.string) }, { value: alias($.string, $.docstring) }));
 rules['_table_metadata_key_arglist'] = $ => string($, TABLE_METADATA_KEYS.ARGLIST);
@@ -38,9 +51,6 @@ rules['table_metadata_pair'] = $ => choice(
 	$._table_metadata_generic,
 );
 
-// HACK(alexmozaidze): Without __form_follows marker the parser parses much too eagerly, messing up
-// the order we actually wanted it to go in. This marker fixes this issue, and I am unsure whether
-// it's the best solution for this problem, but it works.
 rules['table_metadata'] = $ => seq(
 	open('{'),
 	repeat(item($.table_metadata_pair)),
