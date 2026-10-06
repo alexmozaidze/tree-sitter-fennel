@@ -1,82 +1,33 @@
 # AGENTS.md
 
-## Setup
+## Build
 
-Node.js and npm, then from the repo root:
+`Makefile` is the build entry point — read it for the available targets and what each does.
+Every other manifest in the repo is binding or packaging scaffolding that no workflow invokes,
+so don't reach for `Cargo.toml`, `pyproject.toml` and the rest to learn how the project builds
+or tests. The `tree-sitter` CLI is pinned as a devDependency, so `npx tree-sitter …` is the
+supported direct invocation. A fresh clone needs `npm install` first.
 
-    npm install
+Run the Makefile's `test` target before claiming work is done. It regenerates the parser first,
+so a `grammar.js` change that cannot be generated fails there too.
 
-This installs `tree-sitter-cli` (0.26.x — the version `make` reaches through `npx`) and builds the
-Node binding via `node-gyp-build`. `node_modules/` is gitignored.
+## Source
 
-## Commands
+Hand-edited: `grammar.js`, the modules it loads under `grammar-lib/` and `extensions/`, and the
+corpus tests under `test/corpus/` — add a case there for every new form.
 
-`make` is the build entry point. The per-language manifests (`Cargo.toml`, `pyproject.toml`,
-`CMakeLists.txt`, `Package.swift`, `binding.gyp`, `go.mod`, `setup.py`) are binding scaffolding —
-no workflow invokes them directly.
+Generated and committed, never hand-edited: the parser artifacts `make generate` writes under
+`src/`. Regenerate them and commit them in the same change as the `grammar.js` edit that caused
+them; an edit made by hand is lost on the next build. `src/scanner.c` is the hand-written file
+in `src/` that generation leaves alone.
 
-    make generate                  # regenerate src/ from grammar.js
-    make test                      # regenerate, then run the corpus tests
-    make                           # default target: same as `make generate`
-    make tree-sitter-fennel.wasm   # build the WASM parser into the gitignored tree-sitter-fennel.wasm
-    make playground                # open the tree-sitter playground on the WASM build
-    make clean                     # remove fennel.so and src/parser.o
+Scaffolding, not reproduced by any command here and not ours to edit: the `bindings/**` tree and
+the language manifests.
 
-`make generate` and `make test` rewrite the committed files under `src/`; commit the regenerated
-`src/parser.c`, `src/grammar.json` and `src/node-types.json` together with the `grammar.js` change.
-`make test` leaves no other files behind. The first `make tree-sitter-fennel.wasm` downloads the
-wasi-sdk toolchain (~114 MB) into `~/.cache/tree-sitter/` and writes the ignored
-`tree-sitter-fennel.wasm`; `make playground` needs that file first.
+`.ignore` keeps the generated files out of ripgrep results — don't add a hand-edited path to it,
+or you hide real source from searches.
 
-Anything the Makefile does not wrap, call through the pinned CLI: `npx tree-sitter parse FILE.fnl`,
-`npx tree-sitter query QUERY.scm FILE.fnl`. Both warn "You have not configured any parser
-directories!" on stderr — harmless, the local grammar is still used. `npx tree-sitter init` needs a
-TTY and cannot be scripted.
+## Docs
 
-## Map
-
-Hand-edited:
-
-- `grammar.js` — the grammar's entry point; loads the extension modules.
-- `grammar-lib/` — the node-building toolkit the extensions use (`dsl.js`, `prec.js`, `fs.js`,
-  `node-utils.js`, `constants.js`).
-- `extensions/` — built-in form and binding support; one module per form group under
-  `extensions/builtin-forms/`.
-- `src/scanner.c` — external scanner for reader macros and multi-symbols; `tree-sitter generate`
-  does not overwrite it.
-- `test/corpus/*.txt` — the test suites (`literals`, `forms`, `statements`, `edge-cases`), one
-  `====` block per case.
-- `tree-sitter.json` — grammar config: scope, file types, binding list.
-- `package.json` — npm manifest: the pinned `tree-sitter-cli` devDependency, the `install` and
-  `prebuildify` scripts, the published file list.
-- `Makefile` — the build entry point (see Commands). Edit it here; the `linguist-generated` marker
-  on it in `.gitattributes` is stale scaffolding, not a sign the file is regenerated.
-
-Generated and committed — regenerate with `make generate`, never hand-edit:
-
-- `src/parser.c`, `src/grammar.json`, `src/node-types.json`, `src/tree_sitter/`.
-- `bindings/**`, `binding.gyp`, `setup.py`, `Package.swift`, `go.mod`, `pyproject.toml`,
-  `Cargo.toml`, `CMakeLists.txt` — tree-sitter repo scaffolding, which no command in this repo
-  reproduces.
-
-Not tracked: `node_modules/`, `build/`, `*.wasm`, `parser.so`.
-
-Docs: `HACKING.md` — the extension module format and adding a new form or macro.
-`documentation/core.md` and `documentation/builtin-forms.md` — the syntax items and built-in forms
-the grammar covers. `documentation/binding.md` — the language bindings.
-
-## Do not touch
-
-- `src/parser.c`, `src/grammar.json`, `src/node-types.json`, `src/tree_sitter/` — regenerated by
-  `make generate`; an edit here is lost on the next build.
-- `tree-sitter-fennel.wasm`, `parser.so`, `node_modules/`, `build/` — build and install output.
-- `.ignore` — it is what keeps the generated files out of ripgrep results; adding a hand-edited
-  path hides real source from searches.
-
-## Verification
-
-    make test
-
-34/34 corpus tests pass on a clean checkout. Add a corpus case for every new form. Because the
-target regenerates the parser first, a `grammar.js` change that does not generate fails here too.
-CI (`.github/workflows/main.yml`) runs `npm install` and `make test` on pushes and PRs to `master`.
+`HACKING.md` covers the extension module format, for adding a new form or macro.
+`documentation/` covers the syntax items, built-in forms and language bindings.
