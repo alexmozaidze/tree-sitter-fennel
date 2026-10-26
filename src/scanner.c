@@ -162,7 +162,7 @@ unsigned tree_sitter_fennel_external_scanner_serialize(void* payload, char* buff
 
 void tree_sitter_fennel_external_scanner_deserialize(void *payload, const char *buffer, unsigned length) {}
 
-ScanResult tree_sitter_fennel_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
+bool tree_sitter_fennel_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
 	if (in_error_recovery(valid_symbols)) {
 		return SCAN_STOP;
 	}
